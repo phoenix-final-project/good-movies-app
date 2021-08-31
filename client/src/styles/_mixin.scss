@@ -1,0 +1,37 @@
+
+@mixin measurement ($width, $height) {
+    width: $width;
+    height: $height;
+}
+
+@mixin display ($display, $justify, $align) {
+    display: $display;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin position ($position, $bottom, $left) {
+    position: $position;
+    bottom: $bottom;
+    left: $left;
+}
+
+@mixin screen {
+    @media screen and (min-width: 800px) {
+        @content;
+    }
+}
+
+
+@mixin tablet {
+    @media screen and (max-width: 768px) {
+        @content;
+    }
+}
+
+
+@mixin mobile {
+    @media screen and (max-width: 448px) {
+        @content;
+    }
+}
