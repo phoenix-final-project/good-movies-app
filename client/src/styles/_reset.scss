@@ -1,0 +1,64 @@
+@import './mixin';
+
+// resetting styling
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+/*==================== BASE ====================*/
+html {
+    scroll-behavior: smooth;
+    height: 100vh;
+}
+
+body {
+    font-family: var(--body-secondary-font);
+    font-size: var(--normal-font-size);
+    margin: 0 0 var(--header-height) 0;
+    height: 1000px;
+}
+
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+// globally btn
+.btn {
+    width: 23%;
+    padding: 1.3rem;
+    color: var(--font-color);
+    background-color: var(--first-color);
+    border: 3px solid var(--first-color);
+    text-transform: uppercase;
+    cursor: pointer;
+
+    letter-spacing: var(--letter-spacing-btn);
+    transition: 0.3;
+
+    &:hover {
+        background: transparent;
+        color: var(--first-color);
+    }
+
+    @include tablet {
+        width: 30%;
+        padding: 0.4rem;
+        font-size: 0.8rem;
+    }
+
+    @include mobile {
+        width: 50%;
+        font-size: 0.6rem;
+        padding: 0.4rem;
+    }
+}
