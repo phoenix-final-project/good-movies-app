@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { upcomingMovies, moviesByUserGenre, moviesByTitle, moviesByDirector, moviesByGenre, moviesByYear, moviesById } = require('../controllers/movieControllers');
+const { upcomingMovies, moviesByUserGenre, moviesByTitle, moviesByDirector, moviesByGenre, moviesByYear, movieById } = require('../controllers/movieControllers');
 
 
 // FOR LANDING PAGE - after login:
@@ -16,22 +16,27 @@ router.get("/byGenre/:id", moviesByUserGenre)
 // FOR SEARCH:
 // **************************************
 // GET movies by title
-router.get("/:title", moviesByTitle)
+router.get("/title/:title", moviesByTitle)
+// check: http://localhost:5000/movie/title/london
 
 // GET movies by director
-router.get("/:director", moviesByDirector)
+router.get("/director/:director", moviesByDirector)
 
 // GET movies by genre
-router.get("/:genre", moviesByGenre)
+router.get("/genre/:genre", moviesByGenre)
+// check: http://localhost:5000/movie/genre/comedy
+
 
 // GET movies by year
-router.get("/:year", moviesByYear)
+router.get("/year/:year", moviesByYear)
+// check: http://localhost:5000/movie/year/1999
+
 
 
 // FOR INDIVIDUAL MOVIE:
 // **************************************
-router.get("/:imdbId", moviesById)
-
+router.get("/oneMovieById/:imdbId", movieById)
+// check: http://localhost:5000/movie/oneMovieById/tt0451279
 
 
 
