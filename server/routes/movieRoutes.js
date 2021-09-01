@@ -16,6 +16,10 @@ const {
 router.get("/upcoming", upcomingMovies);
 // check: http://localhost:5000/movie/upcoming
 
+// GET top rated movies
+router.get("/toprated", topRatedMovies);
+// check: http://localhost:5000/movie/toprated
+
 // GET movies by genre and by user id
 router.get("/byGenre/:id", moviesByUserGenre);
 

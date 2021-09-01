@@ -1,6 +1,11 @@
 const axios = require("axios").default;
 const { findByIdAndMap } = require("../helpers/findByIdAndMap");
 
+const rapidApiHeaders = {
+    "x-rapidapi-host": "data-imdb1.p.rapidapi.com",
+    "x-rapidapi-key": process.env.RAPID_API_KEY,
+};
+
 // FOR LANDING PAGE - after login:
 // **************************************
 // GET upcoming movies - limited to 10
@@ -12,6 +17,9 @@ exports.upcomingMovies = async (req, res) => {
             "x-rapidapi-host": "data-imdb1.p.rapidapi.com",
             "x-rapidapi-key": process.env.rapidapiKey,
         },
+        method: "GET",
+        url: "https://data-imdb1.p.rapidapi.com/movie/order/upcoming/",
+        headers: rapidApiHeaders,
     };
 
     // getting Upcoming Movies with little data (title, imdb_id, release date)
@@ -29,6 +37,7 @@ exports.upcomingMovies = async (req, res) => {
         })
         .catch((error) => {
             console.error(error.message);
+            // console.error(error);
         });
 };
 
