@@ -33,13 +33,50 @@ exports.upcomingMovies = async (req, res) => {
 
             // getting Upcoming Movies by IMDB id with extended data
             // helper for extended info on movies
+<<<<<<< HEAD
             findByIdAndMap(upcoming, res);
+=======
+            findByIdAndMap(upcoming, res)
+>>>>>>> 62d7f335da5158d4d3348e2d911443671944da14
         })
         .catch((error) => {
             console.error(error.message);
             // console.error(error);
         });
+<<<<<<< HEAD
 };
+=======
+}
+
+// GET Top Rated movies - limited to 10
+exports.topRatedMovies = async (req, res) => {
+
+    let options = {
+        method: 'GET',
+        url: 'https://data-imdb1.p.rapidapi.com/movie/order/byRating/',
+        headers: rapidApiHeaders
+    };
+
+    // getting TopRated Movies with little data (imdb_id, title, rating)
+    // limit to 10 movies
+    axios.request(options)
+        .then((response) => {
+
+            const topRatedMovies = Object.values(response.data)[0]
+                .slice(1, 11)
+
+            console.log("topRatedMovies simple :", topRatedMovies);
+
+            // getting TopRated Movies by IMDB id with extended data
+            // helper for extended info on movies
+            findByIdAndMap(topRatedMovies, res)
+        })
+        .catch((error) => {
+            console.error(error.message);
+        });
+}
+
+>>>>>>> 62d7f335da5158d4d3348e2d911443671944da14
 
 // GET movies by genre and by user id - limited to 10
 exports.moviesByUserGenre = async (req, res) => {
@@ -77,7 +114,12 @@ exports.moviesByTitle = async (req, res) => {
             });
 
             // helper for extended info on movies
+<<<<<<< HEAD
             findByIdAndMap(foundTitles, res);
+=======
+            findByIdAndMap(foundTitles, res)
+
+>>>>>>> 62d7f335da5158d4d3348e2d911443671944da14
         })
         .catch((error) => {
             console.error(error.message);
