@@ -1,5 +1,5 @@
-const axios = require("axios").default;
-const { findByIdAndMap } = require("../helpers/findByIdAndMap")
+const axios = require('axios').default;
+const { findByIdAndMap } = require('../helpers/findByIdAndMap');
 
 const rapidApiHeaders = {
     'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
@@ -69,10 +69,8 @@ exports.topRatedMovies = async (req, res) => {
 
 // GET movies by genre and by user id - limited to 10
 exports.moviesByUserGenre = async (req, res) => {
-    res.status(200).json({ message: "connected to moviesByUserGenre movies" })
-}
-
-
+	res.status(200).json({ message: 'connected to moviesByUserGenre movies' });
+};
 
 // FOR SEARCH:
 // **************************************
@@ -113,11 +111,8 @@ exports.moviesByTitle = async (req, res) => {
 
 // GET movies by director
 exports.moviesByDirector = async (req, res) => {
-
-    res.status(200).json({ message: "connected to moviesByDirector" })
-
-
-}
+	res.status(200).json({ message: 'connected to moviesByDirector' });
+};
 
 // GET movies by genre
 exports.moviesByGenre = async (req, res) => {
