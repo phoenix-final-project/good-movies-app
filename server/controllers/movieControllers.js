@@ -1,6 +1,12 @@
 const axios = require("axios").default;
 const { findByIdAndMap } = require("../helpers/findByIdAndMap")
 
+const rapidApiHeaders = {
+    'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
+    'x-rapidapi-key': process.env.RAPID_API_KEY
+}
+
+
 // FOR LANDING PAGE - after login:
 // **************************************
 // GET upcoming movies - limited to 10
@@ -9,10 +15,7 @@ exports.upcomingMovies = async (req, res) => {
     let options = {
         method: 'GET',
         url: 'https://data-imdb1.p.rapidapi.com/movie/order/upcoming/',
-        headers: {
-            'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
-            'x-rapidapi-key': process.env.rapidapiKey
-        }
+        headers: rapidApiHeaders
     };
 
     // getting Upcoming Movies with little data (title, imdb_id, release date)
@@ -27,13 +30,41 @@ exports.upcomingMovies = async (req, res) => {
 
             // getting Upcoming Movies by IMDB id with extended data
             // helper for extended info on movies
-            findByIdAndMap(upcoming, res)
+            findByIdAndMap(upcoming, res, rapidApiHeaders)
+        })
+        .catch((error) => {
+            console.error(error.message);
+            // console.error(error);
+        });
+}
+
+// GET Top Rated movies - limited to 10
+exports.topRatedMovies = async (req, res) => {
+
+    let options = {
+        method: 'GET',
+        url: 'https://data-imdb1.p.rapidapi.com/movie/order/byRating/',
+        headers: rapidApiHeaders
+    };
+
+    // getting TopRated Movies with little data (imdb_id, title, rating)
+    // limit to 10 movies
+    axios.request(options)
+        .then((response) => {
+
+            const topRatedMovies = Object.values(response.data)[0]
+                .slice(1, 11)
+
+            console.log("topRatedMovies simple :", topRatedMovies);
+
+            // getting TopRated Movies by IMDB id with extended data
+            // helper for extended info on movies
+            findByIdAndMap(topRatedMovies, res, rapidApiHeaders)
         })
         .catch((error) => {
             console.error(error.message);
         });
 }
-
 
 
 // GET movies by genre and by user id - limited to 10
@@ -51,10 +82,7 @@ exports.moviesByTitle = async (req, res) => {
     let options = {
         method: 'GET',
         url: `https://data-imdb1.p.rapidapi.com/movie/imdb_id/byTitle/${req.params.title}/`,
-        headers: {
-            'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
-            'x-rapidapi-key': process.env.rapidapiKey
-        }
+        headers: rapidApiHeaders
     };
 
     await axios.request(options)
@@ -75,7 +103,7 @@ exports.moviesByTitle = async (req, res) => {
             })
 
             // helper for extended info on movies
-            findByIdAndMap(foundTitles, res)
+            findByIdAndMap(foundTitles, res, rapidApiHeaders)
 
         })
         .catch((error) => {
@@ -97,10 +125,7 @@ exports.moviesByGenre = async (req, res) => {
     let options = {
         method: 'GET',
         url: `https://data-imdb1.p.rapidapi.com/movie/byGen/${req.params.genre}/`,
-        headers: {
-            'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
-            'x-rapidapi-key': process.env.rapidapiKey
-        }
+        headers: rapidApiHeaders
     };
 
     await axios.request(options)
@@ -139,10 +164,7 @@ exports.moviesByYear = async (req, res) => {
     let options = {
         method: 'GET',
         url: `https://data-imdb1.p.rapidapi.com/movie/byYear/${req.params.year}/`,
-        headers: {
-            'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
-            'x-rapidapi-key': process.env.rapidapiKey
-        }
+        headers: rapidApiHeaders
     };
 
     axios.request(options)
@@ -174,10 +196,7 @@ exports.movieById = async (req, res) => {
     let options = {
         method: 'GET',
         url: `https://data-imdb1.p.rapidapi.com/movie/id/${req.params.imdbId}/`,
-        headers: {
-            'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
-            'x-rapidapi-key': process.env.rapidapiKey
-        }
+        headers: rapidApiHeaders
     };
 
     axios.request(options)
