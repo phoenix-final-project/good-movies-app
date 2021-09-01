@@ -1,6 +1,7 @@
 const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
+const path = require("path");
 
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -25,6 +26,11 @@ passport.use(JwtStrategy);
 app.use("/user", userRoutes);
 app.use("/movie", movieRoutes);
 
+app.use(express.static(path.join(__dirname, "client/build")));
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
+
 console.log("Connecting to database...💻");
 
 mongoose
@@ -40,9 +46,9 @@ mongoose
     .then(() => console.log("Database connected! 😎"))
     .catch((error) => console.log(error, "Database did not connect! ☹️❌"));
 
-app.all("*", (req, res) => {
-    res.status(500).send("Invalid path");
-});
+// app.all("*", (req, res) => {
+//     res.status(500).send("Invalid path")
+// })
 
 app.listen(PORT, () => {
     console.log(`The server is running on port: ${PORT}...🎧`);
