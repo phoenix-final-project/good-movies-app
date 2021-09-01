@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { upcomingMovies, moviesByUserGenre, moviesByTitle, moviesByDirector, moviesByGenre, moviesByYear, movieById } = require('../controllers/movieControllers');
+const { upcomingMovies, moviesByUserGenre, moviesByTitle, moviesByDirector, moviesByGenre, moviesByYear, movieById, topRatedMovies } = require('../controllers/movieControllers');
 
 
 // FOR LANDING PAGE - after login:
@@ -8,6 +8,10 @@ const { upcomingMovies, moviesByUserGenre, moviesByTitle, moviesByDirector, movi
 // GET upcoming movies
 router.get("/upcoming", upcomingMovies)
 // check: http://localhost:5000/movie/upcoming
+
+// GET top rated movies
+router.get("/toprated", topRatedMovies)
+// check: http://localhost:5000/movie/toprated
 
 // GET movies by genre and by user id
 router.get("/byGenre/:id", moviesByUserGenre)
@@ -39,6 +43,8 @@ router.get("/oneMovieById/:imdbId", movieById)
 // check: http://localhost:5000/movie/oneMovieById/tt0451279
 
 
+// General search by title/year/genre/director
+// router.get("/search/:searchParam", movieByRandomSearch)
 
 
 module.exports = router

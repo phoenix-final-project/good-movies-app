@@ -1,17 +1,14 @@
 const axios = require("axios").default;
 
 
-exports.findByIdAndMap = (array, res) => {
+exports.findByIdAndMap = (array, res, rapidApiHeaders) => {
 
     const moviesInfo = array.map(async item => {
 
         let options = {
             method: 'GET',
             url: `https://data-imdb1.p.rapidapi.com/movie/id/${item.imdb_id}/`,
-            headers: {
-                'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
-                'x-rapidapi-key': process.env.rapidapiKey
-            }
+            headers: rapidApiHeaders
         }
 
         return await axios.request(options)
