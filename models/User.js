@@ -13,9 +13,9 @@ const UserSchema = new Schema({
 	email: { type: String, required: [true, 'Please, provide your email address'] },
 	favoriteGenres: [
 		{
-			type: Schema.Types.ObjectId,
-			ref: 'Genre',
-		}
+			type: String,
+			required: true,
+		},
 	],
 	registerDate: { type: Date, default: Date.now },
 	friends: [{ user: { type: Schema.Types.ObjectId, ref: 'User' }, date: { type: Date, default: Date.now }, deleted: { type: Boolean, default: false } }],

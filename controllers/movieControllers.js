@@ -26,20 +26,19 @@ const upcomingMovies = async (req, res) => {
 			// console.log("Upcoming simple :", upcoming);
 
 			// getting Upcoming Movies by IMDB id with extended data
-            // helper for extended info on movies
-            const withExtendedInfo = await findByIdAndMap(upcoming)
+			// helper for extended info on movies
+			const withExtendedInfo = await findByIdAndMap(upcoming);
 
-            res.status(200).json({ movies: withExtendedInfo })
+			res.status(200).json({ movies: withExtendedInfo });
 		})
 		.catch(error => {
 			console.error(error.message);
-			// console.error(error);
+			res.status(400).json({ error: error.message });
 		});
 };
 
 // GET Top Rated movies - limited to 10
 const topRatedMovies = async (req, res) => {
-
 	let options = {
 		method: 'GET',
 		url: 'https://data-imdb1.p.rapidapi.com/movie/order/byRating/',
@@ -56,13 +55,14 @@ const topRatedMovies = async (req, res) => {
 			console.log('topRatedMovies simple :', topRatedMovies);
 
 			// getting TopRated Movies by IMDB id with extended data
-            // helper for extended info on movies
-            const withExtendedInfo = await findByIdAndMap(topRatedMovies)
+			// helper for extended info on movies
+			const withExtendedInfo = await findByIdAndMap(topRatedMovies);
 
-            res.status(200).json({ movies: withExtendedInfo })
+			res.status(200).json({ movies: withExtendedInfo });
 		})
 		.catch(error => {
 			console.error(error.message);
+			res.status(400).json({ error: error.message });
 		});
 };
 
@@ -93,16 +93,17 @@ const moviesByTitle = async (req, res) => {
 			}
 
 			// helper for extended info on movies
-            const withExtendedInfo = await findByIdAndMap(foundTitles)
+			const withExtendedInfo = await findByIdAndMap(foundTitles);
 
-            res.status(200).json({ 
-                searchParam: req.params.title,
-                numberOfMovies: foundTitles.length,
-                foundMovies: withExtendedInfo
-            })
+			res.status(200).json({
+				searchParam: req.params.title,
+				numberOfMovies: foundTitles.length,
+				foundMovies: withExtendedInfo,
+			});
 		})
 		.catch(error => {
 			console.error(error.message);
+			res.status(400).json({ error: error.message });
 		});
 };
 
@@ -145,6 +146,7 @@ const moviesByGenre = async (req, res) => {
 		})
 		.catch(error => {
 			console.error(error.message);
+			res.status(400).json({ error: error.message });
 		});
 };
 
@@ -173,6 +175,7 @@ const moviesByYear = async (req, res) => {
 		})
 		.catch(error => {
 			console.error(error.message);
+			res.status(400).json({ error: error.message });
 		});
 };
 
@@ -203,24 +206,22 @@ const movieById = async (req, res) => {
 		})
 		.catch(error => {
 			console.error(error.message);
+			res.status(400).json({ error: error.message });
 		});
 };
 
-
 const moviesByRandomSearch = async (req, res) => {
-    res.status(200).json({ message: "connected to movieByRandomSearch" })
-}
-
-
+	res.status(200).json({ message: 'connected to movieByRandomSearch' });
+};
 
 module.exports = {
-    upcomingMovies,
-    topRatedMovies,
-    moviesByUserGenre,
-    moviesByTitle,
-    moviesByDirector,
-    moviesByGenre,
-    moviesByYear,
-    movieById,
-    moviesByRandomSearch
-}
+	upcomingMovies,
+	topRatedMovies,
+	moviesByUserGenre,
+	moviesByTitle,
+	moviesByDirector,
+	moviesByGenre,
+	moviesByYear,
+	movieById,
+	moviesByRandomSearch,
+};
