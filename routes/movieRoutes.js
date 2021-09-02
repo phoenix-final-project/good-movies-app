@@ -1,6 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const { upcomingMovies, moviesByUserGenre, moviesByTitle, moviesByDirector, moviesByGenre, moviesByYear, movieById, topRatedMovies } = require('../controllers/movieControllers');
+const {
+    upcomingMovies,
+    moviesByUserGenre,
+    moviesByTitle,
+    moviesByDirector,
+    moviesByGenre,
+    moviesByYear,
+    movieById,
+    topRatedMovies,
+    moviesByRandomSearch } = require('../controllers/movieControllers');
 
 
 // FOR LANDING PAGE - after login:
@@ -45,7 +54,7 @@ router.get("/oneMovieById/:imdbId", movieById)
 
 
 // General search by title/year/genre/director
-// router.get("/search/:searchParam", movieByRandomSearch)
+router.get("/search/:searchParam", moviesByRandomSearch)
 
 
 module.exports = router

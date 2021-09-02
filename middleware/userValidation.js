@@ -32,7 +32,22 @@ module.exports.validateUser = [
 			});
 		next();
 	},
-	body('favoriteGenres').exists().isArray().isLength({ min: 3, max: 3 }), // check if works
+
+	// not working - because isLength apparently
+	// ******************************************
+	// body('favoriteGenres').exists().isArray().isLength({ min: 3, max: 3 }), // check if works
+	// function (req, res, next) {
+	// 	let errors = validationResult(req);
+	// 	if (!errors.isEmpty())
+	// 		return res.status(400).json({
+	// 			title: 'An error occurred',
+	// 			error: errors,
+	// 		});
+	// 	next();
+	// },
+
+	// works without isLength:
+	body('favoriteGenres').exists().isArray(),
 	function (req, res, next) {
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
@@ -48,8 +63,8 @@ module.exports.sanitizeUser = [
 	body('email').normalizeEmail(),
 
 	function (req, res, next) {
-		req.body.firstName = capitalizeFirstLetter(req.body.firstName);
-		req.body.lastName = capitalizeFirstLetter(req.body.lastName);
+		req.body.firstname = capitalizeFirstLetter(req.body.firstname);
+		req.body.lastname = capitalizeFirstLetter(req.body.lastname);
 		next();
 	},
 ];
