@@ -1,18 +1,20 @@
-const Genres = require('./Genre');
 const { Schema, model } = require('mongoose');
 
 const UserSchema = new Schema({
-	username: { type: String, required: [true, 'Please, provide a username'], unique: [true, 'This username already exists'] },
+	username: {
+		type: String,
+		required: [true, 'Please, provide a username'],
+		unique: [true, 'This username already exists'],
+		min: [4, 'The username must be at least 4 characters long'],
+	},
 	firstname: { type: String, required: [true, 'Please, provide your first name'] },
-	lastname: { type: String },
-	password: { type: String, required: [true, 'Please, provide a password'], max: [5, 'The password must me at least 5 characters'] },
+	lastname: { type: String, required: [true, 'Please, provide your last name'] },
+	password: { type: String, required: [true, 'Please, provide a password'], min: [5, 'The password must be at least 5 characters long'] },
 	email: { type: String, required: [true, 'Please, provide your email address'] },
 	favoriteGenres: [
 		{
 			type: Schema.Types.ObjectId,
 			ref: 'User',
-			min: [3, 'Please, choose your three favorite movie genres'],
-			max: [3, 'Please, choose your three favorite movie genres'],
 		},
 	],
 	registerDate: { type: Date, default: Date.now },
