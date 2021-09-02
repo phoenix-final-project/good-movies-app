@@ -5,7 +5,7 @@ const { generateToken } = require('../helpers/jwtIssuer');
 // REGISTER a user
 exports.registerUser = async (req, res) => {
 	try {
-		const { username, firstname, lastname, password, email } = req.body;
+		const { username, firstname, lastname, password, email, favoriteGenres } = req.body;
 
 		const checkUser = await User.findOne({ username });
 
@@ -24,6 +24,7 @@ exports.registerUser = async (req, res) => {
 			lastname,
 			password: hashedPassword,
 			email,
+			favoriteGenres,
 		});
 
 		res.status(200).json({ message: 'User was created', createdUser: createdUser });
