@@ -47,7 +47,7 @@ module.exports.validateUser = [
 	// },
 
 	// works without isLength:
-	body('favoriteGenres').exists().isArray(),
+	body('favoriteGenres').exists().isArray().withMessage('Please, indicate you favorite movie genre'),
 	function (req, res, next) {
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
