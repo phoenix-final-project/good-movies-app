@@ -47,7 +47,7 @@ exports.loginUser = async (req, res) => {
 			return res.status(404).send(`User ${username} not found`);
 		}
 
-		const checkPassword = await bcrypt.compare(password, user.hash);
+		const checkPassword = await bcrypt.compare(password, user.password);
 
 		if (!checkPassword) {
 			return res.status(401).send('Passwords do not match! Try again!');
