@@ -8,7 +8,8 @@ const UserSchema = new Schema({
 	email: { type: String },
 	favoriteGenres: [{ genre: { type: Schema.Types.ObjectId, ref: 'Genre' } }],
 	registerDate: { type: Date, default: Date.now },
-	friends: [{ user: { type: Schema.Types.ObjectId, ref: 'User' }, date: { type: Date, default: Date.now } }],
+	friends: [{ user: { type: Schema.Types.ObjectId, ref: 'User' }, date: { type: Date, default: Date.now }, deleted: { type: Boolean, default: false } }],
+	deleted: { type: Boolean, default: false }, // to delete the user
 });
 
 const User = model('User', UserSchema);
