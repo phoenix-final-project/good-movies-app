@@ -11,7 +11,7 @@ exports.registerUser = async (req, res) => {
 		const checkUser = await User.findOne({ username });
 
 		if (checkUser) {
-			return res.status(400).send('User with this username already exists in our Database');
+			return res.status(400).json({message: 'User with this username already exists in our Database'});
 		}
 
 		// hashing password
@@ -41,18 +41,19 @@ exports.loginUser = async (req, res) => {
 
 		const user = await User.findOne({ username });
 
-		// console.log(user)
-
-		if (user === null) {
-			return res.status(404).send(`User ${username} not found`);
+		// checking if the user exists in our DB OR if the users' field "deleted" is "true"
+		if (user === null || user.deleted === true) {
+			return res.status(404).json({ message: `User ${username} not found` });
 		}
 
+		// comparing passwords
 		const checkPassword = await bcrypt.compare(password, user.password);
 
 		if (!checkPassword) {
-			return res.status(401).send('Passwords do not match! Try again!');
+			return res.status(401).json({ message: 'Passwords do not match! Try again!' });
 		}
 
+		// issuing a session token
 		const token = await generateToken(user);
 		console.log(token);
 
@@ -62,17 +63,28 @@ exports.loginUser = async (req, res) => {
 	}
 };
 
-// DELETE a user
+// DELETE a user - PUT method
 exports.deleteUser = async (req, res) => {
-	try {
-		const user = await User.findByIdAndDelete(req.params.userId);
 
-		if (user === null) {
-			return res.status(404).send(`User with ID ${req.params.userId} was not found`);
+	try {
+
+		// checking user authorization to perform the action
+		if (req.body.userId != req.user._id) {
+			return res.status(401).json({ message: "User is not authorized to perform this action" })
 		}
+
+		const user = await User.findByIdAndUpdate(req.body.userId, {
+			deleted: true
+		}, { new: true });
+
+
+		// if (user === null) {
+		// 	return res.status(404).send(`User with ID ${req.body.userId} was not found`);
+		// }
 
 		res.status(200).json({ message: `User ${user.username} was deleted`, deletedUser: user });
 	} catch (error) {
+		console.log(error);
 		res.status(400).send({ message: 'Error occurred', error: error.message });
 	}
 };
@@ -82,13 +94,13 @@ exports.deleteUser = async (req, res) => {
 exports.getUserByUsername = async (req, res) => {
 	try {
 		const user = await User.findOne({ username: req.params.username })
-			.populate("favoriteGenres")
-			.populate("friends.user")
+			// .populate("friends.user")
 
-		if (user === null) {
-			return res.status(404).send(`User ${req.params.username} was not found`);
+		if (user === null || user.deleted === true) {
+			return res.status(404).json({message: `User ${req.params.username} was not found`});
 		}
 
+	
 		res.status(200).json({ foundUser: user });
 	} catch (error) {
 		res.status(400).send({ message: 'Error occurred', error: error.message });
@@ -99,14 +111,20 @@ exports.getUserByUsername = async (req, res) => {
 exports.addFriend = async (req, res) => {
 
 	try {
+
 		const { username, friendUsername } = req.body
 
 		// checking if the friend and user exist in our DB
-		const friend = await User.findOne({ username: friendUsername });
-		const user = await User.findOne({ username });
+		const friend = await User.findOne({ username: friendUsername, deleted: false });
+		const user = await User.findOne({ username, deleted: false });
 
 		if (friend === null || user === null) {
 			return res.status(404).json({ message: `User ${req.body.friendUsername} was not found` });
+		}
+
+		// checking user authorization to perform the action
+		if (user.username != req.user.username) {
+			return res.status(401).json({ message: "User is not authorized to perform this action" })
 		}
 
 		// checking if the user is trying to add self
@@ -114,15 +132,20 @@ exports.addFriend = async (req, res) => {
 			return res.status(500).json({ message: "You can not add yourself to friends!" })
 		}
 
-		// console.log(user.friends[0].user);
 
 		// checking if this friend is already user's friend
 
-		// const checkFriendExist = await user.findOne({
-		// 	username: friendUsername
-		// 	// friends: user._id
+		// console.log(user.friends);
+		// console.log(friend._id);
+		// console.log(user.friends[4].user);
+		// console.log(friend._id == user.friends[4].user ? true : false);
+
+
+		// const checkFriendExist = user.friends.find( item => {
+		// 	return item.user == friend._id
 		// })
-		// console.log(checkFriendExist);
+
+		// console.log("checkFriendExist", checkFriendExist);
 
 
 		await user.updateOne({
