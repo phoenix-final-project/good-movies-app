@@ -14,8 +14,8 @@ const UserSchema = new Schema({
 	favoriteGenres: [
 		{
 			type: Schema.Types.ObjectId,
-			ref: 'User',
-		},
+			ref: 'Genre',
+		}
 	],
 	registerDate: { type: Date, default: Date.now },
 	friends: [{ user: { type: Schema.Types.ObjectId, ref: 'User' }, date: { type: Date, default: Date.now }, deleted: { type: Boolean, default: false } }],

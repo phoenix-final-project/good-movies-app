@@ -9,7 +9,7 @@ const rapidApiHeaders = {
 // FOR LANDING PAGE - after login:
 // **************************************
 // GET upcoming movies - limited to 10
-exports.upcomingMovies = async (req, res) => {
+const upcomingMovies = async (req, res) => {
 	let options = {
 		method: 'GET',
 		url: 'https://data-imdb1.p.rapidapi.com/movie/order/upcoming/',
@@ -20,14 +20,16 @@ exports.upcomingMovies = async (req, res) => {
 	// limit to 10 movies
 	axios
 		.request(options)
-		.then(response => {
+		.then(async response => {
 			const upcoming = Object.values(response.data)[0].slice(0, 10);
 
 			// console.log("Upcoming simple :", upcoming);
 
 			// getting Upcoming Movies by IMDB id with extended data
-			// helper for extended info on movies
-			findByIdAndMap(upcoming, res);
+            // helper for extended info on movies
+            const withExtendedInfo = await findByIdAndMap(upcoming)
+
+            res.status(200).json({ movies: withExtendedInfo })
 		})
 		.catch(error => {
 			console.error(error.message);
@@ -36,7 +38,8 @@ exports.upcomingMovies = async (req, res) => {
 };
 
 // GET Top Rated movies - limited to 10
-exports.topRatedMovies = async (req, res) => {
+const topRatedMovies = async (req, res) => {
+
 	let options = {
 		method: 'GET',
 		url: 'https://data-imdb1.p.rapidapi.com/movie/order/byRating/',
@@ -47,14 +50,16 @@ exports.topRatedMovies = async (req, res) => {
 	// limit to 10 movies
 	axios
 		.request(options)
-		.then(response => {
+		.then(async response => {
 			const topRatedMovies = Object.values(response.data)[0].slice(1, 11);
 
 			console.log('topRatedMovies simple :', topRatedMovies);
 
 			// getting TopRated Movies by IMDB id with extended data
-			// helper for extended info on movies
-			findByIdAndMap(topRatedMovies, res);
+            // helper for extended info on movies
+            const withExtendedInfo = await findByIdAndMap(topRatedMovies)
+
+            res.status(200).json({ movies: withExtendedInfo })
 		})
 		.catch(error => {
 			console.error(error.message);
@@ -62,14 +67,14 @@ exports.topRatedMovies = async (req, res) => {
 };
 
 // GET movies by genre and by user id - limited to 10
-exports.moviesByUserGenre = async (req, res) => {
+const moviesByUserGenre = async (req, res) => {
 	res.status(200).json({ message: 'connected to moviesByUserGenre movies' });
 };
 
 // FOR SEARCH:
 // **************************************
 // GET movies by title
-exports.moviesByTitle = async (req, res) => {
+const moviesByTitle = async (req, res) => {
 	let options = {
 		method: 'GET',
 		url: `https://data-imdb1.p.rapidapi.com/movie/imdb_id/byTitle/${req.params.title}/`,
@@ -78,7 +83,7 @@ exports.moviesByTitle = async (req, res) => {
 
 	await axios
 		.request(options)
-		.then(response => {
+		.then(async response => {
 			const foundTitles = Object.values(response.data)[0];
 
 			if (foundTitles.length === 0) {
@@ -87,14 +92,14 @@ exports.moviesByTitle = async (req, res) => {
 				});
 			}
 
-			console.log({
-				searchParam: req.params.title,
-				numberOfMovies: foundTitles.length,
-				foundMovies: foundTitles,
-			});
-
 			// helper for extended info on movies
-			findByIdAndMap(foundTitles, res);
+            const withExtendedInfo = await findByIdAndMap(foundTitles)
+
+            res.status(200).json({ 
+                searchParam: req.params.title,
+                numberOfMovies: foundTitles.length,
+                foundMovies: withExtendedInfo
+            })
 		})
 		.catch(error => {
 			console.error(error.message);
@@ -102,12 +107,12 @@ exports.moviesByTitle = async (req, res) => {
 };
 
 // GET movies by director
-exports.moviesByDirector = async (req, res) => {
+const moviesByDirector = async (req, res) => {
 	res.status(200).json({ message: 'connected to moviesByDirector' });
 };
 
 // GET movies by genre
-exports.moviesByGenre = async (req, res) => {
+const moviesByGenre = async (req, res) => {
 	let options = {
 		method: 'GET',
 		url: `https://data-imdb1.p.rapidapi.com/movie/byGen/${req.params.genre}/`,
@@ -144,7 +149,7 @@ exports.moviesByGenre = async (req, res) => {
 };
 
 // GET movies by year
-exports.moviesByYear = async (req, res) => {
+const moviesByYear = async (req, res) => {
 	let options = {
 		method: 'GET',
 		url: `https://data-imdb1.p.rapidapi.com/movie/byYear/${req.params.year}/`,
@@ -173,7 +178,7 @@ exports.moviesByYear = async (req, res) => {
 
 // FOR INDIVIDUAL MOVIE:
 // **************************************
-exports.movieById = async (req, res) => {
+const movieById = async (req, res) => {
 	let options = {
 		method: 'GET',
 		url: `https://data-imdb1.p.rapidapi.com/movie/id/${req.params.imdbId}/`,
@@ -200,3 +205,22 @@ exports.movieById = async (req, res) => {
 			console.error(error.message);
 		});
 };
+
+
+const moviesByRandomSearch = async (req, res) => {
+    res.status(200).json({ message: "connected to movieByRandomSearch" })
+}
+
+
+
+module.exports = {
+    upcomingMovies,
+    topRatedMovies,
+    moviesByUserGenre,
+    moviesByTitle,
+    moviesByDirector,
+    moviesByGenre,
+    moviesByYear,
+    movieById,
+    moviesByRandomSearch
+}
