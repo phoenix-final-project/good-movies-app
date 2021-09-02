@@ -30,7 +30,7 @@ exports.upcomingMovies = async (req, res) => {
 
             // getting Upcoming Movies by IMDB id with extended data
             // helper for extended info on movies
-            findByIdAndMap(upcoming, res, rapidApiHeaders)
+            findByIdAndMap(upcoming, res)
         })
         .catch((error) => {
             console.error(error.message);
@@ -59,7 +59,7 @@ exports.topRatedMovies = async (req, res) => {
 
             // getting TopRated Movies by IMDB id with extended data
             // helper for extended info on movies
-            findByIdAndMap(topRatedMovies, res, rapidApiHeaders)
+            findByIdAndMap(topRatedMovies, res)
         })
         .catch((error) => {
             console.error(error.message);
@@ -101,7 +101,7 @@ exports.moviesByTitle = async (req, res) => {
             })
 
             // helper for extended info on movies
-            findByIdAndMap(foundTitles, res, rapidApiHeaders)
+            findByIdAndMap(foundTitles, res)
 
         })
         .catch((error) => {
