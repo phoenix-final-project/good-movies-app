@@ -1,7 +1,7 @@
 const axios = require("axios").default;
 
 
-exports.findByIdAndMap = (array, res) => {
+exports.findByIdAndMap = (array) => {
 
     const moviesInfo = array.map(async item => {
 
@@ -23,5 +23,5 @@ exports.findByIdAndMap = (array, res) => {
 
     // resolving asynchronicity for "map" method
     return Promise.all(moviesInfo)
-        .then(results => res.status(200).json(Object.values(results)));
+        .then(results => Object.values(results))       
 }
