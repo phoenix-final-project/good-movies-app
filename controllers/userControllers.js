@@ -11,7 +11,7 @@ exports.registerUser = async (req, res) => {
 		const checkUser = await User.findOne({ username });
 
 		if (checkUser) {
-			return res.status(400).json({message: 'User with this username already exists in our Database'});
+			return res.status(400).json({ message: 'User with this username already exists in our Database' });
 		}
 
 		// hashing password
@@ -94,13 +94,13 @@ exports.deleteUser = async (req, res) => {
 exports.getUserByUsername = async (req, res) => {
 	try {
 		const user = await User.findOne({ username: req.params.username })
-			// .populate("friends.user")
+		// .populate("friends.user")
 
 		if (user === null || user.deleted === true) {
-			return res.status(404).json({message: `User ${req.params.username} was not found`});
+			return res.status(404).json({ message: `User ${req.params.username} was not found` });
 		}
 
-	
+
 		res.status(200).json({ foundUser: user });
 	} catch (error) {
 		res.status(400).send({ message: 'Error occurred', error: error.message });
@@ -114,7 +114,7 @@ exports.addFriend = async (req, res) => {
 
 		const { username, friendUsername } = req.body
 
-		// checking if the friend and user exist in our DB
+		// checking if the friend and user exist in our DB (and not deleted)
 		const friend = await User.findOne({ username: friendUsername, deleted: false });
 		const user = await User.findOne({ username, deleted: false });
 
@@ -132,29 +132,22 @@ exports.addFriend = async (req, res) => {
 			return res.status(500).json({ message: "You can not add yourself to friends!" })
 		}
 
-
 		// checking if this friend is already user's friend
+		const checkFriendExist = user.friends.find(item => {
+			return item.user.equals(friend._id)
+		})
 
-		// console.log(user.friends);
-		// console.log(friend._id);
-		// console.log(user.friends[4].user);
-		// console.log(friend._id == user.friends[4].user ? true : false);
+		if (checkFriendExist) {
+			return res.status(400).json({ message: `This user is already in your friends' list` });
+		}
 
-
-		// const checkFriendExist = user.friends.find( item => {
-		// 	return item.user == friend._id
-		// })
-
-		// console.log("checkFriendExist", checkFriendExist);
-
-
+		// adding a new friend to the friends' list
 		await user.updateOne({
 			$addToSet: { friends: { user: friend._id } }
 		}, { new: true })
 
 
-		// res.status(200).json({ updatedUser: user });
-		res.status(200).json({ updatedUser: user });
+		res.status(200).json({ message: `${friend.username} successfully added to your friends' list` });
 
 	} catch (error) {
 		res.status(400).send({ message: 'Error occurred', error: error.message });
