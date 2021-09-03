@@ -29,7 +29,15 @@ const upcomingMovies = async (req, res) => {
             // helper for extended info on movies
             const withExtendedInfo = await findByIdAndMap(upcoming);
 
-            res.status(200).json({ movies: withExtendedInfo });
+            // "cleaning" the movies array so we'll get only an array of objects(=movies)
+            let movieArray = [];
+            withExtendedInfo.forEach((item) => {
+                let movie = Object.values(item)[0];
+                movieArray.push(movie);
+            });
+
+            // res.status(200).json(withExtendedInfo);
+            res.status(200).json(movieArray);
         })
         .catch((error) => {
             console.error(error.message);
@@ -164,11 +172,9 @@ const moviesByYear = async (req, res) => {
             const foundByYear = Object.values(response.data)[0];
 
             if (foundByYear.length === 0) {
-                return res
-                    .status(404)
-                    .json({
-                        message: `No movies for *${req.params.year}* were found`,
-                    });
+                return res.status(404).json({
+                    message: `No movies for *${req.params.year}* were found`,
+                });
             }
 
             return res.status(200).json({

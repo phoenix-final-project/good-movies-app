@@ -2,11 +2,14 @@ const { Schema, model } = require('mongoose');
 
 // Creating Movie schema
 <<<<<<< HEAD
+<<<<<<< HEAD
 const MovieSchema = new Schema({});
 
 const Movie = model("Movie", MovieSchema);
 
 =======
+=======
+>>>>>>> main
 const MovieSchema = new Schema({
 	imdb_id: { type: String, required: true, unique: true },
 	title: { type: String, required: true },
@@ -25,5 +28,8 @@ const MovieSchema = new Schema({
 
 const Movie = model('Movie', MovieSchema);
 
+<<<<<<< HEAD
+>>>>>>> main
+=======
 >>>>>>> main
 module.exports = Movie;

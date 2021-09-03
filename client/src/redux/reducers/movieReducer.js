@@ -1,7 +1,7 @@
 import { ActionTypes } from "../constants/action-types";
 
 const initialState = {
-    favoriteMovies: [],
+    favoriteMovies: ["JS", "CSS", "React", "HTML"],
     wishlistMovies: [],
     watchedMovies: [],
 };
