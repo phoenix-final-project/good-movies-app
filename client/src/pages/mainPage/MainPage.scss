@@ -1,0 +1,117 @@
+@import '../../styles/mixin';
+
+
+.main-page-header {
+    width: 100%;
+    height: 70px;
+    line-height: 65px;
+    background-color: transparent;
+    z-index: 10;
+
+    .header-container {
+        display: flex;
+        justify-content: space-around;
+
+        .link-logo {
+            margin-right: 300px;
+            color: rgba(245, 245, 245, 0.815);
+            z-index: 100;
+
+            .container-logo {
+                
+                .circle-text {
+                    font-size: 2.1em;
+                    font-weight: 600;
+                    padding: 8px;
+                    margin-left: 50px;
+                    border-radius: 50%;
+                    background-color: var(--first-color);
+                }
+
+                .span-home {
+                    font-size: 1em;
+                    text-transform: uppercase;
+                    position: absolute;
+                    top: -6px;
+                    right: 73.7%;
+                    letter-spacing: var(--letter-spacing);
+                }
+
+                .div-cinema {
+                    position: absolute;
+                    top: 10px;
+                    right: 72.9%;
+                    font-size: 1.9em;
+                    text-transform: uppercase;
+
+                    .border-bottom {
+                        width: 100%;
+                        height: 3px;
+                        background-color: var(--first-color);
+                        position: absolute;
+                        top: 43px;
+                        left: 10px;
+                    }
+                }
+            }
+        }
+
+        .container-button {
+            display: flex;
+            z-index: 100;
+
+            .tour {
+                margin-right: 30px;
+                font-size: 1.3em;
+                font-weight: 100;
+                color: var(--container-color);
+                transition: all .5s ease-in-out;
+
+                &:hover {
+                    color: var(--first-color);
+                    transition: all .5s ease-out;
+                }
+
+                &:after {    
+                    content: "";
+                    position: absolute;
+                    top: 43px;
+                    left: 66%;
+                    width: 0;
+                    height: 3px;
+                    
+                    background: none repeat scroll 0 0 transparent;
+                    display: block;
+                    background: var(--first-color);
+                    transition: width 0.5s ease-in-out 0s, left 0.5s ease-in-out 0s;
+                }
+
+                &:hover:after { 
+                    width: 6%; 
+                    left: 69%;
+                }
+            }
+
+            .registration-btn {
+                width: 100%;
+                padding: .6rem;
+                color: var(--font-color);
+                background-color: var(--first-color);
+                border: 3px solid var(--first-color);
+                border-radius: 5%;
+                text-transform: uppercase;
+                cursor: pointer;
+
+                letter-spacing: var(--letter-spacing-btn);
+                transition: all 0.5s ease-in-out;
+
+                &:hover {
+                    background: transparent;
+                    color: var(--first-color);
+                    transition: all .5s ease;
+                    border-radius: 5%;
+                }
+            }
+        }
+    }
+}

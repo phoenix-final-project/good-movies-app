@@ -1,0 +1,27 @@
+.description-app-section {
+    width: 30%;
+    height: 450px;
+    //background-color: #2f251ca4;
+    border-radius: 5%;
+    
+    position: absolute;
+    top: 150px;
+    left: 100px;
+
+    .description-container {
+        padding: 20px;
+
+        .title {
+            text-align: center;
+            font-size: 2em;
+            color: var(--first-color);
+        }
+
+        .paragraph {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 1.2rem;
+            letter-spacing: 0.1rem;
+        }
+    }
+}

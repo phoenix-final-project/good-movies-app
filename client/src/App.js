@@ -2,8 +2,8 @@
 import { Switch, Route } from "react-router-dom";
 
 // importing the components
-import NavBar from "./components/navbar/NavBar";
-import Footer from "./components/footer/Footer";
+// import NavBar from "./components/navbar/NavBar";
+// import Footer from "./components/footer/Footer";
 
 // importing pages
 import MainPage from "./pages/mainPage/MainPage";
@@ -22,7 +22,7 @@ import './styles/App.scss';
 function App() {
   return (
     <div className="App">
-      <NavBar />
+  {/*<NavBar />*/}
       <Switch>
         <Route exact path="/" component={MainPage}/>
         <Route exact path="/movies" component={MoviesPage}/>
@@ -34,7 +34,7 @@ function App() {
         <Route exact path="/my-profile" component={UserProfile}/>
         <Route component={ErrorPage}/>
       </Switch>
-      <Footer />
+  {/*<Footer />*/}
     </div>
   );
 }
