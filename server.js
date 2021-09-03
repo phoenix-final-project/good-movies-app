@@ -18,7 +18,7 @@ const passport = require('passport');
 const { JwtStrategy } = require('./passport-config');
 
 // assigning port
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 // middleware
 app.use(cors());
