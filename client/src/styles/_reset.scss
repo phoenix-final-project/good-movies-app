@@ -18,19 +18,15 @@ body {
     font-family: var(--body-secondary-font);
     font-size: var(--normal-font-size);
     margin: 0 0 var(--header-height) 0;
-    height: 1000px;
+    
+    background-color: #333;
+    color: azure;
 }
 
 
 ul {
     list-style: none;
 }
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
 
 // globally btn
 .btn {
