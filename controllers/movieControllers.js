@@ -1,5 +1,5 @@
-const axios = require('axios').default;
-const { findByIdAndMap } = require('../helpers/findByIdAndMap');
+const axios = require("axios").default;
+const { findByIdAndMap } = require("../helpers/findByIdAndMap");
 
 const rapidApiHeaders = {
 	'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
