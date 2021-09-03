@@ -29,7 +29,15 @@ const upcomingMovies = async (req, res) => {
 			// helper for extended info on movies
 			const withExtendedInfo = await findByIdAndMap(upcoming);
 
-			res.status(200).json({ movies: withExtendedInfo });
+			// "cleaning" the movies array so we'll get only an array of objects(=movies)
+			let movieArray = [];
+			withExtendedInfo.forEach((item) => {
+                    let movie = Object.values(item)[0];
+                    movieArray.push(movie);
+                });
+
+			// res.status(200).json(withExtendedInfo);
+			res.status(200).json(movieArray);
 		})
 		.catch(error => {
 			console.error(error.message);
