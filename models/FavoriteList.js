@@ -1,13 +1,12 @@
 const { Schema, model } = require('mongoose');
 
-const CommentSchema = new Schema({
+const FavoriteListSchema = new Schema({
 	user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 	movieId: { type: String, required: true }, // for imdb id received from api
-	comment: { type: String, required: [true, 'Please, leave your comment'] },
-	date: { type: Date, default: Date.now, required: true },
+	date: { type: Date, default: Date.now },
 	deleted: { type: Boolean, default: false },
 });
 
-const Comment = model('Comment', CommentSchema);
+const FavoriteList = model('FavoriteList', FavoriteListSchema);
 
-module.exports = Comment;
+module.exports = FavoriteList;
