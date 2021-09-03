@@ -9,7 +9,8 @@ const {
     moviesByYear,
     movieById,
     topRatedMovies,
-} = require("../controllers/movieControllers");
+    moviesByRandomSearch } = require('../controllers/movieControllers');
+
 
 // FOR LANDING PAGE - after login:
 // **************************************
@@ -46,4 +47,9 @@ router.get("/year/:year", moviesByYear);
 router.get("/oneMovieById/:imdbId", movieById);
 // check: http://localhost:5000/api/movie/oneMovieById/tt0451279
 
-module.exports = router;
+
+// General search by title/year/genre/director
+router.get("/search/:searchParam", moviesByRandomSearch)
+
+
+module.exports = router
