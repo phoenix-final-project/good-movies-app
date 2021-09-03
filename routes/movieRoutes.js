@@ -8,6 +8,7 @@ const {
     moviesByGenre,
     moviesByYear,
     movieById,
+    topRatedMovies,
 } = require("../controllers/movieControllers");
 
 // FOR LANDING PAGE - after login:
