@@ -12,13 +12,14 @@ const app = express();
 // importing routes
 const userRoutes = require('./routes/userRoutes');
 const movieRoutes = require('./routes/movieRoutes');
+const wishlistRoutes = require('./routes/wishlistRoutes');
 
 // importing passport
 const passport = require('passport');
 const { JwtStrategy } = require('./passport-config');
 
 // assigning port
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 // middleware
 app.use(cors());
@@ -29,12 +30,13 @@ passport.use(JwtStrategy);
 // routes
 app.use('/api/user', userRoutes);
 app.use('/api/movie', movieRoutes);
+app.use('/wishlist', wishlistRoutes);
 
 // for heroku deployment
-app.use(express.static(path.join(__dirname, 'client/build')));
-app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
+// app.use(express.static(path.join(__dirname, 'client/build')));
+// app.get('*', (req, res) => {
+// 	res.sendFile(path.join(__dirname + '/client/build/index.html'));
+// });
 
 console.log('Connecting to database...💻');
 
