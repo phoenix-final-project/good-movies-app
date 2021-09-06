@@ -71,7 +71,7 @@ const topRatedMovies = async (req, res) => {
 	};
 
 	// getting TopRated Movies with little data (imdb_id, title, rating)
-	// limit to 6 movies
+	// limit to 6 movies 
 	axios
 		.request(options)
 		.then(async response => {
