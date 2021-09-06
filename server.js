@@ -2,6 +2,10 @@ const express = require('express');
 const dotenv = require('dotenv');
 dotenv.config();
 
+// Redis
+const redis = require('redis');
+let redisClient = redis.createClient();
+
 // for heroku deployment
 const path = require('path');
 
@@ -55,6 +59,11 @@ mongoose
 
 app.all('*', (req, res) => {
 	res.status(500).send('Invalid path');
+});
+
+// Listening to Redis
+redisClient.on('connect', function () {
+	console.log('Connected to Redis...');
 });
 
 app.listen(PORT, () => {

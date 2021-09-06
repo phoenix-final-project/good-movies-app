@@ -15,12 +15,12 @@ const {
 // FOR LANDING PAGE - after login:
 // **************************************
 // GET upcoming movies
-router.get("/upcoming", upcomingMovies);
-// check: http://localhost:5000/api/movie/upcoming
+router.get("/upcoming/:page", upcomingMovies);
+// check: http://localhost:5000/api/movie/upcoming/1
 
 // GET top rated movies
-router.get("/toprated", topRatedMovies);
-// check: http://localhost:5000/api/movie/toprated
+router.get("/toprated/:page", topRatedMovies);
+// check: http://localhost:5000/api/movie/toprated/1
 
 // GET movies by genre and by user id  - in process
 // router.get("/byGenre/:id", moviesByUserGenre)

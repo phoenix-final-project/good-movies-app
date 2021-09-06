@@ -21,7 +21,15 @@ exports.findByIdAndMap = (array) => {
             });
     })
 
-    // resolving asynchronicity for "map" method
     return Promise.all(moviesInfo)
-        .then(results => Object.values(results))       
+        .then(results => Object.values(results))
+        .then((data) => {
+            let movieArray = [];
+            data.forEach((item) => {
+                let movie = Object.values(item)[0];
+                movieArray.push(movie);
+            });
+
+            return movieArray
+        })
 }
