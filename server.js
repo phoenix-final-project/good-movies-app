@@ -4,7 +4,7 @@ dotenv.config();
 
 // Redis
 const redis = require('redis');
-let redisClient = redis.createClient();
+module.exports.redisClient = redis.createClient();
 
 // for heroku deployment
 const path = require('path');
@@ -62,9 +62,9 @@ app.all('*', (req, res) => {
 });
 
 // Listening to Redis
-redisClient.on('connect', function () {
-	console.log('Connected to Redis...');
-});
+// redisClient.on('connect', function () {
+// 	console.log('Connected to Redis...');
+// });
 
 app.listen(PORT, () => {
 	console.log(`The server is running on port: ${PORT}...🎧`);

@@ -1,6 +1,7 @@
 const WishList = require('../models/WishList');
 const User = require('../models/User');
 const findMovieById = require('../helpers/findMovieById');
+const { redisClient } = require('../server');
 
 exports.addMovie = async (req, res) => {
 	const { userId, movieId } = req.params;
@@ -23,9 +24,9 @@ exports.addMovie = async (req, res) => {
 
 		// FIND THAT MOVIE IN external API
 		const foundMovie = await findMovieById(movieId);
-		console.log(foundMovie);
 
 		// ADD FOUND MOVIE TO CACHE (REDIS)
+		redisClient.setex(movieId, 3600, JSON.stringify(foundMovie));
 
 		res.status(200).json({ message: 'Movie added', data: result });
 	} catch (error) {
