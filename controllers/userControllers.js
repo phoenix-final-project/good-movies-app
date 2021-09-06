@@ -95,7 +95,6 @@ exports.getUserByUsername = async (req, res) => {
 	try {
 		const user = await User.findOne({ username: req.params.username })
 			.select("username firstname lastname avatar email registerDate")
-		// .populate("friends.user")
 
 		if (user === null || user.deleted === true) {
 			return res.status(404).json({ message: `User ${req.params.username} was not found` });
@@ -149,20 +148,23 @@ exports.getFriendsOfUser = async (req, res) => {
 			return res.status(404).json({ message: `User ${req.params.username} was not found` });
 		}
 
+		// getting "friends" field only 
 		const friends = user.friends
-		// console.log(friends);
 
-
+		// creating a new array of friends
 		let friendsArray = [];
 
 		friends.forEach((item) => {
-			let friend = item.user
-			friendsArray.push(friend.username);
+			friendsArray.push({
+				username: item.user.username,
+				firstname: item.user.firstname,
+				lastname: item.user.lastname,
+				avatar: item.user.avatar,
+				email: item.user.email
+			});
 		});
 
-		// console.log(friendsArray);
-
-		res.status(200).json({friends: friendsArray});
+		res.status(200).json(friendsArray);
 
 	} catch (error) {
 		res.status(400).send({ message: 'Error occurred', error: error.message });
