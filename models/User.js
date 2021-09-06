@@ -9,12 +9,13 @@ const UserSchema = new Schema({
 	},
 	firstname: { type: String, required: [true, 'Please, provide your first name'] },
 	lastname: { type: String, required: [true, 'Please, provide your last name'] },
+	avatar: { type: String },
 	password: { type: String, required: [true, 'Please, provide a password'], min: [5, 'The password must be at least 5 characters long'] },
 	email: { type: String, required: [true, 'Please, provide your email address'] },
 	favoriteGenres: [
 		{
 			type: String,
-			required: true,
+			// required: true,
 		},
 	],
 	registerDate: { type: Date, default: Date.now },
