@@ -212,11 +212,9 @@ const moviesByYear = async (req, res) => {
             const foundByYear = Object.values(response.data)[0];
 
             if (foundByYear.length === 0) {
-                return res
-                    .status(404)
-                    .json({
-                        message: `No movies for *${req.params.year}* were found`,
-                    });
+                return res.status(404).json({
+                    message: `No movies for *${req.params.year}* were found`,
+                });
             }
 
             // helper for extended info on movies

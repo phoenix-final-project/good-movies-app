@@ -1,0 +1,9 @@
+@import "../../styles/mixin";
+
+.moviesContainer {
+    display: flex;
+
+    .movieBox {
+        margin: 10px;
+    }
+}
