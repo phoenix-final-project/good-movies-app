@@ -9,6 +9,9 @@ h3 {
 }
 .moviesContainer {
     display: flex;
+    justify-content: space-between;
+    width: auto;
+    margin: 10px 20px;
 
     .movieBox {
         margin: 10px;

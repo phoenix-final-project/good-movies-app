@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axiosApiInstance from "../../util/APIinstance";
+import { TablePagination } from "@material-ui/core";
 
 import MovieById from "../../components/movieById/MovieById";
 
@@ -12,11 +13,12 @@ export default function MoviesPage() {
 
     // const [isError, setIsError] = useState(false);
     // const [errorMessage, setErrorMessage] = useState("");
+
     const [showMovie, setShowMovie] = useState(false);
     const [movieId, setMovieId] = useState("");
     const [skip, setSkip] = useState(1);
 
-    // getting the date from backend (upcoming movies)
+    // getting the date from backend (movies)
     useEffect(() => {
         getUpcomingMovies();
         getTopRatedMovies();
