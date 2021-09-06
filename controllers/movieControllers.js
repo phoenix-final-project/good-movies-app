@@ -1,5 +1,6 @@
 const axios = require("axios").default;
 const { findByIdAndMap } = require("../helpers/findByIdAndMap");
+const { paginationHelper } = require("../helpers/paginationHelper");
 
 const rapidApiHeaders = {
     "x-rapidapi-host": "data-imdb1.p.rapidapi.com",
@@ -17,27 +18,41 @@ const upcomingMovies = async (req, res) => {
     };
 
     // getting Upcoming Movies with little data (title, imdb_id, release date)
-    // limit to 10 movies
+    // limit to 10 movies + pagination
     axios
         .request(options)
         .then(async (response) => {
-            const upcoming = Object.values(response.data)[0].slice(0, 10);
+            const upcomingAll = await Object.values(response.data)[0];
+            const numberOfMovies = upcomingAll.length;
 
-            // console.log("Upcoming simple :", upcoming);
+            // will try to make a helper for pagination later - this code is working
+            const page = req.params.page - 1;
+            const numberOfPages = Math.ceil(numberOfMovies / 10);
 
-            // getting Upcoming Movies by IMDB id with extended data
+            let start, end;
+
+            if (page >= 0 && page < numberOfPages) {
+                start = 10 * page;
+                end = 10 + start;
+            } else {
+                return res.status(500).json({ message: "No such page found" });
+            }
+            // the end of helper will be here
+
+            // await paginationHelper(req, numberOfMovies)
+
+            // displaying 10 movies / page
+            const upcoming = upcomingAll.slice(start, end);
+
             // helper for extended info on movies
             const withExtendedInfo = await findByIdAndMap(upcoming);
 
-            // "cleaning" the movies array so we'll get only an array of objects(=movies)
-            let movieArray = [];
-            withExtendedInfo.forEach((item) => {
-                let movie = Object.values(item)[0];
-                movieArray.push(movie);
+            res.status(200).json({
+                numberOfMovies: numberOfMovies,
+                numberOfPages: numberOfPages,
+                currentPage: +req.params.page,
+                foundMovies: withExtendedInfo,
             });
-
-            // res.status(200).json(withExtendedInfo);
-            res.status(200).json(movieArray);
         })
         .catch((error) => {
             console.error(error.message);
@@ -58,15 +73,37 @@ const topRatedMovies = async (req, res) => {
     axios
         .request(options)
         .then(async (response) => {
-            const topRatedMovies = Object.values(response.data)[0].slice(1, 11);
+            const topRatedMoviesAll = Object.values(response.data)[0].slice(1);
+            const numberOfMovies = topRatedMoviesAll.length;
 
-            console.log("topRatedMovies simple :", topRatedMovies);
+            // will try to make a helper for pagination later - this code is working
+            const page = req.params.page - 1;
+            const numberOfPages = Math.ceil(numberOfMovies / 10);
 
-            // getting TopRated Movies by IMDB id with extended data
+            let start, end;
+
+            if (page >= 0 && page < numberOfPages) {
+                start = 10 * page;
+                end = 10 + start;
+            } else {
+                return res.status(500).json({ message: "No such page found" });
+            }
+            // the end of helper will be here
+
+            // displaying 10 movies / page
+            const topRatedMovies = topRatedMoviesAll.slice(start, end);
+
             // helper for extended info on movies
             const withExtendedInfo = await findByIdAndMap(topRatedMovies);
 
-            res.status(200).json({ movies: withExtendedInfo });
+            // res.status(200).json(withExtendedInfo);
+
+            res.status(200).json({
+                numberOfMovies: numberOfMovies,
+                numberOfPages: numberOfPages,
+                currentPage: +req.params.page,
+                foundMovies: withExtendedInfo,
+            });
         })
         .catch((error) => {
             console.error(error.message);
@@ -130,14 +167,14 @@ const moviesByGenre = async (req, res) => {
 
     await axios
         .request(options)
-        .then((response) => {
+        .then(async (response) => {
             const numberOfMoviesToShow = 20;
 
             // getting ALL movies for that genre (can be a lot)
             const foundByGenre = Object.values(response.data)[0];
 
             // then limiting a number of results of "foundByGenre" to 100
-            const foundByGenre100 = foundByGenre.slice(0, numberOfMoviesToShow);
+            const foundByGenre20 = foundByGenre.slice(0, numberOfMoviesToShow);
 
             if (foundByGenre.length === 0) {
                 return res.status(404).json({
@@ -145,11 +182,14 @@ const moviesByGenre = async (req, res) => {
                 });
             }
 
+            // helper for extended info on movies
+            const withExtendedInfo = await findByIdAndMap(foundByGenre20);
+
             return res.status(200).json({
                 searchParam: req.params.genre,
                 totalNumberOfMovies: foundByGenre.length,
                 numberOfMoviesToShow: numberOfMoviesToShow,
-                foundMovies: foundByGenre100,
+                foundMovies: withExtendedInfo,
             });
         })
         .catch((error) => {
@@ -168,19 +208,24 @@ const moviesByYear = async (req, res) => {
 
     axios
         .request(options)
-        .then((response) => {
+        .then(async (response) => {
             const foundByYear = Object.values(response.data)[0];
 
             if (foundByYear.length === 0) {
-                return res.status(404).json({
-                    message: `No movies for *${req.params.year}* were found`,
-                });
+                return res
+                    .status(404)
+                    .json({
+                        message: `No movies for *${req.params.year}* were found`,
+                    });
             }
+
+            // helper for extended info on movies
+            const withExtendedInfo = await findByIdAndMap(foundByYear);
 
             return res.status(200).json({
                 searchParam: req.params.year,
                 numberOfMovies: foundByYear.length,
-                foundMovies: foundByYear,
+                foundMovies: withExtendedInfo,
             });
         })
         .catch((error) => {
