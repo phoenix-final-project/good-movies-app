@@ -1,5 +1,12 @@
 @import "../../styles/mixin";
 
+h1 {
+    text-align: center;
+}
+
+h3 {
+    margin: 30px 20px 0;
+}
 .moviesContainer {
     display: flex;
 
