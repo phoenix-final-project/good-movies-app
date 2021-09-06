@@ -94,8 +94,7 @@ exports.deleteUser = async (req, res) => {
 exports.getUserByUsername = async (req, res) => {
 	try {
 		const user = await User.findOne({ username: req.params.username })
-			.select("username firstname lastname avatar email registerDate")
-		// .populate("friends.user")
+		.select("username firstname lastname avatar email registerDate")
 
 		if (user === null || user.deleted === true) {
 			return res.status(404).json({ message: `User ${req.params.username} was not found` });
@@ -144,25 +143,35 @@ exports.getFriendsOfUser = async (req, res) => {
 			.select("friends.user")
 			.populate("friends.user")
 
-
 		if (user === null || user.deleted === true) {
 			return res.status(404).json({ message: `User ${req.params.username} was not found` });
 		}
 
+		// getting "friends" field only 
 		const friends = user.friends
-		// console.log(friends);
 
+		if (friends.length === 0) {
+			return res.status(404).json({ message: `User ${req.params.username} doesn't have any friends` });
+		}
 
+		// creating a new array of friends
 		let friendsArray = [];
 
 		friends.forEach((item) => {
-			let friend = item.user
-			friendsArray.push(friend.username);
+
+			// showing only existing friends/users - if the user has deleted profile, this friend won't be shown
+			if (item.user.deleted == false) {
+				friendsArray.push({
+					username: item.user.username,
+					firstname: item.user.firstname,
+					lastname: item.user.lastname,
+					avatar: item.user.avatar,
+					email: item.user.email
+				});
+			}
 		});
 
-		// console.log(friendsArray);
-
-		res.status(200).json({friends: friendsArray});
+		res.status(200).json(friendsArray);
 
 	} catch (error) {
 		res.status(400).send({ message: 'Error occurred', error: error.message });
@@ -174,7 +183,6 @@ exports.getFriendsOfUser = async (req, res) => {
 exports.addFriend = async (req, res) => {
 
 	try {
-
 		const { username, friendUsername } = req.body
 
 		// checking if the friend and user exist in our DB (and not deleted)
