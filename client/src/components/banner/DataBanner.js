@@ -1,0 +1,17 @@
+let changeBackgroundImage = [
+    'https://media.istockphoto.com/photos/movie-clapper-board-picture-id179280937?k=20&m=179280937&s=612x612&w=0&h=TNeojGyEi6TIegSMkfesk_qcNeVjoUUJwbCWl6qJGgU=', 
+
+    'https://media.istockphoto.com/photos/studio-light-background-with-smoke-picture-id1146274851?k=20&m=1146274851&s=612x612&w=0&h=GDqxGHXq1-5z4r_-jLB5N7aMHqodjl0nZstvM1sdm6A=', 
+
+    'https://media.istockphoto.com/photos/old-fashioned-film-projector-picture-id159755074?k=20&m=159755074&s=612x612&w=0&h=HCN028cY5pyrGubmuJCVih0Tq2rBd_kgF1bCpypL7bI='
+];
+
+let textData = [
+    'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni esse voluptatibus, dicta autem quidem omnis accusantium cum, quam recusandae assumenda error itaque? Omnis quas temporibus obcaecati vitae illo deleniti, necessitatibus numquam! Deleniti officia a alias rem explicabo provident modi. Magni error minima iusto iure quia officia libero sequi ab maiores nobis. Placeat ad ullam repellendus error adipisci sint odio. Dignissimos reiciendis illo laborum rem sequi inventore, necessitatibus ea. Quo rerum libero placeat nobis commodi harum omnis consequuntur totam deserunt aliquam atque soluta et ipsum fugit labore iste optio obcaecati quidem voluptas cum excepturi, quam perspiciatis consequatur nihil?nwwd wqdkmlkacxn lnlvansl jnqlwnrsdln nldakfnsvlykn nslkvnylk lnslcykn nfv  lknfvs lkn fvln nfslvcynln ljnfvlsn lnsflkn lnflksvn lnlsfkv lknlaksdfwefkm rleknlr lnsfnvlnjweln5n ln5ln ln5ln 24nln34 ln4 ,mnl4n2t n4l2n ln,nler lj4n.nl ln4j kb4kbkjb kj4kjn24 jbkjbl3j6lknl lnb2 rl l24',
+
+    'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni esse voluptatibus, dicta autem quidem omnis accusantium cum, quam recusandae assumenda error itaque? Omnis quas temporibus obcaecati vitae illo deleniti, necessitatibus numquam! Deleniti officia a alias rem explicabo provident modi. Magni error minima iusto iure quia officia libero sequi ab maiores nobis. Placeat ad ullam repellendus error adipisci sint odio. Dignissimos reiciendis illo laborum rem sequi inventore, necessitatibus ea. Quo rerum libero placeat nobis commodi harum omnis consequuntur totam deserunt aliquam atque soluta et ipsum fugit labore iste optio obcaecati quidem voluptas cum excepturi, quam perspiciatis consequatur nihil?',
+   
+    'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni esse voluptatibus, dicta autem quidem omnis accusantium cum, quam recusandae assumenda error itaque? Omnis quas temporibus obcaecati vitae illo deleniti, necessitatibus numquam! Deleniti officia a alias rem explicabo provident modi. Magni error minima iusto iure quia officia libero sequi ab maiores nobis. Placeat ad ullam repellendus error adipisci sint odio. Dignissimos reiciendis illo laborum rem sequi inventore, necessitatibus ea. Quo rerum libero placeat nobis commodi harum omnis consequuntur totam deserunt aliquam atque soluta et ipsum fugit labore iste optio obcaecati quidem voluptas cum excepturi, quam perspiciatis consequatur nihil?nwwd wqdkmlkacxn lnlvansl jnqlwnrsdln nldakfnsvlykn nslkvnylk lnslcykn nfv  lknfvs lkn fvln nfslvcynln ljnfvlsn lnsflkn lnflksvn lnlsfkv lknlaksdfwefkm rleknlr lwnlkDN 663NNWNE 2HLKN4 LNLK4NN CADNLnjb 4nnj34n n34'
+];
+
+module.exports = { changeBackgroundImage, textData }
