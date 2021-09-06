@@ -23,9 +23,9 @@ exports.registerUser = async (req, res) => {
 			username,
 			firstname,
 			lastname,
+			avatar: (firstname[0] + lastname[0]).toUpperCase(),
 			password: hashedPassword,
-			email,
-			favoriteGenres,
+			email
 		});
 
 		res.status(200).json({ message: 'User was created', createdUser: createdUser });
@@ -94,12 +94,11 @@ exports.deleteUser = async (req, res) => {
 exports.getUserByUsername = async (req, res) => {
 	try {
 		const user = await User.findOne({ username: req.params.username })
-		// .populate("friends.user")
+		.select("username firstname lastname avatar email registerDate")
 
 		if (user === null || user.deleted === true) {
 			return res.status(404).json({ message: `User ${req.params.username} was not found` });
 		}
-
 
 		res.status(200).json({ foundUser: user });
 	} catch (error) {
@@ -107,11 +106,83 @@ exports.getUserByUsername = async (req, res) => {
 	}
 };
 
+// GET/find user by name, surname, username
+exports.findUserByAnyName = async (req, res) => {
+	try {
+		let foundUsers = []
+		let result
+
+		const userByUsername = await User.findOne({ username: req.params.name, deleted: false })
+		// .populate("friends.user")
+
+		const userByFname = await User.find({ firstname: req.params.name, deleted: false })
+
+		console.log(userByFname, "userByFname");
+
+		if (userByUsername !== null) {
+			foundUsers.push(userByUsername)
+			// return res.status(404).json({ message: `User ${req.params.name} was not found` });
+
+		} else if (userByFname.length > 0) {
+			result = foundUsers.concat(userByFname)
+		}
+
+
+		console.log("result", result);
+
+		res.status(200).json({ foundUsers: result });
+	} catch (error) {
+		res.status(400).send({ message: 'Error occurred', error: error.message });
+	}
+};
+
+// GET /show friends of a user
+exports.getFriendsOfUser = async (req, res) => {
+	try {
+		const user = await User.findOne({ username: req.params.username })
+			.select("friends.user")
+			.populate("friends.user")
+
+		if (user === null || user.deleted === true) {
+			return res.status(404).json({ message: `User ${req.params.username} was not found` });
+		}
+
+		// getting "friends" field only 
+		const friends = user.friends
+
+		if (friends.length === 0) {
+			return res.status(404).json({ message: `User ${req.params.username} doesn't have any friends` });
+		}
+
+		// creating a new array of friends
+		let friendsArray = [];
+
+		friends.forEach((item) => {
+
+			// showing only existing friends/users - if the user has deleted profile, this friend won't be shown
+			if (item.user.deleted == false) {
+				friendsArray.push({
+					username: item.user.username,
+					firstname: item.user.firstname,
+					lastname: item.user.lastname,
+					avatar: item.user.avatar,
+					email: item.user.email
+				});
+			}
+		});
+
+		res.status(200).json(friendsArray);
+
+	} catch (error) {
+		res.status(400).send({ message: 'Error occurred', error: error.message });
+	}
+};
+
+
 // PUT - add a friend to a user
 exports.addFriend = async (req, res) => {
 
 	try {
-
 		const { username, friendUsername } = req.body
 
 		// checking if the friend and user exist in our DB (and not deleted)

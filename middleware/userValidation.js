@@ -47,16 +47,16 @@ module.exports.validateUser = [
 	// },
 
 	// works without isLength:
-	body('favoriteGenres').exists().isArray().withMessage('Please, indicate you favorite movie genre'),
-	function (req, res, next) {
-		let errors = validationResult(req);
-		if (!errors.isEmpty())
-			return res.status(400).json({
-				title: 'An error occurred',
-				error: errors,
-			});
-		next();
-	},
+	// body('favoriteGenres').exists().isArray().withMessage('Please, indicate you favorite movie genre'),
+	// function (req, res, next) {
+	// 	let errors = validationResult(req);
+	// 	if (!errors.isEmpty())
+	// 		return res.status(400).json({
+	// 			title: 'An error occurred',
+	// 			error: errors,
+	// 		});
+	// 	next();
+	// },
 ];
 
 module.exports.sanitizeUser = [
