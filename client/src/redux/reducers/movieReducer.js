@@ -1,7 +1,7 @@
 import { ActionTypes } from "../constants/action-types";
 
 const initialState = {
-    favoriteMovies: [],
+    favoriteMovies: ["JS", "CSS", "React", "HTML"],
     wishlistMovies: [],
     watchedMovies: [],
 };
@@ -9,15 +9,15 @@ const initialState = {
 export const movieReducer = (state = initialState, { type, payload }) => {
     switch (type) {
         case ActionTypes.ADD_MOVIE_FAVORITE:
-            return state;
+            return { ...state, favoriteMovies: payload };
         case ActionTypes.REMOVE_MOVIE_FAVORITE:
             return state;
         case ActionTypes.ADD_MOVIE_WISHLIST:
-            return state;
+            return { ...state, wishlistMovies: payload };
         case ActionTypes.REMOVE_MOVIE_WISHLIST:
             return state;
         case ActionTypes.ADD_MOVIE_WATCHED:
-            return state;
+            return { ...state, watchedMovies: payload };
         case ActionTypes.REMOVE_MOVIE_WATCHED:
             return state;
         default:

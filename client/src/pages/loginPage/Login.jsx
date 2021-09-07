@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 // importing Link
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ import NavBanner from "../../components/navBanner/NavBanner";
 import FormBanner from '../../components/formBanner/FormBanner';
 
 // styling
-import './Login.scss';
+import "./Login.scss";
 
 export default function Login() {
     return (
@@ -34,5 +34,5 @@ export default function Login() {
                 </FormBanner>
             </section>
         </React.Fragment>
-    )
+    );
 }

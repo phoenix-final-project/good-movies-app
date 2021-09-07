@@ -1,0 +1,22 @@
+@import "../../styles/mixin";
+
+h1 {
+    text-align: center;
+}
+
+h3 {
+    margin: 30px 20px 0;
+}
+.moviesContainer {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 20px;
+
+    @media (max-width: 800px) {
+        wrap: wrap; // This is not working
+    }
+
+    .movieBox {
+        margin: 10px;
+    }
+}
