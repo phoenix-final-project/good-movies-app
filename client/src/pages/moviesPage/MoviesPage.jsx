@@ -1,30 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import axiosApiInstance from "../../util/APIinstance";
-import { TablePagination } from "@material-ui/core";
 
+// Component
 import MovieById from "../../components/movieById/MovieById";
 
 // styling
 import "./MoviesPage.scss";
 
 export default function MoviesPage() {
+    // Local state
     const [upcomingMovies, setUpcomingMovies] = useState([]);
     const [topRatedMovies, setTopRatedMovies] = useState([]);
-
-    // const [isError, setIsError] = useState(false);
-    // const [errorMessage, setErrorMessage] = useState("");
 
     const [showMovie, setShowMovie] = useState(false);
     const [movieId, setMovieId] = useState("");
     const [skip, setSkip] = useState(1);
 
-    // getting the date from backend (movies)
-    useEffect(() => {
-        getUpcomingMovies();
-        getTopRatedMovies();
-    }, [skip]);
+    // const [isError, setIsError] = useState(false);
+    // const [errorMessage, setErrorMessage] = useState("");
 
-    async function getUpcomingMovies() {
+    const getUpcomingMovies = useCallback(async () => {
         try {
             let res = await axiosApiInstance.get(`/api/movie/upcoming/${skip}`);
 
@@ -37,9 +32,9 @@ export default function MoviesPage() {
             // setIsError(true);
             // setErrorMessage(error.message);
         }
-    }
+    }, [skip]);
 
-    async function getTopRatedMovies() {
+    const getTopRatedMovies = useCallback(async () => {
         try {
             let res = await axiosApiInstance.get(`/api/movie/toprated/${skip}`);
 
@@ -52,8 +47,15 @@ export default function MoviesPage() {
             // setIsError(true);
             // setErrorMessage(error.message);
         }
-    }
+    }, [skip]);
 
+    // getting the date from backend (movies)
+    useEffect(() => {
+        getUpcomingMovies();
+        getTopRatedMovies();
+    }, [skip, getUpcomingMovies, getTopRatedMovies]);
+
+    // Pagination
     const handleForwardButton = () => {
         setSkip(skip + 1);
         console.log(skip);
