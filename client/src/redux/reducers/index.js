@@ -1,12 +1,13 @@
 import { combineReducers } from "redux";
 
-// session
-import { sessionReducer } from "redux-react-session";
+import auth from "./auth";
+import message from "./message";
 
 import { movieReducer } from "./movieReducer";
 
 const reducers = combineReducers({
-    session: sessionReducer,
+    auth, 
+    message,
     movies: movieReducer,
 });
 

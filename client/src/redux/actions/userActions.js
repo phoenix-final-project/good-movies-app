@@ -13,7 +13,7 @@ export const loginUser = (user, token) => {
         type: ActionTypes.LOGIN_USER,
         payload: { user, token }
     };
-};
+}; 
 
 export const logoutUser = () => {
     return {

@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 
 // importing Link
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-// redux
-// import { connect } from "react-redux";
-// import { registerUser } from "../../redux/actions/userActions";
-// import { useHistory } from "react-router-dom";
-
-// import { axiosApiInstance } from "../../util/APIinstance";
+import axiosApiInstance from "../../util/APIinstance";
 
 // validation errors
 import ValidationError from "../../components/validation/ValidationError";
@@ -20,12 +15,12 @@ import './RegistrationPage.scss';
 import NavBanner from "../../components/navBanner/NavBanner";
 import FormBanner from '../../components/formBanner/FormBanner';
 
-function RegistrationPage({ registerUser }) {
+function RegistrationPage() {
     // history hook
-    // const history = useHistory();
+    const history = useHistory();
 
     // useState
-    const [status] = useState("Submit");
+    const [status, setStatus] = useState("Submit"); // setStatus
     const [values, setValues] = useState({
         username: '',
         firstname: '',
@@ -35,39 +30,46 @@ function RegistrationPage({ registerUser }) {
     });
 
     const [ errors, setErrors ] = useState({});
+    const [ isSubmitted, setIsSubmitted ] = useState(false);
 
     const handleChange = (e) => {
+        const { name, value } = e.target;
+
         setValues({
             ...values,
-            [e.target.name]: e.target.value
+            [name]: value
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setErrors(ValidationError(values));
+        if (Object.keys(errors).length === 0 && isSubmitted) {
+            axiosApiInstance.post('/api/user/register', values)
+                .then(response => response)
+                .then(view => {
+                    setStatus('Being registered...');
     
-        // axiosApiInstance.post('/register', userData)
-        //     .then(response => response.userData)
-        //     .then(view => {
-        //         setStatus('Being registered...');
-
-        //         setTimeout(() => {
-        //             setStatus("submit");
-        //             e.target.reset();
-        //         }, 3000);
-
-        //         // redirect to login
-        //         registerUser(history);
-
-        //     })
-        //     .catch(error => {
-        //         alert('Unfortunately, email couldn\'t be sent. Please try again later!');
-        //         e.target.reset();
-        //     });
+                    setTimeout(() => {
+                        setStatus("submit");
+                        e.target.reset();
+                    }, 3000);
+    
+                    // redirect to login
+                    setTimeout(() => {
+                        history.push('/login');
+                    }, 2000);
+                })
+                .catch(error => {
+                    alert('Unfortunately, an error occurred. Please try again later!');
+                    e.target.reset();
+                });
+        }
+        else {
+            setErrors(ValidationError(values));
+            setIsSubmitted(true);
+        }
+    
     };
-
-
 
     return (
         <React.Fragment>
@@ -78,7 +80,7 @@ function RegistrationPage({ registerUser }) {
                 </div>
             </NavBanner>
             <section className="registration">
-                <FormBanner title='Please create an account to get'>
+                <FormBanner title='Please create an account by filling out the information below to get'>
                     <form className="form-container" onSubmit={handleSubmit}>
                         <label htmlFor="username">username * {errors.username && <span className='error-para'>{errors.username}</span> } </label>
                         <input type="text" name="username" value={values.username} onChange={handleChange} />
@@ -91,7 +93,7 @@ function RegistrationPage({ registerUser }) {
                         <input type="text" name="lastname" value={values.lastname} onChange={handleChange} />
 
                         <label htmlFor="email">email * {errors.email && <p className='error-para'>{errors.email}</p> } </label>
-                        <input type="email" name="email" value={values.email} onChange={handleChange} />
+                        <input type="text" name="email" value={values.email} onChange={handleChange} />
 
                         <label htmlFor="password">password * {errors.password && <p className='error-para'>{errors.password}</p> } </label>
                         <input type="password" name="password" value={values.password} onChange={handleChange} />

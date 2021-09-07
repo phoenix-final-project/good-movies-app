@@ -6,6 +6,7 @@
         text-align: center;
         text-transform: uppercase;
         margin-bottom: 30px;
+        padding: 0 3rem ;
 
         &::after {
             content: ' STARTED.';
@@ -27,11 +28,6 @@
             color: var(--first-color);
             text-transform: uppercase;
             margin-left: 10px;
-
-            // &::after {
-            //     content: ' *';
-            //     color: red;
-            // }
         }
 
         input[type=text], input[type=email], input[type=password]{
