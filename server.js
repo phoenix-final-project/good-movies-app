@@ -33,7 +33,7 @@ passport.use(JwtStrategy);
 // routes
 app.use('/api/user', userRoutes);
 app.use('/api/movie', movieRoutes);
-app.use('/wishlist', wishlistRoutes);
+app.use('/api/wishlist', wishlistRoutes);
 
 // for heroku deployment
 // app.use(express.static(path.join(__dirname, 'client/build')));

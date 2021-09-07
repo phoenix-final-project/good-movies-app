@@ -1,15 +1,15 @@
 const WishList = require('../models/WishList');
 const User = require('../models/User');
-const findMovieById = require('../helpers/findMovieById');
 
 const { redisClient } = require('../redis-server');
 
 exports.addMovie = async (req, res) => {
-	const { userId, movieId } = req.params;
+	const { userId, movieObj } = req.params;
+	const { imdb_id } = movieObj;
 
 	try {
 		//CHECKS
-		const ifMovieExists = await WishList.find({ user: userId, movieId });
+		const ifMovieExists = await WishList.find({ user: userId, movieId: imdb_id });
 		if (ifMovieExists.length !== 0) throw { message: 'This movie is already in the wishlist' };
 
 		const ifUserExists = await User.findById(userId);
@@ -18,16 +18,13 @@ exports.addMovie = async (req, res) => {
 		// ADD TO WISHLIST IN DB
 		const movieToAdd = new WishList({
 			user: userId,
-			movieId,
+			movieId: imdb_id,
 		});
 
 		const result = await movieToAdd.save();
 
-		// FIND THAT MOVIE IN external API
-		const foundMovie = await findMovieById(movieId);
-
-		// ADD FOUND MOVIE TO CACHE (REDIS)
-		await redisClient.set(movieId, JSON.stringify(foundMovie));
+		// ADD add received from front-end movie TO CACHE (REDIS)
+		await redisClient.set(imdb_id, JSON.stringify(movieObj));
 
 		res.status(200).json({ message: 'Movie added', data: result });
 	} catch (error) {
