@@ -1,0 +1,72 @@
+.main-form {
+    width: 50%;
+    margin: 150px auto;
+
+    .text-form {
+        text-align: center;
+        text-transform: uppercase;
+        margin-bottom: 30px;
+        padding: 0 3rem ;
+
+        &::after {
+            content: ' STARTED.';
+            color: var(--first-color);
+        }
+    }
+
+    .form-container {
+        width: 100%;
+        padding: 30px;
+        display: grid;
+        grid-template-columns: 1fr;
+
+        label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--first-color);
+            text-transform: uppercase;
+            margin-left: 10px;
+        }
+
+        input[type=text], input[type=email], input[type=password]{
+            border: none;
+            border-bottom: 2px solid var(--first-color);
+            background-color: transparent;
+            color: var(--container-color);
+            font-size: 1.2em;
+            border-radius: 3px;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        .error-para {
+            color: red;
+            text-transform: capitalize;
+        }
+
+        .submit-btn {
+            width: 20%;
+            padding: .6rem;
+            color: var(--font-color);
+            background-color: var(--first-color);
+            border: 3px solid var(--first-color);
+            border-radius: 10px;
+            text-transform: uppercase;
+            cursor: pointer;
+
+            letter-spacing: var(--letter-spacing-btn);
+            transition: all 0.5s ease-in-out;
+
+            &:hover {
+                background: transparent;
+                color: var(--first-color);
+                transition: all .5s ease;
+                border-radius: 10px;
+            }
+        }
+    }
+}
