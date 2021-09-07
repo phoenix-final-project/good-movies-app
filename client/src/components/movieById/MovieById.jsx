@@ -8,8 +8,6 @@ import {
 } from "../../redux/actions/movieActions";
 
 export default function MovieById({ movieId }) {
-    const userID = "6131ef2e3d206c5a94e92e60";
-
     // local state
     const [movie, setMovie] = useState({});
 
