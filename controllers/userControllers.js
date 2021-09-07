@@ -63,6 +63,44 @@ exports.loginUser = async (req, res) => {
 	}
 };
 
+// UPDATE a user
+exports.updateUser = async (req, res) => {
+	try {
+		const username = req.params.username;
+		const { firstname, lastname, password, email } = req.body;
+
+		const user = await User.findOne({ username });
+
+		// checking if the user exists in our DB OR if the user's field "deleted" is "true"
+		if (user === null || user.deleted === true) {
+			return res.status(404).json({ message: `User ${username} not found` });
+		}
+
+		// console.log("check :", username, req.user.username);
+
+		// checking user authorization to perform the action
+		if (username !== req.user.username) {
+			return res.status(401).json({ message: "User is not authorized to perform this action" })
+		}
+
+		const hashedPassword = await bcrypt.hash(password, 10);
+
+		//updating a user
+		const updatedUser = await User.findOneAndUpdate({ username }, {
+			firstname,
+			lastname,
+			avatar: (firstname[0] + lastname[0]).toUpperCase(),
+			password: hashedPassword,
+			email
+		}, { new: true });
+
+		res.status(200).json({ message: 'User was successfully updated' });
+
+	} catch (error) {
+		res.status(400).send({ message: 'Error occurred', error: error.message });
+	}
+};
+
 // DELETE a user - PUT method
 exports.deleteUser = async (req, res) => {
 
@@ -94,7 +132,7 @@ exports.deleteUser = async (req, res) => {
 exports.getUserByUsername = async (req, res) => {
 	try {
 		const user = await User.findOne({ username: req.params.username })
-		.select("username firstname lastname avatar email registerDate")
+			.select("username firstname lastname avatar email registerDate")
 
 		if (user === null || user.deleted === true) {
 			return res.status(404).json({ message: `User ${req.params.username} was not found` });
@@ -109,28 +147,30 @@ exports.getUserByUsername = async (req, res) => {
 // GET/find user by name, surname, username
 exports.findUserByAnyName = async (req, res) => {
 	try {
-		let foundUsers = []
-		let result
 
-		const userByUsername = await User.findOne({ username: req.params.name, deleted: false })
-		// .populate("friends.user")
+		const findAllUsers = await User.find({ $text: { $search: req.params.name }, deleted: false })
+		// console.log("findAllUsers", findAllUsers.length);
 
-		const userByFname = await User.find({ firstname: req.params.name, deleted: false })
-
-		console.log(userByFname, "userByFname");
-
-		if (userByUsername !== null) {
-			foundUsers.push(userByUsername)
-			// return res.status(404).json({ message: `User ${req.params.name} was not found` });
-
-		} else if (userByFname.length > 0) {
-			result = foundUsers.concat(userByFname)
+		// return a message if no user was found
+		if (findAllUsers.length === 0) {
+			return res.status(404).send({ message: `No user for search parameter *${req.params.name}* was found`});
 		}
 
+		const findAllUsersWithInfo = []
 
-		console.log("result", result);
+		// re-organize data in the array for better Frontend use
+		findAllUsers.forEach(user => {
+			findAllUsersWithInfo.push({
+				username: user.username,
+				firstname: user.firstname,
+				lastname: user.lastname,
+				avatar: user.avatar,
+				// email: user.email
+			});
+		})
 
-		res.status(200).json({ foundUsers: result });
+		res.status(200).json({ foundUsersNumber: findAllUsers.length, foundUsers: findAllUsersWithInfo });
+
 	} catch (error) {
 		res.status(400).send({ message: 'Error occurred', error: error.message });
 	}
@@ -177,7 +217,6 @@ exports.getFriendsOfUser = async (req, res) => {
 		res.status(400).send({ message: 'Error occurred', error: error.message });
 	}
 };
-
 
 // PUT - add a friend to a user
 exports.addFriend = async (req, res) => {

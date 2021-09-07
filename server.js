@@ -30,6 +30,13 @@ passport.use(JwtStrategy);
 app.use('/api/user', userRoutes);
 app.use('/api/movie', movieRoutes);
 
+
+// error message for non-existent path
+app.all('*', (req, res) => {
+	res.status(500).json({ error: 'Invalid path' });
+});
+
+
 // for heroku deployment
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.get('*', (req, res) => {
@@ -41,19 +48,13 @@ console.log('Connecting to database...💻');
 mongoose
 	.connect(
 		process.env.MONGODB_URI,
-		// {
-		//     useNewUrlParser: true,
-		//     useUnifiedTopology: true,
-		//     useCreateIndex: true,
-		//     useFindAndModify: false
-		// }
 	)
 	.then(() => console.log('Database connected! 😎'))
 	.catch(error => console.log(error, 'Database did not connect! ☹️❌'));
 
-app.all('*', (req, res) => {
-	res.status(500).send('Invalid path');
-});
+// app.all('*', (req, res) => {
+// 	res.status(500).send('Invalid path');
+// });
 
 app.listen(PORT, () => {
 	console.log(`The server is running on port: ${PORT}...🎧`);
