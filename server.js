@@ -2,16 +2,15 @@ const express = require('express');
 const dotenv = require('dotenv');
 dotenv.config();
 
-// Redis
-const redis = require('redis');
-module.exports.redisClient = redis.createClient();
-
 // for heroku deployment
 const path = require('path');
 
 const mongoose = require('mongoose');
 const cors = require('cors');
 const app = express();
+
+// importing Redis client
+const { redisClient } = require('./redis-server');
 
 // importing routes
 const userRoutes = require('./routes/userRoutes');
@@ -62,9 +61,13 @@ app.all('*', (req, res) => {
 });
 
 // Listening to Redis
-// redisClient.on('connect', function () {
-// 	console.log('Connected to Redis...');
-// });
+redisClient.on('connect', function () {
+	console.log('Connected to Redis...');
+});
+
+redisClient.on('error', function (err) {
+	console.log('Error ' + err);
+});
 
 app.listen(PORT, () => {
 	console.log(`The server is running on port: ${PORT}...🎧`);
