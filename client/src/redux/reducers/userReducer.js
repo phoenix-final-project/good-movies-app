@@ -13,7 +13,6 @@ export const userReducer = (state = initialState, { type, payload }) => {
         case ActionTypes.REGISTER_USER:
             return state;
         case ActionTypes.LOGIN_USER:
-            console.log("login", payload.user);
             state.username = payload.user.username;
             state.firstname = payload.user.firstname;
             state.lastname = payload.user.lastname;

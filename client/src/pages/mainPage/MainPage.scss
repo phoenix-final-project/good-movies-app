@@ -13,52 +13,21 @@
         justify-content: space-around;
 
         .link-logo {
-            margin-right: 300px;
-            color: rgba(245, 245, 245, 0.815);
             z-index: 100;
-
-            .container-logo {
-                
-                .circle-text {
-                    font-size: 2.1em;
-                    font-weight: 600;
-                    padding: 8px;
-                    margin-left: 50px;
-                    border-radius: 50%;
-                    background-color: var(--first-color);
-                }
-
-                .span-home {
-                    font-size: 1em;
-                    text-transform: uppercase;
-                    position: absolute;
-                    top: -6px;
-                    right: 73.7%;
-                    letter-spacing: var(--letter-spacing);
-                }
-
-                .div-cinema {
-                    position: absolute;
-                    top: 10px;
-                    right: 72.9%;
-                    font-size: 1.9em;
-                    text-transform: uppercase;
-
-                    .border-bottom {
-                        width: 100%;
-                        height: 3px;
-                        background-color: var(--first-color);
-                        position: absolute;
-                        top: 43px;
-                        left: 10px;
-                    }
-                }
+            
+            .logo {
+                margin-left: -100px;
             }
         }
 
         .container-button {
             display: flex;
+            margin-right: -100px;
             z-index: 100;
+
+            .h3 {
+                padding-right: 20px;
+            }
 
             .tour {
                 margin-right: 30px;
@@ -76,7 +45,7 @@
                     content: "";
                     position: absolute;
                     top: 43px;
-                    left: 66%;
+                    left: 69.5%;
                     width: 0;
                     height: 3px;
                     
@@ -88,7 +57,7 @@
 
                 &:hover:after { 
                     width: 6%; 
-                    left: 69%;
+                    left: 69.8%;
                 }
             }
 
@@ -98,7 +67,7 @@
                 color: var(--font-color);
                 background-color: var(--first-color);
                 border: 3px solid var(--first-color);
-                border-radius: 5%;
+                border-radius: 10px;
                 text-transform: uppercase;
                 cursor: pointer;
 
@@ -109,7 +78,7 @@
                     background: transparent;
                     color: var(--first-color);
                     transition: all .5s ease;
-                    border-radius: 5%;
+                    border-radius: 10px;
                 }
             }
         }

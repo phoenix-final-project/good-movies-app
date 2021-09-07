@@ -9,9 +9,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = express();
 
+// importing Redis client
+const { redisClient } = require("./redis-server");
+
 // importing routes
 const userRoutes = require("./routes/userRoutes");
 const movieRoutes = require("./routes/movieRoutes");
+const wishlistRoutes = require("./routes/wishlistRoutes");
 
 // importing passport
 const passport = require("passport");
@@ -29,30 +33,37 @@ passport.use(JwtStrategy);
 // routes
 app.use("/api/user", userRoutes);
 app.use("/api/movie", movieRoutes);
+app.use("/api/wishlist", wishlistRoutes);
+
+// error message for non-existent path
+app.all("*", (req, res) => {
+    res.status(500).json({ error: "Invalid path" });
+});
 
 // for heroku deployment
-app.use(express.static(path.join(__dirname, "client/build")));
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname + "/client/build/index.html"));
-});
+// app.use(express.static(path.join(__dirname, 'client/build')));
+// app.get('*', (req, res) => {
+// 	res.sendFile(path.join(__dirname + '/client/build/index.html'));
+// });
 
 console.log("Connecting to database...💻");
 
 mongoose
-    .connect(
-        process.env.MONGODB_URI
-        // {
-        //     useNewUrlParser: true,
-        //     useUnifiedTopology: true,
-        //     useCreateIndex: true,
-        //     useFindAndModify: false
-        // }
-    )
+    .connect(process.env.MONGODB_URI)
     .then(() => console.log("Database connected! 😎"))
     .catch((error) => console.log(error, "Database did not connect! ☹️❌"));
 
-app.all("*", (req, res) => {
-    res.status(500).send("Invalid path");
+// app.all('*', (req, res) => {
+// 	res.status(500).send('Invalid path');
+// });
+
+// Listening to Redis
+redisClient.on("connect", function () {
+    console.log("Connected to Redis...");
+});
+
+redisClient.on("error", function (err) {
+    console.log("Error " + err);
 });
 
 app.listen(PORT, () => {

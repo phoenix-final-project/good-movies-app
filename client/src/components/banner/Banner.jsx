@@ -55,7 +55,7 @@ export default function Banner() {
                         </span>
                     </div>
                     <Link to='/registration'>
-                        <button className="get-button">get started</button>
+                        <button className="get-button" title='Feel free to register yourself'>get started</button>
                     </Link>
                 </div>
             </div>
