@@ -1,6 +1,6 @@
-const axios = require("axios").default;
-const { findByIdAndMap } = require("../helpers/findByIdAndMap");
-const { paginationHelper } = require("../helpers/paginationHelper");
+const axios = require('axios').default;
+const { findByIdAndMap } = require('../helpers/findByIdAndMap');
+const { paginationHelper } = require('../helpers/paginationHelper');
 
 const rapidApiHeaders = {
 	'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
@@ -22,21 +22,21 @@ const upcomingMovies = async (req, res) => {
 	axios
 		.request(options)
 		.then(async response => {
-			const upcomingAll = await Object.values(response.data)[0]
-			const numberOfMovies = upcomingAll.length
+			const upcomingAll = await Object.values(response.data)[0];
+			const numberOfMovies = upcomingAll.length;
 
 			// will try to make a helper for pagination later - this code is working
-			const page = req.params.page - 1
-			const limit = 6
-			const numberOfPages = Math.ceil(numberOfMovies / limit)
+			const page = req.params.page - 1;
+			const limit = 6;
+			const numberOfPages = Math.ceil(numberOfMovies / limit);
 
-			let start, end
+			let start, end;
 
 			if (page >= 0 && page < numberOfPages) {
-				start = limit * page
-				end = limit + start
+				start = limit * page;
+				end = limit + start;
 			} else {
-				return res.status(500).json({ message: "No such page found" })
+				return res.status(500).json({ message: 'No such page found' });
 			}
 			// the end of helper will be here
 
@@ -51,7 +51,7 @@ const upcomingMovies = async (req, res) => {
 			res.status(200).json({
 				numberOfMovies: numberOfMovies,
 				numberOfMoviesPage: limit,
-				numberOfPages: numberOfPages,	
+				numberOfPages: numberOfPages,
 				currentPage: +req.params.page,
 				foundMovies: withExtendedInfo,
 			});
@@ -71,26 +71,25 @@ const topRatedMovies = async (req, res) => {
 	};
 
 	// getting TopRated Movies with little data (imdb_id, title, rating)
-	// limit to 6 movies 
+	// limit to 6 movies
 	axios
 		.request(options)
 		.then(async response => {
-			const topRatedMoviesAll = Object.values(response.data)[0].slice(1)
-			const numberOfMovies = topRatedMoviesAll.length
-
+			const topRatedMoviesAll = Object.values(response.data)[0].slice(1);
+			const numberOfMovies = topRatedMoviesAll.length;
 
 			// will try to make a helper for pagination later - this code is working
-			const page = req.params.page - 1
-			const limit = 6
-			const numberOfPages = Math.ceil(numberOfMovies / limit)
+			const page = req.params.page - 1;
+			const limit = 6;
+			const numberOfPages = Math.ceil(numberOfMovies / limit);
 
-			let start, end
+			let start, end;
 
 			if (page >= 0 && page < numberOfPages) {
-				start = limit * page
-				end = limit + start
+				start = limit * page;
+				end = limit + start;
 			} else {
-				return res.status(500).json({ message: "No such page found" })
+				return res.status(500).json({ message: 'No such page found' });
 			}
 			// the end of helper will be here
 
@@ -148,8 +147,6 @@ const moviesByTitle = async (req, res) => {
 				numberOfMovies: foundTitles.length,
 				foundMovies: withExtendedInfo,
 			});
-
-
 		})
 		.catch(error => {
 			console.error(error.message);
