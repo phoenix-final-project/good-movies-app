@@ -1,0 +1,31 @@
+.friends-box {
+    //border: solid 1px white;
+    width: 50%;
+    margin-top: 20px;
+
+    .one-friend-box {
+        //border: solid 1px red;
+        border: solid 1px white;
+
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .friend-data {
+            display: flex;
+            align-items: center;
+
+            .avatar {
+                height: 30px;
+                width: 30px;
+                margin-right: 10px;
+                border-radius: 50%;
+                background-color: chocolate;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+}
