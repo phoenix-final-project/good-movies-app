@@ -48,9 +48,6 @@ mongoose
 	.then(() => console.log('Database connected! 😎'))
 	.catch(error => console.log(error, 'Database did not connect! ☹️❌'));
 
-// app.all('*', (req, res) => {
-// 	res.status(500).send('Invalid path');
-// });
 // error message for non-existent path
 app.all('*', (req, res) => {
 	res.status(500).json({ error: 'Invalid path' });
