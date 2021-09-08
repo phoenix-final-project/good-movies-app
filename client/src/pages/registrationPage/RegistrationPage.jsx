@@ -6,7 +6,7 @@ import { Link, useHistory } from "react-router-dom";
 import axiosApiInstance from "../../util/APIinstance";
 
 // validation errors
-import ValidationError from "../../components/validation/ValidationError";
+import { ValidationErrorRegistration } from "../../components/validation/ValidationError";
 
 // styling
 import './RegistrationPage.scss';
@@ -20,7 +20,9 @@ function RegistrationPage() {
     const history = useHistory();
 
     // useState
-    const [status, setStatus] = useState("Submit"); // setStatus
+    const [status, setStatus] = useState("sign up");
+    const [alertMessage, setAlertMessage] = useState("hidden");
+    const [alertMessageError, setAlertMessageError] = useState("hidden");
     const [values, setValues] = useState({
         username: '',
         firstname: '',
@@ -30,7 +32,6 @@ function RegistrationPage() {
     });
 
     const [ errors, setErrors ] = useState({});
-    const [ isSubmitted, setIsSubmitted ] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -43,32 +44,44 @@ function RegistrationPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (Object.keys(errors).length === 0 && isSubmitted) {
+        const checkErrors = ValidationErrorRegistration(values);
+
+        if (Object.keys(checkErrors).length !== 0 ) {
+            setErrors(checkErrors);
+        }
+        else {
             axiosApiInstance.post('/api/user/register', values)
                 .then(response => response)
                 .then(view => {
                     setStatus('Being registered...');
+                    e.target.reset();
     
                     setTimeout(() => {
-                        setStatus("submit");
-                        e.target.reset();
+                        setStatus("sign up");
                     }, 3000);
     
                     // redirect to login
                     setTimeout(() => {
+                        setAlertMessage('alert');
+                    }, 3000);
+
+                    setTimeout(() => {
+                        setAlertMessage('hidden');
+                    }, 6000);
+
+                    setTimeout(() => {
                         history.push('/login');
-                    }, 2000);
+                    }, 8000);
                 })
                 .catch(error => {
-                    alert('Unfortunately, an error occurred. Please try again later!');
+                    setAlertMessageError('error');
                     e.target.reset();
+
+                    setTimeout(() => {
+                        setAlertMessageError('hidden');
+                    }, 4000)
                 });
         }
-        else {
-            setErrors(ValidationError(values));
-            setIsSubmitted(true);
-        }
-    
     };
 
     return (
@@ -81,6 +94,8 @@ function RegistrationPage() {
             </NavBanner>
             <section className="registration">
                 <FormBanner title='Please create an account by filling out the information below to get'>
+                    <div className={alertMessage}>{values.username} has been successfully registered! Please, log in. </div>
+                    <div className={alertMessageError}>{values.username}, unfortunately, an error occurred. Please try again later! </div>
                     <form className="form-container" onSubmit={handleSubmit}>
                         <label htmlFor="username">username * {errors.username && <span className='error-para'>{errors.username}</span> } </label>
                         <input type="text" name="username" value={values.username} onChange={handleChange} />
@@ -95,7 +110,7 @@ function RegistrationPage() {
                         <label htmlFor="email">email * {errors.email && <p className='error-para'>{errors.email}</p> } </label>
                         <input type="text" name="email" value={values.email} onChange={handleChange} />
 
-                        <label htmlFor="password">password * {errors.password && <p className='error-para'>{errors.password}</p> } </label>
+                        <label htmlFor="password">password (Min. 5 length) * {errors.password && <p className='error-para'>{errors.password}</p> } </label>
                         <input type="password" name="password" value={values.password} onChange={handleChange} />
 
                         <button className='submit-btn' type="submit" title='Please submit'>{status}</button>
