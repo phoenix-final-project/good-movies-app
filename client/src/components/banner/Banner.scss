@@ -8,14 +8,14 @@
     .button-container {
         position: absolute;
         top: 650px;
-        left: 125px;
+        left: 100px;
 
         .discover-button {
             display: flex;
             margin-bottom: 30px;
 
-            h3 {
-                padding-right: 40px;
+            .check-h3 {
+                margin-right: 40px;
             }
 
             .discover {

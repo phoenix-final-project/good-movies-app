@@ -49,11 +49,12 @@ mongoose
 	.connect(process.env.MONGODB_URI)
 	.then(() => console.log('Database connected! 😎'))
 	.catch(error => console.log(error, 'Database did not connect! ☹️❌'));
-
+	
 // error message for non-existent path
 app.all('*', (req, res) => {
 	res.status(500).json({ error: 'Invalid path' });
 });
+
 // Listening to Redis
 redisClient.on('connect', function () {
 	console.log('Connected to Redis...');

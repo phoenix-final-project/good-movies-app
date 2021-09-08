@@ -153,7 +153,7 @@ exports.findUserByAnyName = async (req, res) => {
 
 		// return a message if no user was found
 		if (findAllUsers.length === 0) {
-			return res.status(404).send({ message: `No user for search parameter *${req.params.name}* was found`});
+			return res.status(404).send({ message: `No user for search parameter *${req.params.name}* was found` });
 		}
 
 		const findAllUsersWithInfo = []
@@ -183,6 +183,8 @@ exports.getFriendsOfUser = async (req, res) => {
 			.select("friends.user")
 			.populate("friends.user")
 
+		console.log(user);
+
 		if (user === null || user.deleted === true) {
 			return res.status(404).json({ message: `User ${req.params.username} was not found` });
 		}
@@ -198,16 +200,17 @@ exports.getFriendsOfUser = async (req, res) => {
 		let friendsArray = [];
 
 		friends.forEach((item) => {
-
 			// showing only existing friends/users - if the user has deleted profile, this friend won't be shown
-			if (item.user.deleted == false) {
-				friendsArray.push({
-					username: item.user.username,
-					firstname: item.user.firstname,
-					lastname: item.user.lastname,
-					avatar: item.user.avatar,
-					email: item.user.email
-				});
+			if (item.user) {
+				if (item.user.deleted == false) {
+					friendsArray.push({
+						username: item.user.username,
+						firstname: item.user.firstname,
+						lastname: item.user.lastname,
+						avatar: item.user.avatar,
+						email: item.user.email
+					});
+				}
 			}
 		});
 
@@ -258,6 +261,47 @@ exports.addFriend = async (req, res) => {
 
 
 		res.status(200).json({ message: `${friend.username} successfully added to your friends' list` });
+
+	} catch (error) {
+		res.status(400).send({ message: 'Error occurred', error: error.message });
+	}
+}
+
+// PUT - delete a friend from a user - editing a user
+exports.deleteFriend = async (req, res) => {
+
+	try {
+		const { username, friendUsername } = req.body
+
+		// checking if the friend and user exist in our DB (and not deleted)
+		const friend = await User.findOne({ username: friendUsername, deleted: false });
+		const user = await User.findOne({ username, deleted: false });
+
+		if (friend === null || user === null) {
+			return res.status(404).json({ message: `User ${req.body.friendUsername} was not found` });
+		}
+
+		// checking if this friend is user's friend
+		const checkFriendExist = user.friends.find(item => {
+			return item.user.equals(friend._id)
+		})
+
+		if (!checkFriendExist) {
+			return res.status(400).json({ message: `User ${req.body.friendUsername} is not in your friends' list!` });
+		}
+
+		// checking user authorization to perform the action
+		if (user.username != req.user.username) {
+			return res.status(401).json({ message: "User is not authorized to perform this action" })
+		}
+
+		// deleting a friend from the friends' list
+		await user.updateOne({
+			$pull: { friends: { user: friend._id } }
+		}, { new: true })
+
+
+		res.status(200).json({ message: `${friend.username} deleted from your friends' list` });
 
 	} catch (error) {
 		res.status(400).send({ message: 'Error occurred', error: error.message });
