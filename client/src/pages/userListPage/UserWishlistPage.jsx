@@ -41,6 +41,18 @@ export default function UserWishlistPage() {
         }
     }
 
+    // Move to Watched
+      // Sending movie to wishlist in backend
+    const addMovieToWatched = async (id) => {
+        try {
+            const res = await axiosApiInstance.post(`/api/watched/add-movie/61376a92dec13afb277dc9e6/${id}`);
+
+            console.log(res.data);
+        } catch (error) {
+            console.log(error.response);
+        }
+    };
+
     return (
         <React.Fragment>
             <h1>My Wishlist</h1>
@@ -48,24 +60,11 @@ export default function UserWishlistPage() {
                 <div key={movie.imdb_id}>
                     <p>{movie.title}</p>
                     <div><img src={movie.image_url} alt={movie.title} /></div>
-                    <p>{movie.rating}</p>
+                    <p>Rating: {movie.rating}</p>
                     <button onClick={() => deleteMovie(movie.imdb_id)}>Delete</button>
-                    <button>Watched</button>
+                    <button onClick={() => addMovieToWatched(movie.imdb_id)}>Watched</button>
                 </div>
             ))}
-
-            {/* <h3>Favorite Movies</h3>
-            {favoriteMovies.map((item) => (
-                <p key={item.index}>{item}</p>
-            ))}
-            <h3>Watched Movies</h3>
-            {watchedMovies.map((item) => (
-                <p key={item.index}>{item}</p>
-            ))}
-            <h3>Wishlist Movies</h3>
-            {wishlistMovies.map((item) => (
-                <p key={item.index}>{item}</p>
-            ))} */}
         </React.Fragment>
     );
 }

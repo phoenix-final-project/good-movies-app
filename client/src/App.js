@@ -11,6 +11,7 @@ import MoviesPage from './pages/moviesPage/MoviesPage';
 import RegistrationPage from './pages/registrationPage/RegistrationPage';
 import LoginPage from './pages/loginPage/Login';
 import UserWishlistPage from './pages/userListPage/UserWishlistPage';
+import UserWatchedPage from './pages/userListPage/UserWatchedPage.jsx';
 import FriendsPage from './pages/friendsPage/FriendsPage';
 import InviteFriendsPage from './pages/inviteFriendsPage/InviteFriendsPage';
 import UserProfile from './pages/userProfile/UserProfile';
@@ -29,6 +30,7 @@ function App() {
 				<Route exact path='/registration' component={RegistrationPage} />
 				<Route exact path='/login' component={LoginPage} />
 				<Route exact path='/my-list' component={UserWishlistPage} />
+				<Route exact path='/watched' component={UserWatchedPage} />
 				<Route exact path='/search-for-friends' component={FriendsPage} />
 				<Route exact path='/invite-friends' component={InviteFriendsPage} />
 				<Route exact path='/my-profile' component={UserProfile} />

@@ -50,9 +50,7 @@ export default function MovieById({ movieId }) {
     };
 
     // Sending movie to wishlist in backend
-    const addMovieToWishList = async (e) => {
-        e.preventDefault();
-
+    const addMovieToWishList = async () => {
         try {
             const res = await axiosApiInstance.post(`/api/wishlist/add-movie/61376a92dec13afb277dc9e6`, { movie });
 
