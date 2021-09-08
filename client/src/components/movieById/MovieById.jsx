@@ -53,9 +53,11 @@ export default function MovieById({ movieId }) {
     const addMovieWishlistWithId = async (e) => {
         e.preventDefault();
         try {
-            const res = await axiosApiInstance.post(
-                `/api/wishlist/add-movie/6131ef2e3d206c5a94e92e60/${movie.imdb_id}`
-            );
+            // const res = await axiosApiInstance.post(
+            //     `/api/wishlist/add-movie/6131ef2e3d206c5a94e92e60/${movie.imdb_id}`
+            // );
+
+            const res = await axiosApiInstance.post(`/api/wishlist/add-movie/6131ef2e3d206c5a94e92e60`, movie)
 
             if (res.status === 200) {
                 console.log("movie added to wishlist");

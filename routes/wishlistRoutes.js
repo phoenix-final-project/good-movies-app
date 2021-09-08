@@ -1,17 +1,13 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const {
-    addMovie,
-    deleteMovie,
-    showWishlist,
-} = require("../controllers/wishlistController");
+const { addMovie, deleteMovie, showWishlist } = require('../controllers/wishlistController');
 
-//router.post('/add-movie/:userId/:foundMovie', addMovie);
-router.post("/add-movie/:userId/:imdb_id", addMovie);
+router.post('/add-movie/:userId', addMovie);
+// router.post("/add-movie/:userId/:imdb_id", addMovie);
 
-router.delete("/delete-movie/:userId/:movieObj", deleteMovie);
-router.get("/:userId", showWishlist);
+router.delete('/delete-movie/:userId/:movieId', deleteMovie);
+router.get('/:userId', showWishlist);
 
 module.exports = router;
 
