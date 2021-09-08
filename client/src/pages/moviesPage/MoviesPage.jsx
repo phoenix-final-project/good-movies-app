@@ -14,14 +14,15 @@ export default function MoviesPage() {
 
     const [showMovie, setShowMovie] = useState(false);
     const [movieId, setMovieId] = useState("");
-    const [skip, setSkip] = useState(1);
+    const [skip1, setSkip1] = useState(1);
+    const [skip2, setSkip2] = useState(1);
 
     // const [isError, setIsError] = useState(false);
     // const [errorMessage, setErrorMessage] = useState("");
 
     const getUpcomingMovies = useCallback(async () => {
         try {
-            let res = await axiosApiInstance.get(`/api/movie/upcoming/${skip}`);
+            let res = await axiosApiInstance.get(`/api/movie/upcoming/${skip1}`);
 
             if (res.status === 200) {
                 console.log(res.data.foundMovies);
@@ -32,11 +33,11 @@ export default function MoviesPage() {
             // setIsError(true);
             // setErrorMessage(error.message);
         }
-    }, [skip]);
+    }, [skip1]);
 
     const getTopRatedMovies = useCallback(async () => {
         try {
-            let res = await axiosApiInstance.get(`/api/movie/toprated/${skip}`);
+            let res = await axiosApiInstance.get(`/api/movie/toprated/${skip2}`);
 
             if (res.status === 200) {
                 console.log(res.data.foundMovies);
@@ -47,18 +48,23 @@ export default function MoviesPage() {
             // setIsError(true);
             // setErrorMessage(error.message);
         }
-    }, [skip]);
+    }, [skip2]);
 
     // getting the date from backend (movies)
     useEffect(() => {
         getUpcomingMovies();
         getTopRatedMovies();
-    }, [skip, getUpcomingMovies, getTopRatedMovies]);
+    }, [skip1, skip2, getUpcomingMovies, getTopRatedMovies]);
 
     // Pagination
-    const handleForwardButton = () => {
-        setSkip(skip + 1);
-        console.log(skip);
+    const handleForwardButton1 = () => {
+        setSkip1(skip1 + 1);
+        console.log(skip2);
+    };
+
+    const handleForwardButton2 = () => {
+        setSkip2(skip2 + 1);
+        console.log(skip2);
     };
 
     return (
@@ -76,10 +82,12 @@ export default function MoviesPage() {
                             setMovieId(item.imdb_id);
                         }}
                     >
-                        <img src={item.image_url} alt="" />
+                        <img src={item.image_url} alt={item.title} /* width="100%" *//>
                     </div>
                 ))}
             </div>
+            <button className="next" onClick={handleForwardButton1}>Next... </button>
+
 
             <h3>Top Rated Movies</h3>
             <div className="moviesContainer">
@@ -93,13 +101,15 @@ export default function MoviesPage() {
                             setMovieId(item.imdb_id);
                         }}
                     >
-                        <img src={item.image_url} alt="" />
+                        <img src={item.image_url} alt={item.title} />
                     </div>
                 ))}
             </div>
 
+            <button className="next" onClick={handleForwardButton2}>Next... </button>
+
             {showMovie ? <MovieById movieId={movieId} /> : null}
-            <button onClick={handleForwardButton}>Skip</button>
+
         </React.Fragment>
     );
 }
