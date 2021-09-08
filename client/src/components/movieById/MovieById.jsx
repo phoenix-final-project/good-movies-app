@@ -50,19 +50,20 @@ export default function MovieById({ movieId }) {
     };
 
     // Sending movie to wishlist in backend
-    /* const postMovieWishlist = async(e) => {
+    const addMovieWishlistWithId = async (e) => {
         e.preventDefault();
         try {
-            let res = await axios.post('')
+            const res = await axiosApiInstance.post(
+                `/api/wishlist/add-movie/6131ef2e3d206c5a94e92e60/${movie.imdb_id}`
+            );
 
-            if(res.status === 200){
-                console.log('movie added to wishlist');
+            if (res.status === 200) {
+                console.log("movie added to wishlist");
             }
         } catch (error) {
             console.log("Something went wrong", error.message);
-            
         }
-    } */
+    };
 
     return (
         <div>
@@ -74,6 +75,9 @@ export default function MovieById({ movieId }) {
             <button onClick={addToWatchedMovies}>Add to Watched Movies</button>
             <button onClick={addToFavoriteMovies}>
                 Add to Favorite Movies
+            </button>
+            <button onClick={addMovieWishlistWithId}>
+                Add to wishlist with userId
             </button>
         </div>
     );
