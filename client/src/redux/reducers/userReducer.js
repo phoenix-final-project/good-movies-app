@@ -10,8 +10,8 @@ const initialState = {
 
 export const userReducer = (state = initialState, { type, payload }) => {
     switch (type) {
-        case ActionTypes.REGISTER_USER:
-            return state;
+        // case ActionTypes.REGISTER_USER:
+        //     return state;
         case ActionTypes.LOGIN_USER:
             state.username = payload.user.username;
             state.firstname = payload.user.firstname;
