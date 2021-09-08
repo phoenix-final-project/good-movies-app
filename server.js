@@ -35,11 +35,6 @@ app.use('/api/user', userRoutes);
 app.use('/api/movie', movieRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 
-// error message for non-existent path
-app.all('*', (req, res) => {
-	res.status(500).json({ error: 'Invalid path' });
-});
-
 // for heroku deployment
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.get('*', (req, res) => {
@@ -56,6 +51,11 @@ mongoose
 // app.all('*', (req, res) => {
 // 	res.status(500).send('Invalid path');
 // });
+
+// error message for non-existent path
+app.all('*', (req, res) => {
+	res.status(500).json({ error: 'Invalid path' });
+});
 
 // Listening to Redis
 redisClient.on('connect', function () {
