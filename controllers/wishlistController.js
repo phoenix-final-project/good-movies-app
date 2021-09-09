@@ -1,7 +1,5 @@
 const WishList = require('../models/WishList');
-const WatchedList = require('../models/WatchedList');
-const User = require('../models/User');
-
+const { getListFromCache } = require('../helpers/listsHelpers');
 const { redisClient } = require('../redis-server');
 
 exports.addMovie = async (req, res) => {
@@ -12,7 +10,7 @@ exports.addMovie = async (req, res) => {
 	try {
 		// checks in middleware
 
-		// ADD TO WISHLIST IN DB
+		// STEP 1. Add to wishlist in DB
 		const movieToAdd = new WishList({
 			user: userId,
 			movieId: imdb_id,
@@ -20,7 +18,7 @@ exports.addMovie = async (req, res) => {
 
 		await movieToAdd.save();
 
-		// ADD add received from front-end movie TO CACHE (REDIS)
+		// STEP 2. Add received from front-end movie TO CACHE (REDIS)
 		await redisClient.set(imdb_id, JSON.stringify(movie));
 
 		res.status(200).json({ message: 'Movie added', movie });
@@ -47,26 +45,10 @@ exports.deleteMovie = async (req, res) => {
 
 exports.showWishlist = async (req, res) => {
 	const { userId } = req.params;
-
-	const idMoviesFromWishlist = await WishList.find({ user: userId }).sort({
-		date: -1,
-	});
-
-	const moviesFromWishlist = idMoviesFromWishlist.map(async item => {
-		const { movieId } = item;
-
-		// Get individual movie from cache (Redis)
-		const movie = await redisClient.get(movieId);
-		return JSON.parse(movie);
-	});
-
-	Promise.all(moviesFromWishlist)
-		.then(data => {
-			console.log(data);
-			res.send(data);
-		})
-		.catch(err => {
-			console.log(err);
-			res.status(404).json({ message: 'Movies not found' });
-		});
+	try {
+		const MoviesInWishlist = await getListFromCache(WishList, userId);
+		res.send(MoviesInWishlist);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
 };

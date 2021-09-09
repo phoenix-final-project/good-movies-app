@@ -2,6 +2,8 @@ const WishList = require('../models/WishList');
 const WatchedList = require('../models/WatchedList');
 const User = require('../models/User');
 
+const { getListFromCache } = require('../helpers/listsHelpers');
+
 const { redisClient } = require('../redis-server');
 
 exports.addMovie = async (req, res) => {
@@ -12,7 +14,7 @@ exports.addMovie = async (req, res) => {
 	try {
 		//CHECKS in middleware
 
-		// Step 1. If movie in wishlist, delete it from there. If not - add to Redis
+		// STEP 1. If movie in wishlist, delete it from there. If not - add to Redis
 		const movieToDelete = await WishList.findOne({ user: userId, movieId: imdb_id });
 		if (movieToDelete) {
 			const deletedMovie = await movieToDelete.deleteOne();
@@ -53,24 +55,11 @@ exports.deleteMovie = async (req, res) => {
 
 exports.showWatchedList = async (req, res) => {
 	const { userId } = req.params;
-	const idMoviesFromWatchedList = await WatchedList.find({ user: userId }).sort({
-		date: -1,
-	});
 
-	const moviesFromWishlist = idMoviesFromWatchedList.map(async item => {
-		const { movieId } = item;
-
-		const movie = await redisClient.get(movieId);
-		return JSON.parse(movie);
-	});
-
-	Promise.all(moviesFromWishlist)
-		.then(data => {
-			console.log(data);
-			res.send(data);
-		})
-		.catch(err => {
-			console.log(err);
-			res.status(404).json({ message: 'Movies not found' });
-		});
+	try {
+		const MoviesInWatchedList = await getListFromCache(WatchedList, userId);
+		res.send(MoviesInWatchedList);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
 };
