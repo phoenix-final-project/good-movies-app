@@ -11,7 +11,7 @@ exports.registerUser = async (req, res) => {
 		const checkUser = await User.findOne({ username });
 
 		if (checkUser) {
-			return res.status(400).json({ message: 'User with this username already exists in our Database' });
+			return res.status(400).json({ message: 'User with this username already exists' });
 		}
 
 		// hashing password
@@ -153,7 +153,7 @@ exports.findUserByAnyName = async (req, res) => {
 
 		// return a message if no user was found
 		if (findAllUsers.length === 0) {
-			return res.status(404).send({ message: `No user for search parameter *${req.params.name}* was found` });
+			return res.status(404).send({ message: `User *${req.params.name}* was not found`});
 		}
 
 		const findAllUsersWithInfo = []
