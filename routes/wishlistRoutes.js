@@ -1,19 +1,15 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const {
-    addMovie,
-    deleteMovie,
-    showWishlist,
-} = require("../controllers/wishlistController");
+const { addMovie, deleteMovie, showWishlist } = require('../controllers/wishlistController');
+const { ifMovieInWishOrWatchedLists, ifUserExists } = require('../middleware/movieListsChecks');
 
-//router.post('/add-movie/:userId/:foundMovie', addMovie);
-router.post("/add-movie/:userId/:imdb_id", addMovie);
-
-router.delete("/delete-movie/:userId/:movieObj", deleteMovie);
-router.get("/:userId", showWishlist);
+router.post('/add-movie/:userId', ifMovieInWishOrWatchedLists, ifUserExists, addMovie);
+router.delete('/delete-movie/:userId/:movieId', deleteMovie);
+router.get('/:userId', showWishlist);
 
 module.exports = router;
 
-// ADD Movie to a wishlist
-// http://localhost:5000/api/wishlist/add-movie/:userId/:movieObj
+//ADD: http://localhost:5000/api/wishlist/add-movie/6131ef2e3d206c5a94e92e60/tt0285175
+//DEL: http://localhost:5000/api/wishlist/delete-movie/6131ef2e3d206c5a94e92e60/tt10288566
+//GET: http://localhost:5000/api/wishlist/6131ef2e3d206c5a94e92e60

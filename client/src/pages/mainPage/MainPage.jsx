@@ -20,7 +20,6 @@ export default function MainPage() {
                 </div>
             </NavBanner>
             <Banner />
-    {/*<Banner />*/}
         </React.Fragment>
     )
 }

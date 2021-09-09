@@ -20,7 +20,7 @@ export const ActionTypes = {
     REMOVE_MOVIE_FAVORITE: "REMOVE_MOVIE_FAVORITE",
 
     // user actions
-    REGISTER_USER: "REGISTER_USER",
+    // REGISTER_USER: "REGISTER_USER",
     LOGIN_USER: "LOGIN_USER",
     LOGOUT_USER: "LOGOUT_USER",
 };

@@ -1,13 +1,10 @@
 import { combineReducers } from "redux";
 
-//import auth from "./auth";
-//import message from "./message";
-
 import { movieReducer } from "./movieReducer";
+import { userReducer } from "./userReducer";
 
 const reducers = combineReducers({
-    //auth,
-    //message,
+    user: userReducer,
     movies: movieReducer,
 });
 

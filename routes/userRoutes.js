@@ -38,7 +38,7 @@ router.get('/friends/:username', getFriendsOfUser)
 router.put('/friends/add', passport.authenticate("jwt", { session: false }), addFriend)
 
 // DELETE A FRIEND FROM A USER  - PUT method to edit the user - protected route - a user needs to be logged in to perform an action
-router.delete('/friends/delete', passport.authenticate("jwt", { session: false }), deleteFriend);
+router.put('/friends/delete', passport.authenticate("jwt", { session: false }), deleteFriend);
 
 
 

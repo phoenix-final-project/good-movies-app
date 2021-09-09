@@ -1,31 +1,31 @@
+// checking whether all inputs are correct
+// let errors = {};
 
-export default function ValidationError(values) {
-    // checking whether all inputs are correct
+function ValidationErrorRegistration(values) {
     let errors = {};
 
     if (!values.username.trim()) {
-        errors.username = 'Enter a unique username.';
+        errors.username = 'Username is required';
     }
 
     if (!values.firstname.trim()) {
-        errors.firstname = 'Enter your first name.';
-    }
+        errors.firstname = 'firstname is required';
+    } 
 
     if (!values.lastname.trim()) {
-        errors.lastname = 'Enter your lastname.';
-    }
+        errors.lastname = 'lastname is required';
+    } 
 
     if (!values.email) {
-        errors.email = 'Enter a valid email address.';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
-        errors.email = 'Email address is invalid!';
-    }
+        errors.email = 'email address is required';
+    } 
 
     if (!values.password) {
-        errors.password = 'Enter a password'
-    } else if (values.password.length < 5) {
-        errors.password = 'A strong password must have at least five characters or more.'
-    }
+        errors.password = 'password is required'
+    } 
 
     return errors;
-}
+};
+
+export default ValidationErrorRegistration;
+
