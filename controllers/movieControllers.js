@@ -189,7 +189,7 @@ const moviesByGenre = async (req, res) => {
 
             return res.status(200).json({
                 searchParam: req.params.genre,
-                totalNumberOfMovies: foundByGenre.length,
+                numberOfMovies: foundByGenre.length,
                 numberOfMoviesToShow: numberOfMoviesToShow,
                 foundMovies: withExtendedInfo,
             });
