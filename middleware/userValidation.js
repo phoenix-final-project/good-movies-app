@@ -2,7 +2,7 @@ const { body, validationResult } = require('express-validator');
 const { capitalizeFirstLetter } = require('../helpers/capitalizeFirstLetter');
 
 module.exports.validateUser = [
-	body('username').exists().trim().isAlphanumeric().withMessage('Username should be alphanumeric'),
+	body('username').exists().trim().withMessage('Username is required!'),
 	function (req, res, next) {
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
@@ -12,7 +12,7 @@ module.exports.validateUser = [
 			});
 		next();
 	},
-	body('firstname').exists().trim().withMessage('First name should be alphanumeric'),
+	body('firstname').exists().trim().isAlpha().withMessage('Firsname must include only letters!'),
 	function (req, res, next) {
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
@@ -22,7 +22,7 @@ module.exports.validateUser = [
 			});
 		next();
 	},
-	body('lastname').exists().trim().withMessage('Last name should be alphanumeric'),
+	body('lastname').exists().trim().isAlpha().withMessage('Lastname must includes only letters!'),
 	function (req, res, next) {
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
@@ -32,7 +32,17 @@ module.exports.validateUser = [
 			});
 		next();
 	},
-	body('email').exists().trim().isEmail().withMessage('This is not a valid E-mail'),
+	body('email').exists().trim().isEmail().withMessage('This is not a valid E-mail!'),
+	function (req, res, next) {
+		let errors = validationResult(req);
+		if (!errors.isEmpty())
+			return res.status(400).json({
+				title: 'An error occurred',
+				error: errors,
+			});
+		next();
+	},
+	body('password').exists().trim().isStrongPassword().withMessage('Password is too weak!'),
 	function (req, res, next) {
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
