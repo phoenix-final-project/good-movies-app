@@ -26,7 +26,7 @@ export default function FriendsPage() {
         try {
             //const res = await axiosApiInstance.get(`/api/user/friends/${}`);
             const res = await axiosApiInstance.get("/api/user/friends/santa");
-            //console.log(res.data);
+            console.log(res.data);
             setFriends(res.data);
             //setIsError(false);
         } catch (error) {
@@ -34,12 +34,7 @@ export default function FriendsPage() {
             setIsError(true);
             setErrorMessage(error.response.statusText);
         }
-        //setTimeout(() => setIsError(false), 3000); // It is not working
     };
-
-    useEffect(() => {
-        getFriends();
-    }, []);
 
     // Search a user by username, firstname, lastname
     const searchForUser = async (e) => {
@@ -53,10 +48,12 @@ export default function FriendsPage() {
             setIsAlreadyFriend(true);
             setKeyword("");
         } catch (error) {
-            //console.log("Something went wrong", error.response.data.message);
+            console.log("Something went wrong", error.response.data.message);
             setIsError(true);
             setErrorMessage(error.response.data.message);
             setKeyword("");
+
+            setTimeout(() => setIsError(false), 3000);
         }
     };
 
@@ -64,7 +61,12 @@ export default function FriendsPage() {
     const backToFriends = () => {
         setUserFounded(false);
         setIsAlreadyFriend(false);
+        getFriends();
     };
+
+    useEffect(() => {
+        getFriends();
+    }, []);
 
     return (
         <React.Fragment>
@@ -88,7 +90,7 @@ export default function FriendsPage() {
 
             {userFounded ? (
                 <div>
-                    <h3>Results</h3>
+                    <h3>Search Results</h3>
                     <Friend friends={searchedUser} isFriend={isAlreadyFriend} />
                     <button onClick={backToFriends}>Back to my friends</button>
                 </div>
