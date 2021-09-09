@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 //import { useDispatch } from "react-redux";
 //import { getMoviesWishlist } from "../../redux/actions/movieActions";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import axiosApiInstance from "../../util/APIinstance";
 
 // styling
@@ -9,6 +9,7 @@ import "./UserWishlistPage.scss";
 
 export default function UserWishlistPage() {
     const [wishlistMovies, setWishlistMovies] = useState([]);
+    const [numOfMovies, setNumOfMovies] = useState(0);
 
     useEffect(() => {
         getWishlistMovies();
@@ -19,7 +20,8 @@ export default function UserWishlistPage() {
             const res = await axiosApiInstance.get(
                 `/api/wishlist/61376a92dec13afb277dc9e6`
             );
-            setWishlistMovies(res.data); 
+            setWishlistMovies(res.data.data); 
+            setNumOfMovies(res.data.numOfMovies);
         } catch (error) {
             console.log(error.response);
         }
@@ -59,6 +61,7 @@ export default function UserWishlistPage() {
     return (
         <React.Fragment>
             <h1>My Wishlist</h1>
+            <h2>Number of Movies: {numOfMovies}</h2>
             {wishlistMovies.map((movie) => (
                 <div key={movie.imdb_id}>
                     <p>{movie.title}</p>
