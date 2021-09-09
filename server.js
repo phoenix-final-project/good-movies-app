@@ -16,6 +16,7 @@ const { redisClient } = require('./redis-server');
 const userRoutes = require('./routes/userRoutes');
 const movieRoutes = require('./routes/movieRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes');
+const watchedRoutes = require('./routes/watchedRoutes');
 
 // importing passport
 const passport = require('passport');
@@ -34,6 +35,7 @@ passport.use(JwtStrategy);
 app.use('/api/user', userRoutes);
 app.use('/api/movie', movieRoutes);
 app.use('/api/wishlist', wishlistRoutes);
+app.use('/api/watched', watchedRoutes);
 
 // for heroku deployment
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -47,10 +49,6 @@ mongoose
 	.connect(process.env.MONGODB_URI)
 	.then(() => console.log('Database connected! 😎'))
 	.catch(error => console.log(error, 'Database did not connect! ☹️❌'));
-
-// app.all('*', (req, res) => {
-// 	res.status(500).send('Invalid path');
-// });
 
 // error message for non-existent path
 app.all('*', (req, res) => {

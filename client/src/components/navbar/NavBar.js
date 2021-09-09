@@ -34,6 +34,10 @@ export default function NavBar() {
                         <div className="links">                           
                             <Link to="/my-list"><i className="fas fa-home"></i>My list</Link>
                         </div>
+
+                        <div className="links">                           
+                            <Link to="/watched"><i className="fas fa-home"></i>Watched</Link>
+                        </div>
                 
                         <div className="links">                         
                             <Link to="/search-for-friends"><i className="fas fa-home"></i>Friends</Link>

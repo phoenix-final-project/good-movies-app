@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import axiosApiInstance from "../../util/APIinstance";
 import { useDispatch } from "react-redux";
 import {
-    addMovieWishlist,
+    // addMovieWishlist,
     addMovieWatched,
     addMovieFavorite,
 } from "../../redux/actions/movieActions";
@@ -34,34 +34,29 @@ export default function MovieById({ movieId }) {
     // Dispatch actions
     const dispatch = useDispatch();
 
-    const addToWishList = () => {
-        console.log(movie);
-        return dispatch(addMovieWishlist(movie));
-    };
-
-    const addToWatchedMovies = () => {
-        console.log(movie);
-        return dispatch(addMovieWatched(movie));
-    };
-
-    const addToFavoriteMovies = () => {
+    const addMovieToFavoriteList = () => {
         console.log(movie);
         return dispatch(addMovieFavorite(movie));
     };
 
     // Sending movie to wishlist in backend
-    const addMovieWishlistWithId = async (e) => {
-        e.preventDefault();
+    const addMovieToWishList = async () => {
         try {
-            const res = await axiosApiInstance.post(
-                `/api/wishlist/add-movie/6131ef2e3d206c5a94e92e60/${movie.imdb_id}`
-            );
+            const res = await axiosApiInstance.post(`/api/wishlist/add-movie/61376a92dec13afb277dc9e6`, { movie });
 
-            if (res.status === 200) {
-                console.log("movie added to wishlist");
-            }
+            console.log(res.data);
         } catch (error) {
-            console.log("Something went wrong", error.message);
+            console.log(error.response);
+        }
+    };
+
+    const addMovieToWatchedList = async () => {
+        try {
+            const response = await axiosApiInstance.post(`/api/watched/add-movie/61376a92dec13afb277dc9e6`, { movie });
+
+            console.log(response.data);
+        } catch (error) {
+            console.log(error.response);
         }
     };
 
@@ -71,14 +66,26 @@ export default function MovieById({ movieId }) {
             <h2>Movie By Id {movieId}</h2>
             <p>{movie.title}</p>
             <img src={movie.image_url} alt="" />
-            <button onClick={addToWishList}>Add to Wishlist</button>
-            <button onClick={addToWatchedMovies}>Add to Watched Movies</button>
-            <button onClick={addToFavoriteMovies}>
-                Add to Favorite Movies
+            <button onClick={addMovieToWishList}>
+                Wishlist
             </button>
-            <button onClick={addMovieWishlistWithId}>
-                Add to wishlist with userId
+            <button onClick={addMovieToWatchedList}>Watched</button>
+            <button onClick={addMovieToFavoriteList}>
+                Favorite
             </button>
+            
         </div>
     );
 }
+
+ // const addToWishList = () => {
+    //     console.log(movie);
+    //     return dispatch(addMovieWishlist(movie));
+    // };
+
+    // const addToWatchedMovies = () => {
+    //     console.log(movie);
+    //     return dispatch(addMovieWatched(movie));
+    // };
+
+    
