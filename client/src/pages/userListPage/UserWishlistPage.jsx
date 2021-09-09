@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 //import { useDispatch } from "react-redux";
 //import { getMoviesWishlist } from "../../redux/actions/movieActions";
 // import { useSelector } from "react-redux";
-import axiosApiInstance from "../../util/APIinstance";
+import axios from "../../util/APIinstance";
 
 // styling
 import "./UserWishlistPage.scss";
@@ -17,7 +17,7 @@ export default function UserWishlistPage() {
 
     const getWishlistMovies = async () => {
         try {
-            const res = await axiosApiInstance.get(
+            const res = await axios.get(
                 `/api/wishlist/61376a92dec13afb277dc9e6`
             );
             setWishlistMovies(res.data.data); 
@@ -29,7 +29,7 @@ export default function UserWishlistPage() {
 
     const deleteMovie = async(id) => {
         try {
-            const res = await axiosApiInstance.delete(
+            const res = await axios.delete(
                 `/api/wishlist/delete-movie/61376a92dec13afb277dc9e6/${id}`
             );
 
@@ -46,7 +46,7 @@ export default function UserWishlistPage() {
     // Move to Watched
     const addMovieToWatched = async (movie) => {
         try {
-            const response = await axiosApiInstance.post(`/api/watched/add-movie/61376a92dec13afb277dc9e6`, { movie });
+            const response = await axios.post(`/api/watched/add-movie/61376a92dec13afb277dc9e6/1`, { movie });
 
             // update state
             const newWishlist = wishlistMovies.filter((item) => item.imdb_id !== movie.imdb_id);

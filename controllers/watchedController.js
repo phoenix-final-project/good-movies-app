@@ -16,6 +16,7 @@ exports.addMovie = async (req, res) => {
 
 		// STEP 1. If movie in wishlist, delete it from there. If not - add to Redis
 		const movieToDelete = await WishList.findOne({ user: userId, movieId: imdb_id });
+
 		if (movieToDelete) {
 			const deletedMovie = await movieToDelete.deleteOne();
 			console.log(deletedMovie);
@@ -31,7 +32,7 @@ exports.addMovie = async (req, res) => {
 
 		const result = await movieToAdd.save();
 
-		res.status(200).json({ message: 'Movie added', result });
+		res.status(200).json({ message: 'Movie added to watched list', result });
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
