@@ -60,20 +60,24 @@ export default function MovieById({ movieId }) {
         }
     };
 
+    const addMovieToWatchedList = async () => {
+        
+    };
+
     return (
         <div>
             <h1>Movie by Id</h1>
             <h2>Movie By Id {movieId}</h2>
             <p>{movie.title}</p>
             <img src={movie.image_url} alt="" />
-            {/* <button onClick={addToWishList}>Add to Wishlist</button> */}
-            <button onClick={addToWatchedMovies}>Add to Watched Movies</button>
-            <button onClick={addToFavoriteMovies}>
-                Add to Favorite Movies
-            </button>
             <button onClick={addMovieToWishList}>
-                Add to wishlist
+                Wishlist
             </button>
+            <button onClick={addMovieToWatchedList}>Watched</button>
+            <button onClick={addToFavoriteMovies}>
+                Favorite
+            </button>
+            
         </div>
     );
 }

@@ -23,7 +23,7 @@ import './styles/App.scss';
 function App() {
     return (
         <div className="App">
-    {/*<NavBar />*/}
+    <NavBar />
             <Switch>
                 <Route exact path="/" component={MainPage} />
                 <Route exact path="/movies" component={MoviesPage} />

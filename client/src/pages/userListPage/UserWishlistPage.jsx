@@ -42,12 +42,15 @@ export default function UserWishlistPage() {
     }
 
     // Move to Watched
-      // Sending movie to wishlist in backend
     const addMovieToWatched = async (id) => {
         try {
-            const res = await axiosApiInstance.post(`/api/watched/add-movie/61376a92dec13afb277dc9e6/${id}`);
+            const response = await axiosApiInstance.post(`/api/watched/add-movie/61376a92dec13afb277dc9e6/${id}`);
 
-            console.log(res.data);
+            // update state
+            const newWishlist = wishlistMovies.filter((movie) => movie.imdb_id !== id);
+            setWishlistMovies(newWishlist);
+
+            console.log(response.data);
         } catch (error) {
             console.log(error.response);
         }

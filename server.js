@@ -38,10 +38,10 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/watched', watchedRoutes);
 
 // for heroku deployment
-app.use(express.static(path.join(__dirname, 'client/build')));
-app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
+// app.use(express.static(path.join(__dirname, 'client/build')));
+// app.get('*', (req, res) => {
+// 	res.sendFile(path.join(__dirname + '/client/build/index.html'));
+// });
 
 console.log('Connecting to database...💻');
 
@@ -49,7 +49,7 @@ mongoose
 	.connect(process.env.MONGODB_URI)
 	.then(() => console.log('Database connected! 😎'))
 	.catch(error => console.log(error, 'Database did not connect! ☹️❌'));
-	
+
 // error message for non-existent path
 app.all('*', (req, res) => {
 	res.status(500).json({ error: 'Invalid path' });
