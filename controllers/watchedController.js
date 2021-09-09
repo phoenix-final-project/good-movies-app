@@ -6,22 +6,11 @@ const { redisClient } = require('../redis-server');
 
 exports.addMovie = async (req, res) => {
 	const { userId } = req.params;
-	const { movieToAdd } = req.body;
-	const { imdb_id } = movieToAdd;
+	const { movie } = req.body;
+	const { imdb_id } = movie;
 
 	try {
-		//CHECKS
-		// if movie in watched list
-		const ifMovieExists = await WatchedList.find({
-			user: userId,
-			movieId: imdb_id,
-		});
-
-		if (ifMovieExists.length !== 0) return res.status(409).json({ message: 'This movie is already in watched list' });
-
-		// if user exists
-		const ifUserExists = await User.findById(userId);
-		if (ifUserExists === null) return res.status(404).json({ message: 'This user does not exist' });
+		//CHECKS in middleware
 
 		// Step 1. If movie in wishlist, delete it from there. If not - add to Redis
 		const movieToDelete = await WishList.findOne({ user: userId, movieId: imdb_id });
@@ -51,10 +40,10 @@ exports.deleteMovie = async (req, res) => {
 
 	try {
 		//CHECKS
-		const movieToDelete = await WishList.findOne({ user: userId, movieId });
-		if (!movieToDelete) throw { message: 'Movie not found in the wishlist' };
+		const movieToDelete = await WatchedList.findOne({ user: userId, movieId });
+		if (!movieToDelete) throw { message: 'Movie not found in the watched list' };
 
-		// DELETE FROM WISHLIST
+		// DELETE FROM WATCHLIST
 		const deletedMovie = await movieToDelete.deleteOne();
 		res.status(200).json({ message: 'Movie deleted', data: deletedMovie });
 	} catch (error) {
@@ -62,14 +51,13 @@ exports.deleteMovie = async (req, res) => {
 	}
 };
 
-exports.showWishlist = async (req, res) => {
+exports.showWatchedList = async (req, res) => {
 	const { userId } = req.params;
-
-	const idMoviesFromWishlist = await WishList.find({ user: userId }).sort({
+	const idMoviesFromWatchedList = await WatchedList.find({ user: userId }).sort({
 		date: -1,
 	});
 
-	const moviesFromWishlist = idMoviesFromWishlist.map(async item => {
+	const moviesFromWishlist = idMoviesFromWatchedList.map(async item => {
 		const { movieId } = item;
 
 		const movie = await redisClient.get(movieId);

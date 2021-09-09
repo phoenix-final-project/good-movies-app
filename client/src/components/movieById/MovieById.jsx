@@ -34,17 +34,7 @@ export default function MovieById({ movieId }) {
     // Dispatch actions
     const dispatch = useDispatch();
 
-    // const addToWishList = () => {
-    //     console.log(movie);
-    //     return dispatch(addMovieWishlist(movie));
-    // };
-
-    const addToWatchedMovies = () => {
-        console.log(movie);
-        return dispatch(addMovieWatched(movie));
-    };
-
-    const addToFavoriteMovies = () => {
+    const addMovieToFavoriteList = () => {
         console.log(movie);
         return dispatch(addMovieFavorite(movie));
     };
@@ -61,7 +51,13 @@ export default function MovieById({ movieId }) {
     };
 
     const addMovieToWatchedList = async () => {
-        
+        try {
+            const response = await axiosApiInstance.post(`/api/watched/add-movie/61376a92dec13afb277dc9e6`, { movie });
+
+            console.log(response.data);
+        } catch (error) {
+            console.log(error.response);
+        }
     };
 
     return (
@@ -74,10 +70,22 @@ export default function MovieById({ movieId }) {
                 Wishlist
             </button>
             <button onClick={addMovieToWatchedList}>Watched</button>
-            <button onClick={addToFavoriteMovies}>
+            <button onClick={addMovieToFavoriteList}>
                 Favorite
             </button>
             
         </div>
     );
 }
+
+ // const addToWishList = () => {
+    //     console.log(movie);
+    //     return dispatch(addMovieWishlist(movie));
+    // };
+
+    // const addToWatchedMovies = () => {
+    //     console.log(movie);
+    //     return dispatch(addMovieWatched(movie));
+    // };
+
+    
