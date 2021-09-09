@@ -5,16 +5,16 @@ const User = require('../models/User');
 const { redisClient } = require('../redis-server');
 
 exports.addMovie = async (req, res) => {
-	const { userId, movieId } = req.params;
-	// const { movie } = req.body;
-	// const { imdb_id } = movie;
+	const { userId } = req.params;
+	const { movieToAdd } = req.body;
+	const { imdb_id } = movieToAdd;
 
 	try {
 		//CHECKS
 		// if movie in watched list
 		const ifMovieExists = await WatchedList.find({
 			user: userId,
-			movieId,
+			movieId: imdb_id,
 		});
 
 		if (ifMovieExists.length !== 0) return res.status(409).json({ message: 'This movie is already in watched list' });
@@ -23,23 +23,22 @@ exports.addMovie = async (req, res) => {
 		const ifUserExists = await User.findById(userId);
 		if (ifUserExists === null) return res.status(404).json({ message: 'This user does not exist' });
 
-		// if movie in wishlist, delete it from there
-		const movieToDelete = await WishList.findOne({ user: userId, movieId });
+		// Step 1. If movie in wishlist, delete it from there. If not - add to Redis
+		const movieToDelete = await WishList.findOne({ user: userId, movieId: imdb_id });
 		if (movieToDelete) {
 			const deletedMovie = await movieToDelete.deleteOne();
 			console.log(deletedMovie);
+		} else {
+			await redisClient.set(imdb_id, JSON.stringify(movie));
 		}
 
-		// ADD TO Watched list IN DB
+		// Step 2. ADD TO Watched list IN DB
 		const movieToAdd = new WatchedList({
 			user: userId,
-			movieId,
+			movieId: imdb_id,
 		});
 
 		const result = await movieToAdd.save();
-
-		// ADD add received from front-end movie TO CACHE (REDIS)
-		// await redisClient.set(imdb_id, JSON.stringify(movie));
 
 		res.status(200).json({ message: 'Movie added', result });
 	} catch (error) {

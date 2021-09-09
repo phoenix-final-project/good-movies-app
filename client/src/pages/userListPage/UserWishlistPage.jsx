@@ -42,12 +42,13 @@ export default function UserWishlistPage() {
     }
 
     // Move to Watched
-    const addMovieToWatched = async (id) => {
+    const addMovieToWatched = async (movieToAdd) => {
         try {
-            const response = await axiosApiInstance.post(`/api/watched/add-movie/61376a92dec13afb277dc9e6/${id}`);
+            const response = await axiosApiInstance.post(`/api/watched/add-movie/61376a92dec13afb277dc9e6`, { movieToAdd });
+            console.log('aaaaaaa', response);
 
             // update state
-            const newWishlist = wishlistMovies.filter((movie) => movie.imdb_id !== id);
+            const newWishlist = wishlistMovies.filter((movie) => movie.imdb_id !== movieToAdd.imdb_id);
             setWishlistMovies(newWishlist);
 
             console.log(response.data);
@@ -65,7 +66,7 @@ export default function UserWishlistPage() {
                     <div><img src={movie.image_url} alt={movie.title} /></div>
                     <p>Rating: {movie.rating}</p>
                     <button onClick={() => deleteMovie(movie.imdb_id)}>Delete</button>
-                    <button onClick={() => addMovieToWatched(movie.imdb_id)}>Watched</button>
+                    <button onClick={() => addMovieToWatched(movie)}>Watched</button>
                 </div>
             ))}
         </React.Fragment>
