@@ -24,8 +24,10 @@ export default function FriendsPage() {
     // get user's friends
     const getFriends = async () => {
         try {
-            //const res = await axiosApiInstance.get(`/api/user/friends/${}`);
-            const res = await axiosApiInstance.get("/api/user/friends/santa");
+            const res = await axiosApiInstance.get(
+                `/api/user/friends/${localStorage.getItem("username")}`
+            );
+            //const res = await axiosApiInstance.get("/api/user/friends/santa");
             console.log(res.data);
             setFriends(res.data);
             //setIsError(false);

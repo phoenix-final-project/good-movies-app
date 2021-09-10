@@ -11,7 +11,8 @@ export default function Friend({ friends, isFriend, searchedUser }) {
     const addFriend = async (username) => {
         try {
             const res = await axiosApiInstance.put("/api/user/friends/add", {
-                username: "santa",
+                //username: "santa",
+                username: localStorage.getItem("username"),
                 friendUsername: username,
             });
             console.log(res.data);
