@@ -28,19 +28,19 @@ router.get("/toprated/:page", topRatedMovies);
 // FOR SEARCH:
 // **************************************
 // GET movies by title
-router.get("/title/:title", moviesByTitle);
-// check: http://localhost:5000/api/movie/title/london
+router.get("/title/:title/:page", moviesByTitle);
+// check: http://localhost:5000/api/movie/title/london/1
 
-// GET movies by director
+// GET movies by director - NOT DONE
 router.get("/director/:director", moviesByDirector);
 
 // GET movies by genre
-router.get("/genre/:genre", moviesByGenre);
-// check: http://localhost:5000/api/movie/genre/comedy
+router.get("/genre/:genre/:page", moviesByGenre);
+// check: http://localhost:5000/api/movie/genre/comedy/1
 
 // GET movies by year
-router.get("/year/:year", moviesByYear);
-// check: http://localhost:5000/api/movie/year/1999
+router.get("/year/:year/:page", moviesByYear);
+// check: http://localhost:5000/api/movie/year/1999/1
 
 // FOR INDIVIDUAL MOVIE:
 // **************************************
