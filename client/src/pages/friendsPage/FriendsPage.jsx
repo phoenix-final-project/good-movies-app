@@ -24,15 +24,16 @@ export default function FriendsPage() {
     // get user's friends
     const getFriends = async () => {
         try {
-            //const res = await axiosApiInstance.get(`/api/user/friends/${}`);
-            const res = await axiosApiInstance.get("/api/user/friends/santa");
+            const res = await axiosApiInstance.get(
+                `/api/user/friends/${localStorage.getItem("username")}`
+            );
             console.log(res.data);
             setFriends(res.data);
             //setIsError(false);
         } catch (error) {
             //console.log("Something went wrong", error.response.statusText);
-            setIsError(true);
-            setErrorMessage(error.response.statusText);
+            /* setIsError(true);
+            setErrorMessage(error.response.statusText); */
         }
     };
 
@@ -86,7 +87,7 @@ export default function FriendsPage() {
                 <button type="submit">Search</button>
             </form>
 
-            {isError ? <Alert severity="warning">{errorMessage}</Alert> : null}
+            {/*  {isError ? <Alert severity="warning">{errorMessage}</Alert> : null} */}
 
             {userFounded ? (
                 <div>
