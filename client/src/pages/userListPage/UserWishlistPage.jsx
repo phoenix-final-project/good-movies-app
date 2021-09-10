@@ -65,7 +65,7 @@ export default function UserWishlistPage() {
             {wishlistMovies.map((movie) => (
                 <div key={movie.imdb_id} className='individual-movie-section'>
                     <section>
-                        <div>
+                        <div className='poster'>
                             <img src={movie.image_url} alt={movie.title} />
                         </div>
                     </section>
