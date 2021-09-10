@@ -1,4 +1,5 @@
 const WishList = require('../models/WishList');
+const WatchedList = require('../models/WatchedList');
 const { getListFromCache } = require('../helpers/listsHelpers');
 const { redisClient } = require('../redis-server');
 
@@ -10,7 +11,17 @@ exports.addMovie = async (req, res) => {
 	try {
 		// checks in middleware
 
-		// STEP 1. Add to wishlist in DB
+		// STEP 1. If movie in watched list, delete from there. If not, it comes from movies page, so add it to Redis
+		const movieToDelete = await WatchedList.findOne({ user: userId, movieId: imdb_id });
+
+		if (movieToDelete) {
+			const deletedMovie = await movieToDelete.deleteOne();
+			console.log(deletedMovie);
+		} else {
+			await redisClient.set(imdb_id, JSON.stringify(movie));
+		}
+
+		// STEP 2. Add to wishlist in DB
 		const movieToAdd = new WishList({
 			user: userId,
 			movieId: imdb_id,
@@ -18,10 +29,7 @@ exports.addMovie = async (req, res) => {
 
 		await movieToAdd.save();
 
-		// STEP 2. Add received from front-end movie TO CACHE (REDIS)
-		await redisClient.set(imdb_id, JSON.stringify(movie));
-
-		res.status(200).json({ message: 'Movie added', movie });
+		res.status(200).json({ message: 'Movie added to wishlist', movie });
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}

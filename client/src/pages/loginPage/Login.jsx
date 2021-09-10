@@ -5,7 +5,7 @@ import { Link, useHistory } from "react-router-dom";
 
 // redux, dispatch
 import { useDispatch } from "react-redux";
-import axiosApiInstance from "../../util/APIinstance";
+import axiosApiInstance from "../../util/APIinstance"; 
 import { loginUser } from "../../redux/actions/userActions";
 
 // importing NavBanner, FormBanner
@@ -72,7 +72,7 @@ export default function Login() {
                 }, 6000);
 
                 setTimeout(() => {
-                    history.push('/movies');
+                    history.push('/protected-movies');
                 }, 8000);
             })
             .catch(error => {
