@@ -1,31 +1,109 @@
 .movie-list-container {
-    margin: 2% 5%;
+    margin: 2% auto;
+    width: 70%;
 
     .movie-list-heading {
-        // border-bottom: 1px dotted white;
-        padding-bottom: .3rem;
-        margin-bottom: 2rem;
+        border-bottom: 1px dotted var(--first-color);
+        margin-bottom: 4rem;
+        padding-bottom: 1rem;
         color: var(--first-color);
     }
 
     .movie-list {
-        width: 90%;
         margin: 0 auto;
         display: flex;
         flex-direction: column;
 
         .individual-movie-section {
             display: flex;
-            flex-wrap: wrap;
+            justify-content: space-between;
             margin-bottom: 1rem;
             border-bottom: 1px solid var(--first-color);
             padding-bottom: 10px;
+            height: 20vh;
 
             section {
-                flex-basis: 20%;
+                height: 100%;
                 // border-right: 1px dotted var(--first-color);
+                font-size: .9rem;
+                overflow: hidden;
+
+
+                &:first-of-type {
+                width: 10%;
+
+                    .poster {
+                        height: 100%;
+
+                        img {
+                            height: 100%;
+                            object-fit: cover;
+                        };
+                    }
+                }
+
+                &:nth-of-type(2) {
+                    width: 20%;
+                    padding-top: .3rem;
+
+                    p {
+                        color: var(--first-color);
+                        margin-bottom: .3rem;
+
+                        span {
+                            color: white
+                        }
+                    }
+                }
+
+                &:nth-of-type(3) {
+                    width: 45%;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    h4 {
+                        color: var(--first-color);
+                        margin-bottom: .4rem;
+                        padding-top: .3rem;
+                    }
+
+                    span {
+                        padding: 0 .5rem;
+                        border-right: 1px solid white;
+                        border-left: 1px solid white;
+                    }
+                }
+
+                &:nth-of-type(4) {
+                    width: 15%;
+
+                    button {
+                        margin-left: auto;
+                        width: 100%;
+                        padding: 3px 0;
+                        margin: .5rem 0;
+                        font-weight: bold;
+                        color: var(--font-color);
+                        background-color: var(--first-color);
+                        border: 3px solid var(--first-color);
+                        border-radius: 5px;
+                        text-transform: uppercase;
+                        cursor: pointer;
+                        transition: all 0.5s ease-in-out;
+                        background: transparent;
+                        color: var(--first-color);
+
+                        &:hover {
+                            background: transparent;
+                            color: var(--first-color);
+                            transition: all .5s ease;
+                            color: var(--font-color);
+                            background-color: var(--first-color);
+                        }
+                    }
+                }
             }
         }
     }
-    
 }
