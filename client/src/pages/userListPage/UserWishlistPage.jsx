@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
-//import { useDispatch } from "react-redux";
-//import { getMoviesWishlist } from "../../redux/actions/movieActions";
-// import { useSelector } from "react-redux";
 import axios from "../../util/APIinstance";
 
 // styling
-import "./UserWishlistPage.scss";
+import "./ListsPage.scss";
 
 export default function UserWishlistPage() {
     const [wishlistMovies, setWishlistMovies] = useState([]);
@@ -59,33 +56,42 @@ export default function UserWishlistPage() {
     };
 
     return (
-        <React.Fragment>
-            <h1>My Wishlist</h1>
-            <h2>Number of Movies: {numOfMovies}</h2>
+        <div className='movie-list-container'>
+            <div className="movie-list-heading">
+                <h2>Want to Watch ({numOfMovies})</h2>
+            </div>
+
+            <div className='movie-list'>
             {wishlistMovies.map((movie) => (
-                <div key={movie.imdb_id}>
-                    <p>{movie.title}</p>
-                    <div><img src={movie.image_url} alt={movie.title} /></div>
-                    <p>Rating: {movie.rating}</p>
-                    <button onClick={() => deleteMovie(movie.imdb_id)}>Delete</button>
-                    <button onClick={() => addMovieToWatched(movie)}>Watched</button>
+                <div key={movie.imdb_id} className='individual-movie-section'>
+                    <section>
+                        <div>
+                            <img src={movie.image_url} alt={movie.title} />
+                        </div>
+                    </section>
+
+                    <section>
+                        <p>Title: <span>{movie.title}</span></p>
+                        <p>Year: <span>{movie.year}</span></p>
+                        <p>Length: <span>{movie.movie_length}</span></p>
+                        <p>Rating: {movie.rating}</p>
+                    </section>
+
+                    <section>
+                        <h4>Plot</h4>
+                        <p>{movie.plot}</p>
+
+                        {movie.gen.map(gen => <span>{gen.genre}</span>)}
+                    </section>
+
+                    <section>
+                        <button onClick={() => deleteMovie(movie.imdb_id)}>Delete</button>
+                        
+                        <button onClick={() => addMovieToWatched(movie)}>Watched</button>
+                    </section>
                 </div>
             ))}
-        </React.Fragment>
+            </div>
+        </div>
     );
 }
-
-    /* const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getMoviesWishlist());
-    }, [dispatch]); */
-
-    // receiving data from the store
-    // const movies = useSelector((state) => state);
-    // console.log(movies);
-    // const favoriteMovies = useSelector((state) => state.movies.favoriteMovies);
-    // console.log(favoriteMovies);
-    //const watchedMovies = useSelector((state) => state.movies.watchedMovies);
-    //const wishlistMovies = useSelector((state) => state.movies.wishlistMovies);
-
-    //<p key={item.imdb_id}>{item}</p>
