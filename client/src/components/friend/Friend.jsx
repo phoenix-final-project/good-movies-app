@@ -5,7 +5,7 @@ import "./Friend.scss";
 
 export default function Friend({ friends, isFriend, searchedUser }) {
     const [listFriends, setListFriends] = useState([]);
-    const [userWishlist, setUserWishlist] = useState([]);
+    const [commonWishlist, setCommonWishlist] = useState([]);
 
     // Add a friend
     const addFriend = async (username) => {
@@ -25,8 +25,8 @@ export default function Friend({ friends, isFriend, searchedUser }) {
     // Delete a friend
     const deleteFriend = async (username) => {
         try {
-            const res = await axiosApiInstance.put("/api/user/friends/delete", {
-                username: "santa",
+            const res = await axiosApiInstance.put(`/api/user/friends/delete`, {
+                username: localStorage.getItem("username"),
                 friendUsername: username,
             });
             console.log(res.data);
@@ -37,26 +37,39 @@ export default function Friend({ friends, isFriend, searchedUser }) {
     };
 
     // Compare wishlist
-    const compareWishlist = () => {
-        console.log(userWishlist);
+    const compareWishlist = async (friendId) => {
+        try {
+            const res = await axiosApiInstance.get(
+                `http://localhost:5000/api/wishlist/compare/${localStorage.getItem(
+                    "user_id"
+                )}/${friendId}`
+            );
+            console.log(res.data);
+            setCommonWishlist(res.data);
+        } catch (error) {
+            console.log("Something went wrong", error.response.statusText);
+        }
     };
 
     // Get the list of friends
     const getFriends = async () => {
         try {
-            //const res = await axiosApiInstance.get(`/api/user/friends/${}`);
-            const res = await axiosApiInstance.get("/api/user/friends/santa");
+            const res = await axiosApiInstance.get(
+                `/api/user/friends/${localStorage.getItem("username")}`
+            );
             console.log(res.data);
             setListFriends(res.data);
-            //setIsError(false);
         } catch (error) {
             console.log("Something went wrong", error.response.statusText);
-            // setIsError(true);
-            // setErrorMessage(error.response.statusText);
         }
     };
 
-    // Get user wishlist
+    useEffect(() => {
+        getFriends();
+        //getUserWishlist();
+    }, []);
+
+    /* // Get user wishlist
     const getUserWishlist = async () => {
         try {
             const res = await axiosApiInstance.get(
@@ -70,12 +83,7 @@ export default function Friend({ friends, isFriend, searchedUser }) {
             // setIsError(true);
             // setErrorMessage(error.response.statusText);
         }
-    };
-
-    useEffect(() => {
-        getFriends();
-        getUserWishlist();
-    }, []);
+    }; */
 
     return (
         <div className="friends-box">
@@ -89,14 +97,13 @@ export default function Friend({ friends, isFriend, searchedUser }) {
                             </p>
                             <p>{item.username}</p>
                         </div>
+
                         {listFriends.some(
                             (friend) => friend.username === item.username
                         ) ? (
                             <div>
                                 <button
-                                    onClick={() =>
-                                        compareWishlist(item.wishlist)
-                                    }
+                                    onClick={() => compareWishlist(item.id)}
                                 >
                                     Compare wishlist
                                 </button>
@@ -114,6 +121,12 @@ export default function Friend({ friends, isFriend, searchedUser }) {
                     </div>
                 </div>
             ))}
+
+            {/* {commonWishlist.length !== 0 ? <div>
+                {commonWishlist.map((item) =>(
+
+                ))}
+                </div> : null} */}
         </div>
     );
 }
