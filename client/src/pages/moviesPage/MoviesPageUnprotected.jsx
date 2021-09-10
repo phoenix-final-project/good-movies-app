@@ -25,18 +25,12 @@ export default function MoviesPage() {
     const [lastPage1, setLastPage1] = useState();
     const [lastPage2, setLastPage2] = useState();
 
-    const handleLogout = () => {
-        window.localStorage.clear();
-        window.location.href = '/registration';
-    };
-
 
     const getUpcomingMovies = useCallback(async () => {
         try {
             let res = await axiosApiInstance.get(`/api/movie/upcoming/${page1}`);
 
             if (res.status === 200) {
-                console.log(res.data.numberOfPages, res.data.foundMovies);
                 setUpcomingMovies(res.data.foundMovies);
                 setLastPage1(res.data.numberOfPages)
             }
@@ -52,7 +46,6 @@ export default function MoviesPage() {
             let res = await axiosApiInstance.get(`/api/movie/toprated/${page2}`);
 
             if (res.status === 200) {
-                console.log(res.data.foundMovies);
                 setTopRatedMovies(res.data.foundMovies);
                 setLastPage2(res.data.numberOfPages)
 
@@ -68,8 +61,6 @@ export default function MoviesPage() {
     useEffect(() => {
         getUpcomingMovies();
         getTopRatedMovies();
-        console.log("Upcoming movies, page:", page1, lastPage1);
-        console.log("TopRated movies, page:", page2, lastPage2);
 
     }, [page1, page2, lastPage1, lastPage2, getUpcomingMovies, getTopRatedMovies]);
 
@@ -94,12 +85,12 @@ export default function MoviesPage() {
         <React.Fragment>
             <NavBanner>
                 <div className="container-button">
-                    <Link to='/my-list'><div className="tour">MY LIST</div></Link>
-                    <Link to='/watched'><div className="tour">WATCHED</div></Link>
-                    <Link to='/search-for-friends'><div className="tour">FRIENDS</div></Link>
-                    <Link to='/invite-friends'><div className="tour">INVITE FRIENDS</div></Link>
-                    <Link to='/my-profile'><div className="tour">PROFILE</div></Link>
-                    <Link ><button className="registration-btn" title='Registration' onClick={handleLogout}>logout</button></Link>
+                    <Link to='/registration'><div className="tour">MY LIST</div></Link>
+                    <Link to='/registration'><div className="tour">WATCHED</div></Link>
+                    <Link to='/registration'><div className="tour">FRIENDS</div></Link>
+                    <Link to='/registration'><div className="tour">INVITE FRIENDS</div></Link>
+                    <Link to='/registration'><div className="tour">PROFILE</div></Link>
+                    <Link to='/registration'><button className="registration-btn" title='return to main page'>get started</button></Link>
                 </div>
             </NavBanner>
 
