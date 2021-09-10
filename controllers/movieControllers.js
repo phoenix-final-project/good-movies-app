@@ -120,7 +120,7 @@ const moviesByUserGenre = async (req, res) => {
 
 // FOR SEARCH:
 // **************************************
-// GET movies by title
+// GET movies by title - limited to 10/page
 const moviesByTitle = async (req, res) => {
     let options = {
         method: "GET",
@@ -132,6 +132,7 @@ const moviesByTitle = async (req, res) => {
         .request(options)
         .then(async (response) => {
             const foundTitles = Object.values(response.data)[0];
+            const numberOfMovies = foundTitles.length;
 
             if (foundTitles.length === 0) {
                 return res.status(404).json({
@@ -139,12 +140,29 @@ const moviesByTitle = async (req, res) => {
                 });
             }
 
+            const page = req.params.page - 1;
+            const limit = 10;
+            const numberOfPages = Math.ceil(numberOfMovies / limit);
+
+            let start, end;
+
+            if (page >= 0 && page < numberOfPages) {
+                start = limit * page;
+                end = limit + start;
+            } else {
+                return res.status(500).json({ message: "No such page found" });
+            }
+            const foundTitlesPart = foundTitles.slice(start, end);
+
+
             // helper for extended info on movies
-            const withExtendedInfo = await findByIdAndMap(foundTitles);
+            const withExtendedInfo = await findByIdAndMap(foundTitlesPart);
 
             res.status(200).json({
                 searchParam: req.params.title,
-                numberOfMovies: foundTitles.length,
+                numberOfMovies: numberOfMovies,
+                numberOfPages: numberOfPages,
+                currentPage: +req.params.page,
                 foundMovies: withExtendedInfo,
             });
         })
@@ -174,23 +192,38 @@ const moviesByGenre = async (req, res) => {
 
             // getting ALL movies for that genre (can be a lot)
             const foundByGenre = Object.values(response.data)[0];
+            const numberOfMovies = foundByGenre.length;
 
             // then limiting a number of results of "foundByGenre" to 20
-            const foundByGenre20 = foundByGenre.slice(0, numberOfMoviesToShow);
+            // const foundByGenre20 = foundByGenre.slice(0, numberOfMoviesToShow);
 
             if (foundByGenre.length === 0) {
                 return res.status(404).json({
                     message: `No movies for *${req.params.genre}* were found`,
                 });
             }
+            const page = req.params.page - 1;
+            const limit = 10;
+            const numberOfPages = Math.ceil(numberOfMovies / limit);
+
+            let start, end;
+
+            if (page >= 0 && page < numberOfPages) {
+                start = limit * page;
+                end = limit + start;
+            } else {
+                return res.status(500).json({ message: "No such page found" });
+            }
+            const foundByGenrePart = foundByGenre.slice(start, end);
 
             // helper for extended info on movies
-            const withExtendedInfo = await findByIdAndMap(foundByGenre20);
+            const withExtendedInfo = await findByIdAndMap(foundByGenrePart);
 
             return res.status(200).json({
                 searchParam: req.params.genre,
-                numberOfMovies: foundByGenre.length,
-                numberOfMoviesToShow: numberOfMoviesToShow,
+                numberOfMovies: numberOfMovies,
+                numberOfPages: numberOfPages,
+                currentPage: +req.params.page,
                 foundMovies: withExtendedInfo,
             });
         })
@@ -212,6 +245,7 @@ const moviesByYear = async (req, res) => {
         .request(options)
         .then(async (response) => {
             const foundByYear = Object.values(response.data)[0];
+            const numberOfMovies = foundByYear.length;
 
             if (foundByYear.length === 0) {
                 return res.status(404).json({
@@ -219,12 +253,29 @@ const moviesByYear = async (req, res) => {
                 });
             }
 
+            const page = req.params.page - 1;
+            const limit = 10;
+            const numberOfPages = Math.ceil(numberOfMovies / limit);
+
+            let start, end;
+
+            if (page >= 0 && page < numberOfPages) {
+                start = limit * page;
+                end = limit + start;
+            } else {
+                return res.status(500).json({ message: "No such page found" });
+            }
+            const foundByYearPart = foundByYear.slice(start, end);
+
+
             // helper for extended info on movies
-            const withExtendedInfo = await findByIdAndMap(foundByYear);
+            const withExtendedInfo = await findByIdAndMap(foundByYearPart);
 
             return res.status(200).json({
                 searchParam: req.params.year,
-                numberOfMovies: foundByYear.length,
+                numberOfMovies: numberOfMovies,
+                numberOfPages: numberOfPages,
+                currentPage: +req.params.page,
                 foundMovies: withExtendedInfo,
             });
         })

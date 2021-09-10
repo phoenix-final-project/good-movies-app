@@ -51,7 +51,7 @@ export default function Banner() {
                     <div className="discover-button">
                         <h3 className='check-h3'>Want first to discover the app?</h3>
                         <span className="span-discover">
-                            <Link className='discover' to='/movies'>discover</Link>
+                            <Link className='discover' to='/public-movies'>discover</Link>
                         </span>
                     </div>
                     <Link to='/registration'>
