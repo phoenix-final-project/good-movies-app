@@ -18,7 +18,7 @@ export default function UserWishlistPage() {
     const getWishlistMovies = async () => {
         try {
             const res = await axios.get(
-                `/api/wishlist/61376a92dec13afb277dc9e6`
+                `/api/wishlist/${window.localStorage.getItem('user_id')}`
             );
             setWishlistMovies(res.data.data); 
             setNumOfMovies(res.data.numOfMovies);
@@ -30,7 +30,7 @@ export default function UserWishlistPage() {
     const deleteMovie = async(id) => {
         try {
             const res = await axios.delete(
-                `/api/wishlist/delete-movie/61376a92dec13afb277dc9e6/${id}`
+                `/api/wishlist/delete-movie/${window.localStorage.getItem('user_id')}/${id}`
             );
 
             // update state
@@ -46,7 +46,7 @@ export default function UserWishlistPage() {
     // Move to Watched
     const addMovieToWatched = async (movie) => {
         try {
-            const response = await axios.post(`/api/watched/add-movie/61376a92dec13afb277dc9e6/1`, { movie });
+            const response = await axios.post(`/api/watched/add-movie/${window.localStorage.getItem('user_id')}/1`, { movie });
 
             // update state
             const newWishlist = wishlistMovies.filter((item) => item.imdb_id !== movie.imdb_id);
