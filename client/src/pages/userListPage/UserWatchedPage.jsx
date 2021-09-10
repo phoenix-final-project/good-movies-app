@@ -35,14 +35,25 @@ function UserWatchedPage() {
             const newWatchedList = watchedListMovies.filter((movie) => movie.imdb_id !== id);
             setWatchedListMovies(newWatchedList);
 
-            console.log(res);
+            console.log(res.data);
         } catch (error) {
             console.log(error.response);
         }
     }
 
-    const addMovieToWishlist = (movie) => {
-        console.log('add to wishlist');
+    const addMovieToWishlist = async (movie) => {
+
+        try {
+            const response = await axios.post(`/api/wishlist/add-movie/61376a92dec13afb277dc9e6/1`, { movie });
+
+            // update state
+            const newWatchedList = watchedListMovies.filter((item) => item.imdb_id !== movie.imdb_id);
+            setWatchedListMovies(newWatchedList);
+
+            console.log(response.data);
+        } catch (error) {
+            console.log(error.response);
+        }
     }
 
     return (

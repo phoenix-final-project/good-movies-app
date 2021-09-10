@@ -4,7 +4,7 @@ const router = express.Router();
 const { addMovie, deleteMovie, showWatchedList } = require('../controllers/watchedController');
 const { ifMovieInWishOrWatchedLists, ifUserExists } = require('../middleware/movieListsChecks');
 
-router.post('/add-movie/:userId', ifMovieInWishOrWatchedLists, ifUserExists, addMovie);
+router.post('/add-movie/:userId/:action', ifMovieInWishOrWatchedLists, ifUserExists, addMovie);
 router.delete('/delete-movie/:userId/:movieId', deleteMovie);
 router.get('/:userId', showWatchedList);
 
