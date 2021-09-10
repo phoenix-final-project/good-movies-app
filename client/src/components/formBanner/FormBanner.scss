@@ -8,6 +8,7 @@
         margin-bottom: 30px;
         padding: 0 3rem ;
 
+
         &::after {
             content: ' STARTED.';
             color: var(--first-color);
@@ -79,7 +80,7 @@
     border-radius: 10px;
     text-align: center;
     font: 1.2em;
-    color: var(--font-color);
+    color: var(--container-color);
     background-color: var(--first-color);
 
     display: block;
