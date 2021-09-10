@@ -14,7 +14,7 @@ function UserWatchedPage() {
     const getWatchedListMovies = async () => {
         try {
             const res = await axios.get(
-                `/api/watched/61376a92dec13afb277dc9e6`
+                `/api/watched/${window.localStorage.getItem('user_id')}`
             );
 
             setWatchedListMovies(res.data.data);
@@ -28,7 +28,7 @@ function UserWatchedPage() {
     const deleteMovie = async(id) => {
         try {
             const res = await axios.delete(
-                `/api/watched/delete-movie/61376a92dec13afb277dc9e6/${id}`
+                `/api/watched/delete-movie/${window.localStorage.getItem('user_id')}/${id}`
             );
 
             // update state
@@ -44,7 +44,7 @@ function UserWatchedPage() {
     const addMovieToWishlist = async (movie) => {
 
         try {
-            const response = await axios.post(`/api/wishlist/add-movie/61376a92dec13afb277dc9e6/1`, { movie });
+            const response = await axios.post(`/api/wishlist/add-movie/${window.localStorage.getItem('user_id')}/1`, { movie });
 
             // update state
             const newWatchedList = watchedListMovies.filter((item) => item.imdb_id !== movie.imdb_id);

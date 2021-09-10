@@ -1,0 +1,31 @@
+.movie-list-container {
+    margin: 2% 5%;
+
+    .movie-list-heading {
+        // border-bottom: 1px dotted white;
+        padding-bottom: .3rem;
+        margin-bottom: 2rem;
+        color: var(--first-color);
+    }
+
+    .movie-list {
+        width: 90%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+
+        .individual-movie-section {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--first-color);
+            padding-bottom: 10px;
+
+            section {
+                flex-basis: 20%;
+                // border-right: 1px dotted var(--first-color);
+            }
+        }
+    }
+    
+}

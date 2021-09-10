@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const passport = require("passport");
 
 const {
     addMovie,
@@ -16,12 +17,21 @@ const {
 
 router.post(
     "/add-movie/:userId/:action",
+    passport.authenticate("jwt", { session: false }),
     ifMovieInWishOrWatchedLists,
     ifUserExists,
     addMovie
 );
-router.delete("/delete-movie/:userId/:movieId", deleteMovie);
-router.get("/:userId", showWishlist);
+router.delete(
+    "/delete-movie/:userId/:movieId",
+    passport.authenticate("jwt", { session: false }),
+    deleteMovie
+);
+router.get(
+    "/:userId",
+    passport.authenticate("jwt", { session: false }),
+    showWishlist
+);
 router.get("/compare/:userId/:friendUserId", compareWishlists);
 
 module.exports = router;

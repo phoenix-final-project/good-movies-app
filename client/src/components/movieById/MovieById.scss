@@ -1,0 +1,132 @@
+.movieCard {
+    // width: 660px;
+    width: 50vw;
+    height: 65vh;
+    min-height: 370px;
+    display: flex;
+    justify-content: space-between;
+    margin: 5px auto;
+    padding: 10px;
+    box-shadow: 0 0 10px var(--first-color);
+    position: relative;
+
+
+    button {
+        // margin: 6px 0;
+        margin-left: auto;
+        width: 160px;
+        padding: 3px 0;
+        font-weight: bold;
+        color: var(--font-color);
+        background-color: var(--first-color);
+        border: 3px solid var(--first-color);
+        border-radius: 5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.5s ease-in-out;
+        background: transparent;
+        color: var(--first-color);
+
+            &:hover {
+                background: transparent;
+                color: var(--first-color);
+                transition: all .5s ease;
+                color: var(--font-color);
+                background-color: var(--first-color);
+            }
+        }
+
+    .poster {
+        width: 20%;
+        min-width: 120px;
+        // background-color: black;
+        // height: 1.5v;
+
+        img {
+            width: 100%;
+            // height: 100%;
+        }
+    }
+
+    .info {
+        // position: relative;
+        width: 75%;
+        display: flex;
+        flex-flow: column;
+        justify-content: space-between;
+        padding: 5px 0;
+
+        h3 {
+            margin: 0;
+            color: var(--first-color);
+        }
+    }
+
+    .buttons {
+        width: 70%;
+        margin: 0 auto;
+        margin-top: 20px;
+        
+        h4 {
+            text-align: center;
+        }
+
+        button {
+            margin: 6px 0;
+            width: 100%;
+            padding: 3px 0;
+            color: var(--font-color);
+            font-weight: bold;
+            background-color: var(--first-color);
+            border: 3px solid var(--first-color);
+            border-radius: 5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.5s ease-in-out;
+
+                &:hover {
+                    background: transparent;
+                    color: var(--first-color);
+                    transition: all .5s ease;
+                }
+            }
+    }
+
+    .trailer {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.7);
+        // margin: 0 auto;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        transform: 1s;
+
+        iframe {
+            width: 90%;
+            height: 80%;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 0 30px black;
+        }
+
+        .close {
+            padding: 5px;
+            width: fit-content;
+            margin-left: auto;
+            color: var(--font-color);
+            font-weight: bold;
+            background-color: var(--first-color);
+            border: 3px solid var(--first-color);
+            border-radius: 5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.5s ease-in-out;
+        }
+    }
+    .hidden {
+        display: none;
+    }
+    
+}
