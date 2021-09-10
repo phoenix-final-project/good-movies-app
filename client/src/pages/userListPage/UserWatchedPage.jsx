@@ -35,7 +35,7 @@ function UserWatchedPage() {
             const newWatchedList = watchedListMovies.filter((movie) => movie.imdb_id !== id);
             setWatchedListMovies(newWatchedList);
 
-            console.log(res);
+            console.log(res.data);
         } catch (error) {
             console.log(error.response);
         }

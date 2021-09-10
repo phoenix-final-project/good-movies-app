@@ -37,7 +37,7 @@ export default function UserWishlistPage() {
             const newWishlist = wishlistMovies.filter((movie) => movie.imdb_id !== id);
             setWishlistMovies(newWishlist);
 
-            console.log(res);
+            console.log(res.data);
         } catch (error) {
             console.log(error.response);
         }
