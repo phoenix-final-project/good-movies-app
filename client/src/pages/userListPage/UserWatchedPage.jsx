@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../util/APIinstance";
 import DisplayList from './DisplayList';
+import ListsHeading from './ListsHeading';
 import "./ListsPage.scss";
 
 
@@ -60,10 +61,11 @@ function UserWatchedPage() {
 
     return (
         <div className='movie-list-container'>
-            <div className="movie-list-heading">
+            {/* <div className="movie-list-heading">
                 <h2>Watched ({numOfMovies})</h2>
                 <p>Search bar here</p>
-            </div>
+            </div> */}
+            <ListsHeading title='Watched' numOfMovies={numOfMovies} />
 
             <DisplayList movieList={watchedListMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWishlist} />
             
