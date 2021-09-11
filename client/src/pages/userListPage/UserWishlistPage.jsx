@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../util/APIinstance";
+import ListsHeading from './ListsHeading';
+
 
 // styling
 import "./ListsPage.scss";
@@ -58,10 +60,7 @@ export default function UserWishlistPage() {
 
     return (
         <div className='movie-list-container'>
-            <div className="movie-list-heading">
-                <h2>Want to Watch ({numOfMovies})</h2>
-                <p>Search bar here</p>
-            </div>
+            <ListsHeading title='Want to Watch' numOfMovies={numOfMovies} />
 
             <DisplayList movieList={wishlistMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWatched} />
         </div>
