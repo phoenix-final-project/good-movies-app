@@ -79,7 +79,7 @@ export default function MovieById({ movieId }) {
                     <h4>Add to:</h4>
                     <button onClick={addMovieToWishList}> Wishlist </button>
                     <button onClick={addMovieToWatchedList}> Watched </button>
-                    <button onClick={addMovieToFavoriteList} disabled="true"> Favorite </button>
+                    <button onClick={addMovieToFavoriteList} disabled={true}> Favorite </button>
                 </div>
             </div>
 
@@ -89,13 +89,13 @@ export default function MovieById({ movieId }) {
                     <div>Length: {movie.movie_length} min | Rating: {movie.rating} </div>
                 </div>
 
-                <p>
+                <div>
                     <h4>Description</h4>
-                    <div>{movie.description}</div>
-                </p>
+                    <p>{movie.description}</p>
+                </div>
 
                 {/* GENRES */}
-                {movie.gen ? <p> | {movie.gen.map(genre => <span> {genre.genre} |</span>)} </p> : null}
+                {movie.gen ? <p> | {movie.gen.map(genre => <span key={genre.id}> {genre.genre} |</span>)} </p> : null}
 
                 <button onClick={(e) => setTrailerOn("")}> Watch a Trailer </button>
 
@@ -106,7 +106,7 @@ export default function MovieById({ movieId }) {
                         Close X
                     </div>
 
-                    <iframe src={movie.trailer} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <iframe src={movie.trailer} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
                 </div>
 
 

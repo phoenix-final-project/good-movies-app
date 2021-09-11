@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../util/APIinstance";
+import DisplayList from './DisplayList';
+import "./ListsPage.scss";
 
 
 function UserWatchedPage() {
@@ -57,21 +59,15 @@ function UserWatchedPage() {
     }
 
     return (
-        <React.Fragment>
-            <h1>Movies I watched</h1>
-            <h2>Number of Movies: {numOfMovies}</h2>
+        <div className='movie-list-container'>
+            <div className="movie-list-heading">
+                <h2>Watched ({numOfMovies})</h2>
+                <p>Search bar here</p>
+            </div>
 
-            {watchedListMovies.map((movie) => (
-                <div key={movie.imdb_id}>
-                    <p>{movie.title}</p>
-                    <div><img src={movie.image_url} alt={movie.title} /></div>
-                    <p>Rating: {movie.rating}</p>
-                    <button onClick={() => deleteMovie(movie.imdb_id)}>Delete</button>
-                    <button onClick={() => addMovieToWishlist(movie)}>Wishlist</button>
-                    <button>Favorite</button>
-                </div>
-            ))}
-        </React.Fragment>
+            <DisplayList movieList={watchedListMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWishlist} />
+            
+        </div>
     )
 }
 

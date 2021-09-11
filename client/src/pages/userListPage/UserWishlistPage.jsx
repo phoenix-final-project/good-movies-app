@@ -3,6 +3,7 @@ import axios from "../../util/APIinstance";
 
 // styling
 import "./ListsPage.scss";
+import DisplayList from './DisplayList';
 
 export default function UserWishlistPage() {
     const [wishlistMovies, setWishlistMovies] = useState([]);
@@ -58,45 +59,11 @@ export default function UserWishlistPage() {
     return (
         <div className='movie-list-container'>
             <div className="movie-list-heading">
-                <h1>Want to Watch ({numOfMovies})</h1>
+                <h2>Want to Watch ({numOfMovies})</h2>
+                <p>Search bar here</p>
             </div>
 
-            <div className='movie-list'>
-            {wishlistMovies.map((movie) => (
-                <div key={movie.imdb_id} className='individual-movie-section'>
-                    <section>
-                        <div className='poster'>
-                            <img src={movie.image_url} alt={movie.title} />
-                        </div>
-                    </section>
-
-                    <section>
-                        <p>Title: <span>{movie.title}</span></p>
-                        <p>Year: <span>{movie.year}</span></p>
-                        { movie.movie_length !== 0 && <p>Length: <span>{movie.movie_length}</span></p>}
-                        {movie.rating !== 0 && <p>Rating: <span>{movie.rating}</span></p>}
-                    </section>
-
-                    <section>
-                        <div>
-                            <h4>Plot</h4>
-                            <p>{movie.plot}</p>
-                        </div>
-                        <div>
-                            {movie.gen.map(gen => <span>{gen.genre}</span>)}
-                        </div>
-                    </section>
-
-                    <section>
-                        <button onClick={() => deleteMovie(movie.imdb_id)}>Delete</button>
-                        
-                        <button onClick={() => addMovieToWatched(movie)}>Watched</button>
-
-                        <button>Favorite</button>
-                    </section>
-                </div>
-            ))}
-            </div>
+            <DisplayList movieList={wishlistMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWatched} />
         </div>
     );
 }
