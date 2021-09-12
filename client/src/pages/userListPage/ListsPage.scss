@@ -62,17 +62,18 @@
 
                     a {
                         background-color: var(--first-color);
-                        color: black;
+                        color: var(--title-color);
                         padding: 2px 5px;
-                        border-radius: .5rem;
-                        border: 1px solid inherit;
+                        border-radius: .4rem;
+                        border: 2px solid inherit;
                         display: inline-block;
+                        font-weight: 600;
+
 
                         &:hover {
                             background-color: inherit;
-                            border: 1px solid var(--first-color);
+                            border: 2px solid var(--first-color);
                             color: var(--first-color);
-                            font-weight: bold;
 
                         }
                     }
