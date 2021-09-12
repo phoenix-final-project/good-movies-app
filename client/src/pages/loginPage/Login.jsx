@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 // redux, dispatch
 import { useDispatch } from "react-redux";
@@ -15,6 +16,7 @@ import FormBanner from '../../components/formBanner/FormBanner';
 import "./Login.scss";
 
 export default function Login() {
+    let history = useHistory();
 
     const [values, setValues] = useState({
         username: '',
@@ -25,7 +27,6 @@ export default function Login() {
     const [isSubmitted, setIsSubmitted] = useState(false);
     // const [alertMessage, setAlertMessage] = useState("hidden");
 
-    const [status, setStatus] = useState('login');
     const [alertMessage, setAlertMessage] = useState("hidden");
 
     const [alertMessageError, setAlertMessageError] = useState("hidden");
