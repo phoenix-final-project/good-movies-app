@@ -48,7 +48,7 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
     // Sending movie to wishlist in backend
     const addMovieToWishList = async () => {
         try {
-            const res = await axiosApiInstance.post(`/api/wishlist/add-movie/${window.localStorage.getItem('user_id')}/0`, { movie });
+            const res = await axiosApiInstance.post(`/api/wishlist/add-movie/${window.localStorage.getItem('user_id')}`, { movie });
 
             console.log(res.data);
         } catch (error) {
@@ -58,7 +58,7 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 
     const addMovieToWatchedList = async () => {
         try {
-            const response = await axiosApiInstance.post(`/api/watched/add-movie/${window.localStorage.getItem('user_id')}/0`, { movie });
+            const response = await axiosApiInstance.post(`/api/watched/add-movie/${window.localStorage.getItem('user_id')}`, { movie });
 
             console.log(response.data);
         } catch (error) {

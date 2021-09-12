@@ -46,7 +46,7 @@ export default function UserWishlistPage() {
     // Move to Watched
     const addMovieToWatched = async (movie) => {
         try {
-            const response = await axios.post(`/api/watched/add-movie/${window.localStorage.getItem('user_id')}/1`, { movie });
+            const response = await axios.post(`/api/watched/add-movie/${window.localStorage.getItem('user_id')}`, { movie });
 
             // update state
             const newWishlist = wishlistMovies.filter((item) => item.imdb_id !== movie.imdb_id);
