@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // importing Link
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import axiosApiInstance from "../../util/APIinstance";
 
@@ -12,7 +12,6 @@ import ValidationErrorRegistration from "../../components/validation/ValidationE
 import './RegistrationPage.scss';
 
 // importing NavBanner, FormBanner
-import NavBanner from "../../components/navBanner/NavBanner";
 import FormBanner from '../../components/formBanner/FormBanner';
 
 function RegistrationPage() {
@@ -116,18 +115,12 @@ function RegistrationPage() {
 
     return (
         <React.Fragment>
-            <NavBanner>
-                <div className="container-button">
-                    <h3 className='h3'>Already have an account?</h3>
-                    <Link to='/login'><button className="registration-btn" title='If a register already exists, please login'>login</button></Link>
-                </div>
-            </NavBanner>
+
             <section className="registration">
                 <FormBanner title='Please create an account by filling out the information below to get'>
                     {/* NOTIFICATIONS - success / error */}
                     <div className={alertMessage}>{username} has been successfully registered! Please, log in. </div>
 
-                    {/* <div className={alertMessageError}>{values.username}, unfortunately, an error occurred. Please try again later! </div> */}
                     <div className={alertMessageError}>{errorMessageDatabase}</div>
 
                     {/* REGISTRATION FORM */}
