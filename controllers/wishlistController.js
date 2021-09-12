@@ -41,3 +41,14 @@ exports.showWishlist = async (req, res) => {
 		res.status(400).json({ error: error.message });
 	}
 };
+
+exports.getMoviesIds = async (req, res) => {
+	const { userId } = req.params;
+	try {
+		const docs = await WishList.find({ user: userId });
+		const arrayOfIds = docs.map(item => item.movieId);
+		res.send(arrayOfIds);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};

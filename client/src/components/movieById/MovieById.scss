@@ -104,6 +104,13 @@
                     color: var(--first-color);
                     transition: all .5s ease;
                 }
+            &.added {
+                background: #333333;
+
+                &:hover {
+                    color: var(--font-color);
+                }
+            }
             }
     }
 

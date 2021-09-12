@@ -14,7 +14,11 @@ import "./MovieById.scss";
 export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCardOn }) {
     // local state
     const [movie, setMovie] = useState({});
-    const [trailerOn, setTrailerOn] = useState("hidden")
+    const [trailerOn, setTrailerOn] = useState("hidden");
+
+    // for buttons
+    const [wishlistMoviesIds, setWishlistMoviesIds] = useState([]);
+    const [addedToWishlist, setAddedToWishlist] = useState();
 
 
     const getMovieById = useCallback(async () => {
@@ -32,10 +36,28 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
         }
     }, [movieId]);
 
+    const getWishlistIds = async () => {
+        try {
+            const wishlistIds = await axiosApiInstance.get(`/api/wishlist/movies-id/${window.localStorage.getItem('user_id')}`);
+            setWishlistMoviesIds(wishlistIds.data)
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     // fetching data from backend (movieById)
     useEffect(() => {
         getMovieById();
-    }, [getMovieById]);
+
+        // for setting buttons
+        getWishlistIds();
+        // console.log('IF INCLUDES', wishlistMoviesIds.includes(movieId));
+        if(wishlistMoviesIds.includes(movieId)) setAddedToWishlist(true);
+        else setAddedToWishlist(false);
+    }, [getMovieById, movieId]);
+
+
 
     // Dispatch actions
     const dispatch = useDispatch();
@@ -66,6 +88,8 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
         }
     };
 
+    console.log('AAAAAAAAAAAaa', {movieId, addedToWishlist});
+
     return (
         <div className={`showMovie ${movieCardOn}`} >
             <div className="movieCard">
@@ -74,7 +98,7 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 
                     <div className="buttons">
                         <h4>Add to:</h4>
-                        <button onClick={addMovieToWishList}> Wishlist </button>
+                        {addedToWishlist ? <button className='added'> Added </button> : <button onClick={addMovieToWishList}> Wishlist </button>}
                         <button onClick={addMovieToWatchedList}> Watched </button>
                         {/* <button onClick={addMovieToFavoriteList} disabled="true"> Favorite </button> */}
                         <button disabled={true}> Favorite </button>
