@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../util/APIinstance";
+import DisplayList from './DisplayList';
+import ListsHeading from './ListsHeading';
+import "./ListsPage.scss";
 
 
 function UserWatchedPage() {
     const [watchedListMovies, setWatchedListMovies ] = useState([]);
     const [numOfMovies, setNumOfMovies] = useState(0);
-
 
     useEffect(() => {
         getWatchedListMovies();
@@ -13,13 +15,10 @@ function UserWatchedPage() {
 
     const getWatchedListMovies = async () => {
         try {
-            const res = await axios.get(
-                `/api/watched/${window.localStorage.getItem('user_id')}`
-            );
+            const res = await axios.get(`/api/watched/${window.localStorage.getItem('user_id')}`);
 
             setWatchedListMovies(res.data.data);
             setNumOfMovies(res.data.numOfMovies);
-
         } catch (error) {
             console.log(error.response);
         }
@@ -27,9 +26,7 @@ function UserWatchedPage() {
 
     const deleteMovie = async(id) => {
         try {
-            const res = await axios.delete(
-                `/api/watched/delete-movie/${window.localStorage.getItem('user_id')}/${id}`
-            );
+            const res = await axios.delete(`/api/watched/delete-movie/${window.localStorage.getItem('user_id')}/${id}`);
 
             // update state
             const newWatchedList = watchedListMovies.filter((movie) => movie.imdb_id !== id);
@@ -42,7 +39,6 @@ function UserWatchedPage() {
     }
 
     const addMovieToWishlist = async (movie) => {
-
         try {
             const response = await axios.post(`/api/wishlist/add-movie/${window.localStorage.getItem('user_id')}/1`, { movie });
 
@@ -57,21 +53,12 @@ function UserWatchedPage() {
     }
 
     return (
-        <React.Fragment>
-            <h1>Movies I watched</h1>
-            <h2>Number of Movies: {numOfMovies}</h2>
+        <div className='movie-list-container'>
+            <ListsHeading title='Watched' numOfMovies={numOfMovies} />
 
-            {watchedListMovies.map((movie) => (
-                <div key={movie.imdb_id}>
-                    <p>{movie.title}</p>
-                    <div><img src={movie.image_url} alt={movie.title} /></div>
-                    <p>Rating: {movie.rating}</p>
-                    <button onClick={() => deleteMovie(movie.imdb_id)}>Delete</button>
-                    <button onClick={() => addMovieToWishlist(movie)}>Wishlist</button>
-                    <button>Favorite</button>
-                </div>
-            ))}
-        </React.Fragment>
+            <DisplayList movieList={watchedListMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWishlist} />
+            
+        </div>
     )
 }
 

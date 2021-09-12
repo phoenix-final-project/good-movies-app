@@ -66,13 +66,9 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
         }
     };
 
-
     return (
-
         <div className={`showMovie ${movieCardOn}`} >
-
             <div className="movieCard">
-
                 <div className="poster">
                     <img src={movie.image_url} alt={movie.title} />
 
