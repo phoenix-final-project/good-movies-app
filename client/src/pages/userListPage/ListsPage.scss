@@ -50,7 +50,6 @@
 
                 &:nth-of-type(2) {
                     width: 20%;
-                    padding-top: 1.7rem;
 
                     p {
                         color: var(--first-color);
@@ -58,6 +57,23 @@
 
                         span {
                             color: white
+                        }
+                    }
+
+                    a {
+                        background-color: var(--first-color);
+                        color: black;
+                        padding: 2px 5px;
+                        border-radius: .5rem;
+                        border: 1px solid inherit;
+                        display: inline-block;
+
+                        &:hover {
+                            background-color: inherit;
+                            border: 1px solid var(--first-color);
+                            color: var(--first-color);
+                            font-weight: bold;
+
                         }
                     }
                 }

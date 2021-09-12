@@ -17,6 +17,7 @@ function DisplayList({ movieList, deleteMovie, addMovieToAnotherList }) {
                         <p>Year: <span>{movie.year}</span></p>
                         { movie.movie_length !== 0 && <p>Length: <span>{movie.movie_length}</span></p>}
                         {movie.rating !== 0 && <p>Rating: <span>{movie.rating}</span></p>}
+                        <a href={`https://www.imdb.com/title/${movie.imdb_id}`} target="_blank" rel="noreferrer noopener">IMDb</a>
                     </section>
 
                     <section>

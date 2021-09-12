@@ -11,12 +11,13 @@ exports.getListFromCache = async (schema, userId) => {
 		const { movieId } = item;
 		let foundMovie;
 
-		// find movie in Redis. If movie is not there, got to the external API
+		// find movie in Redis
 		const movie = await redisClient.get(movieId);
 
 		if (movie) {
 			foundMovie = JSON.parse(movie);
 		} else {
+			//If movie is not in Redis, go to the external API
 			const movieFromApi = await findMovieById(movieId);
 			foundMovie = Object.values(movieFromApi)[0];
 		}
