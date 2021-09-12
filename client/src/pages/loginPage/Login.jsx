@@ -8,6 +8,9 @@ import { useDispatch } from "react-redux";
 import axiosApiInstance from "../../util/APIinstance"; 
 import { loginUser } from "../../redux/actions/userActions";
 
+// validation errors
+import { ValidationErrorLogin } from "../../components/validation/ValidationError";
+
 // importing NavBanner, FormBanner
 import NavBanner from "../../components/navBanner/NavBanner";
 import FormBanner from '../../components/formBanner/FormBanner';
@@ -23,9 +26,11 @@ export default function Login() {
     });
 
     const [ status, setStatus ] = useState('login');
-    const [alertMessage, setAlertMessage] = useState("hidden");
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    // const [alertMessage, setAlertMessage] = useState("hidden");
     const [alertMessageError, setAlertMessageError] = useState("hidden");
     const [errorMessageDatabase, setErrorMessageDatabase] = useState("");
+    const [ errors, setErrors ] = useState({});
 
     // handle change
     const handleChange = (e) => {
@@ -45,7 +50,13 @@ export default function Login() {
     // handle submit
     const handleSubmit = (e) => {
         e.preventDefault();
-        axiosApiInstance.post('/api/user/login', values)
+        setIsSubmitted(true);
+        const checkErrors = ValidationErrorLogin(values);
+
+        if (Object.keys(checkErrors).length !== 0 ) {
+            setErrors(checkErrors);
+        }
+        else {axiosApiInstance.post('/api/user/login', values)
             .then(response => {
                 if (response.status === 200) {
                     dispatch(loginUser(response.data.user, response.data.token));
@@ -58,22 +69,24 @@ export default function Login() {
                 setStatus('in process...');
                 e.target.reset();
     
-                setTimeout(() => {
-                    setStatus("login");
-                }, 3000);
-    
                 // redirect to login
                 setTimeout(() => {
-                    setAlertMessage('alert');
-                }, 3000);
-
-                setTimeout(() => {
-                    setAlertMessage('hidden');
-                }, 6000);
-
-                setTimeout(() => {
+                    setStatus("login");
                     history.push('/protected-movies');
-                }, 8000);
+                }, 3000);
+    
+                
+                // setTimeout(() => {
+                //     setAlertMessage('alert');
+                // }, 3000);
+
+                // setTimeout(() => {
+                //     setAlertMessage('hidden');
+                // }, 6000);
+
+                // setTimeout(() => {
+                    
+                // }, 8000);
             })
             .catch(error => {
                 if (error.response.data.message) {
@@ -82,15 +95,26 @@ export default function Login() {
 
                 if (error.response.data.error) {
                     setErrorMessageDatabase(error.response.data.error.errors[0].msg)
-                }
+                };
 
                 setAlertMessageError('error');
-                e.target.reset();
 
                 setTimeout(() => {
                     setAlertMessageError('hidden');
-                }, 4000)
+                    e.target.reset();
+                }, 4000);
             });
+        }
+    };
+
+    const handleBlur = () => {
+        if (isSubmitted) {
+            const checkErrors = ValidationErrorLogin(values);
+
+            if (Object.keys(checkErrors).length !== -1 ) {
+                setErrors(checkErrors);
+            }
+        }
     };
 
     return (
@@ -103,17 +127,17 @@ export default function Login() {
             <section className="registration">
                 <FormBanner title='Login with your existing account to get'>
                     {/* NOTIFICATIONS - success / error */}
-                    <div className={alertMessage}>{values.username} successfully logged in.</div>
+                    {/*<div className={alertMessage}>{values.username} successfully logged in.</div>*/}
                     <div className={alertMessageError}>{errorMessageDatabase}</div>
 
                     <form className="form-container" onSubmit={handleSubmit}>
                         {/* USERNAME */}
-                        <label htmlFor="username">username * </label>
-                        <input type="text" name="username" onChange={handleChange} />
+                        <label htmlFor="username">username * {errors.username && <span className='error-para'>{errors.username}</span> }</label>
+                        <input type="text" name="username" onChange={handleChange} onBlur={handleBlur}/>
 
                         {/* PASSWORD */}
-                        <label htmlFor="password">password * </label>
-                        <input type="password" name="password" onChange={handleChange} />
+                        <label htmlFor="password">password * {errors.username && <span className='error-para'>{errors.username}</span> }</label>
+                        <input type="password" name="password" onChange={handleChange} onBlur={handleBlur}/>
 
                         <button className='submit-btn' type="submit" title='Please submit'>{status}</button>
                     </form>

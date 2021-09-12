@@ -21,7 +21,7 @@ function RegistrationPage() {
 
     // useState
     const [status, setStatus] = useState("sign up");
-    const [alertMessage, setAlertMessage] = useState("hidden");
+    // const [alertMessage, setAlertMessage] = useState("hidden");
     const [alertMessageError, setAlertMessageError] = useState("hidden");
     const [values, setValues] = useState({
         username: '',
@@ -34,7 +34,7 @@ function RegistrationPage() {
     const [ errors, setErrors ] = useState({});
     const [errorMessageDatabase, setErrorMessageDatabase] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [username, setUsername] = useState('');
+    // const [username, setUsername] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -43,8 +43,8 @@ function RegistrationPage() {
             ...values,
             [name]: value
         });
-        console.log(values.username);
-        setUsername(values.username);
+        // console.log(values.username);
+        // setUsername(values.username);
     };
 
     const handleSubmit = (e) => {
@@ -68,22 +68,24 @@ function RegistrationPage() {
                         password: '',
                     });
     
-                    setTimeout(() => {
-                        setStatus("sign up");
-                    }, 2000);
-    
                     // redirect to login
                     setTimeout(() => {
-                        setAlertMessage('alert');
-                    }, 3000);
-
-                    setTimeout(() => {
-                        setAlertMessage('hidden');
-                    }, 5000);
-
-                    setTimeout(() => {
+                        setStatus("sign up");
                         history.push('/login');
-                    }, 6000);
+                    }, 2000);
+    
+                    
+                    // setTimeout(() => {
+                    //     setAlertMessage('alert');
+                    // }, 3000);
+
+                    // setTimeout(() => {
+                    //     setAlertMessage('hidden');
+                    // }, 5000);
+
+                    // setTimeout(() => {
+                        
+                    // }, 6000);
                 })
                 .catch(error => {
                     if (error.response.data.message) {
@@ -92,14 +94,14 @@ function RegistrationPage() {
 
                     if (error.response.data.error) {
                         setErrorMessageDatabase(error.response.data.error.errors[0].msg)
-                    }
+                    };
 
                     setAlertMessageError('error');
                     e.target.reset();
 
                     setTimeout(() => {
                         setAlertMessageError('hidden');
-                    }, 4000)
+                    }, 4000);
                 });
         }
     };
@@ -125,7 +127,7 @@ function RegistrationPage() {
             <section className="registration">
                 <FormBanner title='Please create an account by filling out the information below to get'>
                     {/* NOTIFICATIONS - success / error */}
-                    <div className={alertMessage}>{username} has been successfully registered! Please, log in. </div>
+                   {/* <div className={alertMessage}>{username} has been successfully registered! Please, log in. </div> */}
 
                     {/* <div className={alertMessageError}>{values.username}, unfortunately, an error occurred. Please try again later! </div> */}
                     <div className={alertMessageError}>{errorMessageDatabase}</div>
