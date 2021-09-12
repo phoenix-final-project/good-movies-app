@@ -11,10 +11,11 @@ import {
 import "./MovieById.scss";
 
 
-export default function MovieById({ movieId }) {
+export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCardOn }) {
     // local state
     const [movie, setMovie] = useState({});
     const [trailerOn, setTrailerOn] = useState("hidden")
+
 
     const getMovieById = useCallback(async () => {
         try {
@@ -65,53 +66,56 @@ export default function MovieById({ movieId }) {
         }
     };
 
-    // const watchTrailer = () => {
-    //     setTrailerOn("")
-    // }
-
     return (
-        <div className="movieCard">
+        <div className={`showMovie ${movieCardOn}`} >
+            <div className="movieCard">
+                <div className="poster">
+                    <img src={movie.image_url} alt={movie.title} />
 
-            <div className="poster">
-                <img src={movie.image_url} alt={movie.title} />
-
-                <div className="buttons">
-                    <h4>Add to:</h4>
-                    <button onClick={addMovieToWishList}> Wishlist </button>
-                    <button onClick={addMovieToWatchedList}> Watched </button>
-                    <button onClick={addMovieToFavoriteList} disabled={true}> Favorite </button>
-                </div>
-            </div>
-
-            <div className="info">
-                <div>
-                    <h3>{movie.title} ({movie.year}) </h3>
-                    <div>Length: {movie.movie_length} min | Rating: {movie.rating} </div>
+                    <div className="buttons">
+                        <h4>Add to:</h4>
+                        <button onClick={addMovieToWishList}> Wishlist </button>
+                        <button onClick={addMovieToWatchedList}> Watched </button>
+                        {/* <button onClick={addMovieToFavoriteList} disabled="true"> Favorite </button> */}
+                        <button disabled={true}> Favorite </button>
+                    </div>
                 </div>
 
-                <div>
-                    <h4>Description</h4>
-                    <p>{movie.description}</p>
-                </div>
+                <div className="info">
 
-                {/* GENRES */}
-                {movie.gen ? <p> | {movie.gen.map(genre => <span key={genre.id}> {genre.genre} |</span>)} </p> : null}
-
-                <button onClick={(e) => setTrailerOn("")}> Watch a Trailer </button>
-
-
-                {/* TRAILER */}
-                <div className={`trailer ${trailerOn}`}>
-                    <div onClick={(e) => setTrailerOn("hidden")} className="close">
+                    <button className="closeCard" onClick={(e) => {
+                        setMovieCardOn("hidden")
+                        // setMovieId("")
+                    }} >
                         Close X
+                    </button>
+
+                    <div>
+                        <h3>{movie.title} ({movie.year}) </h3>
+                        <div>Length: {movie.movie_length} min | Rating: {movie.rating} </div>
                     </div>
 
-                    <iframe src={movie.trailer} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+                    <div>
+                        <h4>Description</h4>
+                        <div>{movie.description}</div>
+                    </div>
+
+                    {/* GENRES */}
+                    {movie.gen ? <p> | {movie.gen.map(genre => <span key={genre.genre}> {genre.genre} |</span>)} </p> : null}
+
+                    <button onClick={(e) => setTrailerOn("")}> Watch a Trailer </button>
+
+                    {/* TRAILER */}
+                    <div className={`trailer ${trailerOn}`}>
+                        <iframe src={movie.trailer} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
+
+                        <div onClick={() => setTrailerOn("hidden")} className="close">
+                            Close Trailer X
+                        </div>
+                    </div>
+
                 </div>
-
-
             </div>
-
         </div>
     );
 }

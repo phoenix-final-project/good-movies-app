@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 
-// importing Link
-import { Link, useHistory } from "react-router-dom";
-
 // redux, dispatch
 import { useDispatch } from "react-redux";
-import axiosApiInstance from "../../util/APIinstance"; 
+import axiosApiInstance from "../../util/APIinstance";
 import { loginUser } from "../../redux/actions/userActions";
 
 // importing NavBanner, FormBanner
-import NavBanner from "../../components/navBanner/NavBanner";
 import FormBanner from '../../components/formBanner/FormBanner';
 
 // styling
@@ -22,7 +18,7 @@ export default function Login() {
         password: ''
     });
 
-    const [ status, setStatus ] = useState('login');
+    const [status, setStatus] = useState('login');
     const [alertMessage, setAlertMessage] = useState("hidden");
     const [alertMessageError, setAlertMessageError] = useState("hidden");
     const [errorMessageDatabase, setErrorMessageDatabase] = useState("");
@@ -39,8 +35,6 @@ export default function Login() {
 
     // Dispatch actions
     const dispatch = useDispatch();
-    const history = useHistory();
-
 
     // handle submit
     const handleSubmit = (e) => {
@@ -57,23 +51,24 @@ export default function Login() {
             .then(view => {
                 setStatus('in process...');
                 e.target.reset();
-    
+
                 setTimeout(() => {
                     setStatus("login");
-                }, 3000);
-    
+                }, 1000);
+
                 // redirect to login
                 setTimeout(() => {
                     setAlertMessage('alert');
-                }, 3000);
+                }, 1000);
+
+                // setTimeout(() => {
+                //     setAlertMessage('hidden');
+                // }, 2000);
 
                 setTimeout(() => {
-                    setAlertMessage('hidden');
-                }, 6000);
+                    window.location.href = '/movies';
 
-                setTimeout(() => {
-                    history.push('/protected-movies');
-                }, 8000);
+                }, 2500);
             })
             .catch(error => {
                 if (error.response.data.message) {
@@ -95,11 +90,7 @@ export default function Login() {
 
     return (
         <React.Fragment>
-            <NavBanner>
-                <div className="container-button">
-                    <Link to='/'><button className="registration-btn" title='return to main page'>return home</button></Link>
-                </div>
-            </NavBanner>
+
             <section className="registration">
                 <FormBanner title='Login with your existing account to get'>
                     {/* NOTIFICATIONS - success / error */}
