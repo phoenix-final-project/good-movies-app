@@ -60,7 +60,7 @@ exports.loginUser = async (req, res) => {
         if (user === null || user.deleted === true) {
             return res
                 .status(404)
-                .json({ message: `${username} couldn\'t be found` });
+                .json({ message: `User ${username} not found` });
         }
 
         // comparing passwords
@@ -74,7 +74,7 @@ exports.loginUser = async (req, res) => {
 
         // issuing a session token
         const token = await generateToken(user);
-        // console.log(token);
+        console.log(token);
 
         res.status(200).json({
             success: true,
