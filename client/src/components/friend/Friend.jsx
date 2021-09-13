@@ -47,7 +47,7 @@ export default function Friend({ friends, isFriend, searchedUser }) {
             console.log(res.data);
             setCommonWishlist(res.data);
         } catch (error) {
-            console.log("Something went wrong", error.response.statusText);
+            console.log("Something went wrong", error.response.data.error);
         }
     };
 
@@ -60,30 +60,13 @@ export default function Friend({ friends, isFriend, searchedUser }) {
             console.log(res.data);
             setListFriends(res.data);
         } catch (error) {
-            console.log("Something went wrong", error.response.statusText);
+            console.log("Something went wrong", error.response.data.error);
         }
     };
 
     useEffect(() => {
         getFriends();
-        //getUserWishlist();
     }, []);
-
-    /* // Get user wishlist
-    const getUserWishlist = async () => {
-        try {
-            const res = await axiosApiInstance.get(
-                "/api/wishlist/61376a92dec13afb277dc9e6"
-            );
-            //console.log(res.data);
-            setUserWishlist(res.data);
-            //setIsError(false);
-        } catch (error) {
-            console.log("Something went wrong", error.response.statusText);
-            // setIsError(true);
-            // setErrorMessage(error.response.statusText);
-        }
-    }; */
 
     return (
         <div className="friends-box">
@@ -121,12 +104,6 @@ export default function Friend({ friends, isFriend, searchedUser }) {
                     </div>
                 </div>
             ))}
-
-            {/* {commonWishlist.length !== 0 ? <div>
-                {commonWishlist.map((item) =>(
-
-                ))}
-                </div> : null} */}
         </div>
     );
 }
