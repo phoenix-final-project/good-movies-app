@@ -8,6 +8,9 @@ import { loginUser } from "../../redux/actions/userActions";
 // importing NavBanner, FormBanner
 import FormBanner from '../../components/formBanner/FormBanner';
 
+// validation errors
+import { ValidationErrorLogin } from "../../components/validation/ValidationError";
+
 // styling
 import "./Login.scss";
 
@@ -22,6 +25,8 @@ export default function Login() {
     const [alertMessage, setAlertMessage] = useState("hidden");
     const [alertMessageError, setAlertMessageError] = useState("hidden");
     const [errorMessageDatabase, setErrorMessageDatabase] = useState("");
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [ errors, setErrors ] = useState({});
 
     // handle change
     const handleChange = (e) => {
@@ -39,7 +44,14 @@ export default function Login() {
     // handle submit
     const handleSubmit = (e) => {
         e.preventDefault();
-        axiosApiInstance.post('/api/user/login', values)
+        setIsSubmitted(true);
+
+        const checkErrors = ValidationErrorLogin(values);
+
+        if (Object.keys(checkErrors).length !== 0 ) {
+            setErrors(checkErrors);
+        }
+        else {axiosApiInstance.post('/api/user/login', values)
             .then(response => {
                 if (response.status === 200) {
                     dispatch(loginUser(response.data.user, response.data.token));
@@ -54,20 +66,16 @@ export default function Login() {
 
                 setTimeout(() => {
                     setStatus("login");
+                    setAlertMessage('alert');
                 }, 1000);
 
                 // redirect to login
                 setTimeout(() => {
-                    setAlertMessage('alert');
-                }, 1000);
-
-                // setTimeout(() => {
-                //     setAlertMessage('hidden');
-                // }, 2000);
+                    setAlertMessage('hidden');
+                }, 2000);
 
                 setTimeout(() => {
                     window.location.href = '/movies';
-
                 }, 2500);
             })
             .catch(error => {
@@ -84,8 +92,19 @@ export default function Login() {
 
                 setTimeout(() => {
                     setAlertMessageError('hidden');
-                }, 4000)
+                }, 2000)
             });
+        }
+    };
+
+    const handleBlur = () => {
+        if (isSubmitted) {
+            const checkErrors = ValidationErrorLogin(values);
+
+            if (Object.keys(checkErrors).length !== -1 ) {
+                setErrors(checkErrors);
+            }
+        }
     };
 
     return (
@@ -99,12 +118,12 @@ export default function Login() {
 
                     <form className="form-container" onSubmit={handleSubmit}>
                         {/* USERNAME */}
-                        <label htmlFor="username">username * </label>
-                        <input type="text" name="username" onChange={handleChange} />
+                        <label htmlFor="username">username * {errors.username && <span className='error-para'>{errors.username}</span> } </label>
+                        <input type="text" name="username" onChange={handleChange} onBlur={handleBlur}/>
 
                         {/* PASSWORD */}
-                        <label htmlFor="password">password * </label>
-                        <input type="password" name="password" onChange={handleChange} />
+                        <label htmlFor="password">password * {errors.password && <span className='error-para'>{errors.password}</span> } </label>
+                        <input type="password" name="password" onChange={handleChange} onBlur={handleBlur}/>
 
                         <button className='submit-btn' type="submit" title='Please submit'>{status}</button>
                     </form>
