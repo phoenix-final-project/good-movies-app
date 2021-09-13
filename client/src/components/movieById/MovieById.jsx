@@ -18,7 +18,7 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 
     // for buttons
     const [wishlistMoviesIds, setWishlistMoviesIds] = useState([]);
-    const [addedToWishlist, setAddedToWishlist] = useState();
+    const [addedToWishlist, setAddedToWishlist] = useState(wishlistMoviesIds.includes(movieId));
 
 
     const getMovieById = useCallback(async () => {
