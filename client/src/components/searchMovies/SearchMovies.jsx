@@ -77,9 +77,9 @@ function SearchMovies() {
             <div className="search" >
 
                 <form onSubmit={getMoviesBySearchParam}>
-                    <label htmlFor="header-search">
+                    {/* <label htmlFor="header-search">
                         <span className="">Find a movie </span>
-                    </label>
+                    </label> */}
 
                     <select name="search" id="search" onChange={(e) => { setSearchBy(e.target.value); setSearchParam("") }}>
                         <option value="title">Title</option>
