@@ -127,7 +127,10 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
                     {/* GENRES */}
                     {movie.gen ? <p> | {movie.gen.map(genre => <span key={genre.genre}> {genre.genre} |</span>)} </p> : null}
 
+                    { movie.trailer !== "aa.com" ? 
                     <button onClick={(e) => setTrailerOn("")}> Watch a Trailer </button>
+                    :
+                    null }
 
                     {/* TRAILER */}
                     <div className={`trailer ${trailerOn}`}>

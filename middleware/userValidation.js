@@ -22,7 +22,7 @@ module.exports.validateUser = [
 			});
 		next();
 	},
-	body('lastname').exists().trim().isAlpha({ignore: '-'}).withMessage('Last name must include only letters!'),
+	body('lastname').exists().trim().isAlpha().withMessage('Last name must include only letters!'),
 	function (req, res, next) {
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
