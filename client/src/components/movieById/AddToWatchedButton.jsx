@@ -22,7 +22,7 @@ function AddToWishlistButton({watchedListMoviesIds, movieId, movie}) {
 
     return (
         <>
-        {addedToWatchedList ? <button className='added'> Added </button> : <button onClick={addMovieToWatchedList}> Watched </button>}
+            {addedToWatchedList ? <button className='added'> Added </button> : <button onClick={addMovieToWatchedList}> Watched </button>}
         </>
     )
 }
