@@ -22,6 +22,7 @@ export default function UserWishlistPage() {
 			// update state
 			const newWishlist = wishlistMovies.filter(movie => movie.imdb_id !== id);
 			setWishlistMovies(newWishlist);
+			setNumOfMovies(numOfMovies - 1);
 
 			console.log(res.data);
 		} catch (error) {
@@ -37,6 +38,7 @@ export default function UserWishlistPage() {
 			// update state
 			const newWishlist = wishlistMovies.filter(item => item.imdb_id !== movie.imdb_id);
 			setWishlistMovies(newWishlist);
+			setNumOfMovies(numOfMovies - 1);
 
 			console.log(response.data);
 		} catch (error) {

@@ -1,5 +1,7 @@
 const WishList = require('../models/WishList');
 const WatchedList = require('../models/WatchedList');
+const User = require('../models/User');
+
 const { getListFromCache, addMovieToList, getListMovieIds } = require('../helpers/listsHelpers');
 const { redisClient } = require('../redis-server');
 
@@ -10,6 +12,9 @@ exports.addMovie = async (req, res) => {
 
 	try {
 		const response = await addMovieToList(WishList, WatchedList, userId, imdb_id, movie, 'Wishlist');
+
+		const genres = movie.gen.map(item => item.genre);
+		console.log(genres);
 		res.json(response);
 	} catch (error) {
 		res.status(400).json({ error: error.message });

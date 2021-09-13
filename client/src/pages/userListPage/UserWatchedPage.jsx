@@ -21,6 +21,7 @@ function UserWatchedPage() {
 			// update state
 			const newWatchedList = watchedListMovies.filter(movie => movie.imdb_id !== id);
 			setWatchedListMovies(newWatchedList);
+			setNumOfMovies(numOfMovies - 1);
 
 			console.log(res.data);
 		} catch (error) {
@@ -35,6 +36,7 @@ function UserWatchedPage() {
 			// update state
 			const newWatchedList = watchedListMovies.filter(item => item.imdb_id !== movie.imdb_id);
 			setWatchedListMovies(newWatchedList);
+			setNumOfMovies(numOfMovies - 1);
 
 			console.log(response.data);
 		} catch (error) {

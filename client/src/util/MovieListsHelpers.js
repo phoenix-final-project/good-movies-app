@@ -14,8 +14,10 @@ export const addMovieToList = async (listName, movie) => {
 		const res = await axios.post(`/api/${listName}/add-movie/${window.localStorage.getItem('user_id')}`, { movie });
 
 		console.log(res.data);
+		return Promise.resolve();
 	} catch (error) {
 		console.log(error.response);
+		return Promise.reject();
 	}
 };
 

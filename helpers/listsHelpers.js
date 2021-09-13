@@ -64,7 +64,7 @@ exports.addMovieToList = async (firstList, secondList, userId, imdb_id, movie, n
 
 	if (movieToDelete) {
 		const deletedMovie = await movieToDelete.deleteOne();
-		console.log(deletedMovie);
+		// console.log(deletedMovie);
 	} else {
 		await redisClient.set(imdb_id, JSON.stringify(movie));
 	}

@@ -5,11 +5,15 @@ function AddToWishlistButton({ watchedListMoviesIds, movieId, movie }) {
 	const [addedToWatchedList, setAddedToWatchedList] = useState(watchedListMoviesIds.includes(movieId));
 
 	useEffect(() => {
-		if (watchedListMoviesIds.includes(movieId)) setAddedToWatchedList(true);
-		else if (!watchedListMoviesIds.includes(movieId)) setAddedToWatchedList(false);
+		setAddedToWatchedList(watchedListMoviesIds.includes(movieId));
 	}, [movieId, watchedListMoviesIds]);
 
-	return <>{addedToWatchedList ? <button className='added'> Added </button> : <button onClick={() => addMovieToList('watched', movie)}> Watched </button>}</>;
+	const handleAddMovieToList = () => {
+		setAddedToWatchedList(true);
+		addMovieToList('watched', movie).catch(() => setAddedToWatchedList(false));
+	};
+
+	return <>{addedToWatchedList ? <button className='added'> Added </button> : <button onClick={handleAddMovieToList}> Watched </button>}</>;
 }
 
 export default AddToWishlistButton;
