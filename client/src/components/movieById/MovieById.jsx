@@ -11,7 +11,7 @@ import {
 import "./MovieById.scss";
 
 
-export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCardOn, wishlistMoviesIds }) {
+export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCardOn, wishlistMoviesIds, watchedListMoviesIds }) {
     // local state
     const [movie, setMovie] = useState({});
     const [trailerOn, setTrailerOn] = useState("hidden");
@@ -19,6 +19,7 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
     // for buttons
     // const [wishlistMoviesIds, setWishlistMoviesIds] = useState([]);
     const [addedToWishlist, setAddedToWishlist] = useState(wishlistMoviesIds.includes(movieId));
+    const [addedToWatchedList, setAddedToWatchedList] = useState(watchedListMoviesIds.includes(movieId));
 
 
     const getMovieById = useCallback(async () => {
@@ -54,8 +55,10 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
         // getWishlistIds();
         // console.log('IF INCLUDES', wishlistMoviesIds.includes(movieId));
         if(wishlistMoviesIds.includes(movieId)) setAddedToWishlist(true);
-        else setAddedToWishlist(false);
-    }, [getMovieById, movieId, wishlistMoviesIds]);
+        else if(watchedListMoviesIds.includes(movieId)) setAddedToWatchedList(true);
+        else if(!wishlistMoviesIds.includes(movieId)) setAddedToWishlist(false);
+        else if(!watchedListMoviesIds.includes(movieId)) setAddedToWatchedList(false);
+    }, [getMovieById, movieId, wishlistMoviesIds, watchedListMoviesIds]);
 
 
 
@@ -99,7 +102,9 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
                     <div className="buttons">
                         <h4>Add to:</h4>
                         {addedToWishlist ? <button className='added'> Added </button> : <button onClick={addMovieToWishList}> Wishlist </button>}
-                        <button onClick={addMovieToWatchedList}> Watched </button>
+
+                        {addedToWatchedList ? <button className='added'> Added </button> : <button onClick={addMovieToWatchedList}> Watched </button>}
+                        
                         {/* <button onClick={addMovieToFavoriteList} disabled="true"> Favorite </button> */}
                         <button disabled={true}> Favorite </button>
                     </div>

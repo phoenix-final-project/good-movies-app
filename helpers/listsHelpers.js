@@ -1,6 +1,11 @@
 const { redisClient } = require('../redis-server');
 const findMovieById = require('../helpers/findMovieById');
 
+exports.getListMovieIds = async (schema, userId) => {
+	const docs = await schema.find({ user: userId });
+	return docs.map(item => item.movieId);
+};
+
 /**
  *
  * Returns a list of movie objects, received either from cache or from external API

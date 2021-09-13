@@ -2,7 +2,7 @@ const WishList = require('../models/WishList');
 const WatchedList = require('../models/WatchedList');
 const User = require('../models/User');
 
-const { getListFromCache, addMovieToList } = require('../helpers/listsHelpers');
+const { getListFromCache, addMovieToList, getListMovieIds } = require('../helpers/listsHelpers');
 
 const { redisClient } = require('../redis-server');
 
@@ -41,6 +41,16 @@ exports.showWatchedList = async (req, res) => {
 	try {
 		const MoviesInWatchedList = await getListFromCache(WatchedList, userId);
 		res.send(MoviesInWatchedList);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
+exports.getMoviesIds = async (req, res) => {
+	const { userId } = req.params;
+	try {
+		const arrayOfIds = await getListMovieIds(WatchedList, userId);
+		res.send(arrayOfIds);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
