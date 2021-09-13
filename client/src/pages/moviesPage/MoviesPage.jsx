@@ -20,7 +20,27 @@ export default function MoviesPage() {
     const [lastPage1, setLastPage1] = useState();
     const [lastPage2, setLastPage2] = useState();
 
-    const [movieCardOn, setMovieCardOn] = useState("")
+    const [movieCardOn, setMovieCardOn] = useState("");
+
+    // For Buttons Change
+    const [wishlistMoviesIds, setWishlistMoviesIds] = useState([]);
+
+    // get movies id of wishlist from DB
+    const getWishlistIds = async () => {
+        try {
+            const wishlistIds = await axiosApiInstance.get(`/api/wishlist/movies-id/${window.localStorage.getItem('user_id')}`);
+            setWishlistMoviesIds(wishlistIds.data)
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    useEffect(() => {
+        getWishlistIds();
+    }, [])
+
+//==============================================
 
 
     const getUpcomingMovies = useCallback(async () => {
@@ -134,7 +154,7 @@ export default function MoviesPage() {
                 {page2 >= lastPage2 ? null : <button className="next" onClick={handleForwardButton2}> ▶️ </button>}
             </div>
 
-            {showMovie ? <MovieById movieId={movieId} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} /> : null}
+            {showMovie ? <MovieById wishlistMoviesIds={wishlistMoviesIds} movieId={movieId} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} /> : null}
 
         </React.Fragment>
     );

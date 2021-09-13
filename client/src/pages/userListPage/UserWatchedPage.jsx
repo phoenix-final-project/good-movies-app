@@ -56,7 +56,7 @@ function UserWatchedPage() {
         <div className='movie-list-container'>
             <ListsHeading title='Watched' numOfMovies={numOfMovies} />
 
-            <DisplayList movieList={watchedListMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWishlist} />
+            <DisplayList movieList={watchedListMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWishlist} listToMove='Wishlist' />
             
         </div>
     )

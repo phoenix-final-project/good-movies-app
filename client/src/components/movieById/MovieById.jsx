@@ -11,13 +11,13 @@ import {
 import "./MovieById.scss";
 
 
-export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCardOn }) {
+export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCardOn, wishlistMoviesIds }) {
     // local state
     const [movie, setMovie] = useState({});
     const [trailerOn, setTrailerOn] = useState("hidden");
 
     // for buttons
-    const [wishlistMoviesIds, setWishlistMoviesIds] = useState([]);
+    // const [wishlistMoviesIds, setWishlistMoviesIds] = useState([]);
     const [addedToWishlist, setAddedToWishlist] = useState(wishlistMoviesIds.includes(movieId));
 
 
@@ -36,26 +36,26 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
         }
     }, [movieId]);
 
-    const getWishlistIds = async () => {
-        try {
-            const wishlistIds = await axiosApiInstance.get(`/api/wishlist/movies-id/${window.localStorage.getItem('user_id')}`);
-            setWishlistMoviesIds(wishlistIds.data)
+    // const getWishlistIds = async () => {
+    //     try {
+    //         const wishlistIds = await axiosApiInstance.get(`/api/wishlist/movies-id/${window.localStorage.getItem('user_id')}`);
+    //         setWishlistMoviesIds(wishlistIds.data)
 
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     // fetching data from backend (movieById)
     useEffect(() => {
         getMovieById();
 
         // for setting buttons
-        getWishlistIds();
+        // getWishlistIds();
         // console.log('IF INCLUDES', wishlistMoviesIds.includes(movieId));
         if(wishlistMoviesIds.includes(movieId)) setAddedToWishlist(true);
         else setAddedToWishlist(false);
-    }, [getMovieById, movieId]);
+    }, [getMovieById, movieId, wishlistMoviesIds]);
 
 
 

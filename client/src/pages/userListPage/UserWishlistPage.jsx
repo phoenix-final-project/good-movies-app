@@ -62,7 +62,7 @@ export default function UserWishlistPage() {
         <div className='movie-list-container'>
             <ListsHeading title='Want to Watch' numOfMovies={numOfMovies} />
 
-            <DisplayList movieList={wishlistMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWatched} />
+            <DisplayList movieList={wishlistMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWatched} listToMove='Watched' />
         </div>
     );
 }
