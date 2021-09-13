@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { addMovieToList } from '../../util/MovieListsHelpers';
 
-function AddToWishlistButton({ watchedListMoviesIds, movieId, movie }) {
-	const [addedToWatchedList, setAddedToWatchedList] = useState(watchedListMoviesIds.includes(movieId));
-
+function AddToWishlistButton({ watchedListMoviesIds, movieId, movie, addedToWatchedList, setAddedToWatchedList, setAddedToWishlist }) {
 	useEffect(() => {
 		setAddedToWatchedList(watchedListMoviesIds.includes(movieId));
-	}, [movieId, watchedListMoviesIds]);
+	}, [movieId, watchedListMoviesIds, setAddedToWatchedList]);
 
 	const handleAddMovieToList = () => {
 		setAddedToWatchedList(true);
+		setAddedToWishlist(false);
 		addMovieToList('watched', movie).catch(() => setAddedToWatchedList(false));
 	};
 
