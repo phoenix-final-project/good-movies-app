@@ -12,7 +12,7 @@ import { ValidationErrorLogin } from "../../components/validation/ValidationErro
 // importing NavBanner, FormBanner
 import FormBanner from '../../components/formBanner/FormBanner';
 
-// styling
+// styling :
 import "./Login.scss";
 
 export default function Login() {
