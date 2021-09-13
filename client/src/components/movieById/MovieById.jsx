@@ -29,9 +29,11 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 		}
 	}, [movieId]);
 
-	// fetching data from backend (movieById)
 	useEffect(() => {
+		// fetching data from backend (movieById)
 		getMovieById();
+
+		// getting ids of movies in the lists of a user
 		getListMoviesIds('wishlist', setWishlistMoviesIds);
 		getListMoviesIds('watched', setWatchedListMoviesIds);
 	}, [getMovieById]);
