@@ -7,6 +7,9 @@ import {
     addMovieFavorite,
 } from "../../redux/actions/movieActions";
 
+import AddToWishlistButton from './AddToWishlistButton';
+import AddToWatchedButton from './AddToWatchedButton';
+
 // styling
 import "./MovieById.scss";
 
@@ -18,8 +21,8 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 
     // for buttons
     // const [wishlistMoviesIds, setWishlistMoviesIds] = useState([]);
-    const [addedToWishlist, setAddedToWishlist] = useState(wishlistMoviesIds.includes(movieId));
-    const [addedToWatchedList, setAddedToWatchedList] = useState(watchedListMoviesIds.includes(movieId));
+    // const [addedToWishlist, setAddedToWishlist] = useState(wishlistMoviesIds.includes(movieId));
+    // const [addedToWatchedList, setAddedToWatchedList] = useState(watchedListMoviesIds.includes(movieId));
 
 
     const getMovieById = useCallback(async () => {
@@ -54,10 +57,12 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
         // for setting buttons
         // getWishlistIds();
         // console.log('IF INCLUDES', wishlistMoviesIds.includes(movieId));
-        if(wishlistMoviesIds.includes(movieId)) setAddedToWishlist(true);
-        else if(watchedListMoviesIds.includes(movieId)) setAddedToWatchedList(true);
-        else if(!wishlistMoviesIds.includes(movieId)) setAddedToWishlist(false);
-        else if(!watchedListMoviesIds.includes(movieId)) setAddedToWatchedList(false);
+        // if(watchedListMoviesIds.includes(movieId)) setAddedToWatchedList(true);
+        // else if(!watchedListMoviesIds.includes(movieId)) setAddedToWatchedList(false);
+        // if(wishlistMoviesIds.includes(movieId)) setAddedToWishlist(true);
+        // else if(watchedListMoviesIds.includes(movieId)) setAddedToWatchedList(true);
+        // else if(!wishlistMoviesIds.includes(movieId)) setAddedToWishlist(false);
+        // else if(!watchedListMoviesIds.includes(movieId)) setAddedToWatchedList(false);
     }, [getMovieById, movieId, wishlistMoviesIds, watchedListMoviesIds]);
 
 
@@ -70,28 +75,26 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
         return dispatch(addMovieFavorite(movie));
     };
 
-    // Sending movie to wishlist in backend
-    const addMovieToWishList = async () => {
-        try {
-            const res = await axiosApiInstance.post(`/api/wishlist/add-movie/${window.localStorage.getItem('user_id')}`, { movie });
+    // // Sending movie to wishlist in backend
+    // const addMovieToWishList = async () => {
+    //     try {
+    //         const res = await axiosApiInstance.post(`/api/wishlist/add-movie/${window.localStorage.getItem('user_id')}`, { movie });
 
-            console.log(res.data);
-        } catch (error) {
-            console.log(error.response);
-        }
-    };
+    //         console.log(res.data);
+    //     } catch (error) {
+    //         console.log(error.response);
+    //     }
+    // };
 
-    const addMovieToWatchedList = async () => {
-        try {
-            const response = await axiosApiInstance.post(`/api/watched/add-movie/${window.localStorage.getItem('user_id')}`, { movie });
+    // const addMovieToWatchedList = async () => {
+    //     try {
+    //         const response = await axiosApiInstance.post(`/api/watched/add-movie/${window.localStorage.getItem('user_id')}`, { movie });
 
-            console.log(response.data);
-        } catch (error) {
-            console.log(error.response);
-        }
-    };
-
-    console.log('AAAAAAAAAAAaa', {movieId, addedToWishlist});
+    //         console.log(response.data);
+    //     } catch (error) {
+    //         console.log(error.response);
+    //     }
+    // };
 
     return (
         <div className={`showMovie ${movieCardOn}`} >
@@ -101,9 +104,12 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 
                     <div className="buttons">
                         <h4>Add to:</h4>
-                        {addedToWishlist ? <button className='added'> Added </button> : <button onClick={addMovieToWishList}> Wishlist </button>}
+                        <AddToWishlistButton wishlistMoviesIds={wishlistMoviesIds} movieId={movieId} movie={movie} />
+                        {/* {addedToWishlist ? <button className='added'> Added </button> : <button onClick={addMovieToWishList}> Wishlist </button>} */}
 
-                        {addedToWatchedList ? <button className='added'> Added </button> : <button onClick={addMovieToWatchedList}> Watched </button>}
+                        <AddToWatchedButton watchedListMoviesIds={watchedListMoviesIds} movieId={movieId} movie={movie} />
+
+                        {/* {addedToWatchedList ? <button className='added'> Added </button> : <button onClick={addMovieToWatchedList}> Watched </button>} */}
                         
                         {/* <button onClick={addMovieToFavoriteList} disabled="true"> Favorite </button> */}
                         <button disabled={true}> Favorite </button>
