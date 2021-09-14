@@ -92,7 +92,10 @@ export default function FriendsPage() {
             {userFounded ? (
                 <div>
                     <h3>Search Results</h3>
-                    <Friend friends={searchedUser} isFriend={isAlreadyFriend} />
+                    <Friend
+                        searchOrFriends={searchedUser}
+                        isFriend={isAlreadyFriend}
+                    />
                     <button onClick={backToFriends}>Back to my friends</button>
                 </div>
             ) : null}
@@ -100,7 +103,10 @@ export default function FriendsPage() {
             {friends.length !== 0 && !userFounded ? (
                 <div>
                     <h3>My Friends</h3>
-                    <Friend friends={friends} isFriend={isAlreadyFriend} />
+                    <Friend
+                        searchOrFriends={friends}
+                        isFriend={isAlreadyFriend}
+                    />
                 </div>
             ) : null}
         </React.Fragment>
