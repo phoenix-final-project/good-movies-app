@@ -16,19 +16,21 @@
         .discover-button {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            margin: 0 0 20px 0;
+            margin: 0 0 10px 0;
 
             .check-h3 {
-                margin-left: -1px;
+                margin: 0 -10px 15px 0;
+                font-size: 1em;
             }
 
             .span-discover {
-                margin: 30px 0 0 0;
+                margin: 0 0 10px 0;
 
                 .discover {
-                    font-size: 1.3em;
+                    font-size: .9em;
                     text-transform: uppercase;
                     font-weight: 100;
+                    padding-left: 30px;
                     color: var(--container-color);
                     transition: all .5s ease-in-out;
 
@@ -40,8 +42,8 @@
                     &:after {    
                         content: "";
                         position: absolute;
-                        top: 52px;
-                        left: 55%;
+                        top: 22px;
+                        left: 60%;
                         width: 0;
                         height: 3px;
                     
@@ -53,15 +55,16 @@
 
                     &:hover:after { 
                         width: 20%; 
-                        left: 50%;
+                        left: 57%;
                     }
                 }
             }
         }
 
         .get-button {
-            width: 35%;
-            padding: .6rem;
+            width: 33%;
+            padding: .3rem;
+            font-size: 0.6rem;
             color: var(--font-color);
             background-color: var(--first-color);
             border: 3px solid var(--first-color);
