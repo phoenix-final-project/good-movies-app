@@ -1,14 +1,8 @@
-// a {
-//     color: white;
-// }
-
-// .selected {
-//     color: red;
-// }
-
 /* Links to the Pages */
 .container-button a:hover, 
 .container-button a.active {
-    color: red;
-    text-decoration: underline solid var(--first-color);;
+    // color: red ;
+    // text-underline-offset: 8px;
+    text-decoration: underline var(--first-color);
+    text-underline-position: under
 }

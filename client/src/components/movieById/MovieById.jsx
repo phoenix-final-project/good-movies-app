@@ -70,7 +70,7 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
         <div className={`showMovie ${movieCardOn}`} >
             <div className="movieCard">
                 <div className="poster">
-                    <img src={movie.image_url} alt={movie.title} />
+                    <img src={movie.image_url !== "aa.com" ? movie.image_url : "../../images/poster_blank.png"} alt={movie.title} />
 
                     <div className="buttons">
                         <h4>Add to:</h4>
@@ -85,9 +85,10 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 
                     <button className="closeCard" onClick={(e) => {
                         setMovieCardOn("hidden")
+                        setTrailerOn("hidden")
                         // setMovieId("")
                     }} >
-                        Close X
+                        ✕
                     </button>
 
                     <div>
@@ -103,16 +104,20 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
                     {/* GENRES */}
                     {movie.gen ? <p> | {movie.gen.map(genre => <span key={genre.genre}> {genre.genre} |</span>)} </p> : null}
 
-                    { movie.trailer !== "aa.com" ? 
-                    <button onClick={(e) => setTrailerOn("")}> Watch a Trailer </button>
-                    :
-                    null }
+                    {movie.trailer === "aa.com" ? null :
+                        movie.trailer === "" ? null
+                            :
+                            <button onClick={(e) => setTrailerOn("")}> Watch a Trailer </button>
+                    }
 
                     {/* TRAILER */}
                     <div className={`trailer ${trailerOn}`}>
                         <iframe src={movie.trailer} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>
 
-                        <div onClick={() => setTrailerOn("hidden")} className="close">
+                        <div onClick={() => {
+                            // stopVideo()
+                            setTrailerOn("hidden")
+                        }} className="close">
                             Close Trailer X
                         </div>
                     </div>

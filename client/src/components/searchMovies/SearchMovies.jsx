@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import axiosApiInstance from "../../util/APIinstance";
 // import { usePagination } from '@material-ui/lab/Pagination';
 
@@ -17,7 +17,7 @@ function SearchMovies() {
     const [searchBy, setSearchBy] = useState("title");
     const [searchParam, setSearchParam] = useState("");
     const [searchResults, setSearchResults] = useState([]);
-    const [numberOfPages, setNumberOfPages] = useState();
+    // const [numberOfPages, setNumberOfPages] = useState();
     const [page, setPage] = useState(1);
     const [lastPage, setLastPage] = useState();
     const [numberOfMovies, setNumberOfMovies] = useState(0);
@@ -30,15 +30,19 @@ function SearchMovies() {
 
     // Search movies by title and searchParam ("london" for example)
     const getMoviesBySearchParam = async (e) => {
+
         e.preventDefault();
 
-        try {
-            let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/${page}`);
+        setPage(1)
 
-            // console.log("IN***", page, searchBy, searchParam);
+        try {
+            let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/1`);
+
+            // let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/${page}`);
+            // let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/${page !== 1 ? 1 : 1}`);
 
             if (res.status === 200) {
-                console.log(res.data.numberOfMovies, res.data.foundMovies);
+                // console.log(res.data.numberOfMovies, res.data.foundMovies);
                 setSearchResults(res.data.foundMovies);
                 setNumberOfMovies(res.data.numberOfMovies)
                 setLastPage(res.data.numberOfPages)
@@ -51,25 +55,59 @@ function SearchMovies() {
             setErrorMessage(error.response.data.message);
         }
     }
-    // , [searchBy, searchParam, page]);
 
     // Pagination
     // FORWARD
-    const handleForwardButton = () => {
-        setPage(page + 1);
-        // console.log(searchParam);
-        // getMoviesBySearchParam()
+    const handleForwardButton = async () => {
+
+        try {
+            if (lastPage > page) {
+                setPage(page + 1);
+            } else {
+                return
+            }
+
+            let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/${page + 1}`);
+
+            // if (res.status === 200) {
+            // console.log(res.data.numberOfMovies, res.data.foundMovies);
+            setSearchResults(res.data.foundMovies);
+            setNumberOfMovies(res.data.numberOfMovies)
+            //setLastPage(res.data.numberOfPages)
+            // console.log(page, lastPage);
+
+            // }
+        } catch (error) {
+            console.log("Something went wrong:", error.response.data.message);
+            // setIsError(true);
+            setSearchResults([])
+            setNumberOfMovies(0)
+            setErrorMessage(error.response.data.message);
+        }
     };
 
     // BACKWARD
-    const handleBackwardButton = () => {
-        setPage(page - 1);
-    };
+    const handleBackwardButton = async () => {
 
-    //  useEffect(() => {
-    //     getMoviesBySearchParam();
-    //     console.log("Search movies, page:", page, searchParam);
-    // }, [page, searchParam, getMoviesBySearchParam]);
+        try {
+
+            let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/${page - 1}`);
+
+            // if (res.status === 200) {
+            setSearchResults(res.data.foundMovies);
+            setNumberOfMovies(res.data.numberOfMovies)
+            setLastPage(res.data.numberOfPages)
+            setPage(page - 1);
+
+            // }
+        } catch (error) {
+            console.log("Something went wrong:", error.response.data.message);
+            // setIsError(true);
+            setSearchResults([])
+            setNumberOfMovies(0)
+            setErrorMessage(error.response.data.message);
+        }
+    };
 
 
     return (
@@ -77,9 +115,6 @@ function SearchMovies() {
             <div className="search" >
 
                 <form onSubmit={getMoviesBySearchParam}>
-                    {/* <label htmlFor="header-search">
-                        <span className="">Find a movie </span>
-                    </label> */}
 
                     <select name="search" id="search" onChange={(e) => { setSearchBy(e.target.value); setSearchParam("") }}>
                         <option value="title">Title</option>
@@ -104,37 +139,55 @@ function SearchMovies() {
                         max={searchBy === "year" ? "2021" : null}
 
                     />
+                    <span
+                        className="clear"
+                        onClick={() => {
+                            setSearchParam("");
+                            setSearchResults([]);
+                            setPage(0);
+                            setLastPage(0);
+                            setNumberOfMovies(0)
+                        }}> ✕ </span>
+
                     <button type="submit">Search</button>
                 </form>
 
                 <p>Search Results: {numberOfMovies} </p>
             </div>
 
-            <div className="movie-container">
+            {/* Forward - Backward Button for Search Results */}
+            {numberOfMovies ?
+                <div>
+                    <div style={{ textAlign: "center" }}>Page : {page} / {lastPage}</div>
 
-                {/* {numberOfMovies ?
-                    <div className="buttonContainer">
-                        {page === 1 ? null : <button className="prev" onClick={handleBackwardButton}> ◀️</button>}
+                    <div className="buttonContainerSearch">
+                        {page === 1 ? null : <button className="prev" onClick={handleBackwardButton}>❮ Previous</button>}
 
-                        {page >= lastPage ? null : <button className="next" onClick={handleForwardButton}> ▶️ </button>}
+
+                        {page >= lastPage ? null : <button className="next" onClick={handleForwardButton}>Next ❯</button>}
                     </div>
-                    :
-                    null
-                } */}
+                </div>
+                :
+                null
+            }
+
+            <div className="movie-container">
 
                 {searchResults ? searchResults.map((item) => (
                     <div
                         className="movieBox"
                         key={item.imdb_id}
                         onClick={() => {
-                            console.log(item.imdb_id);
+                            // console.log(item.imdb_id);
                             setShowMovie(true);
                             setMovieId(item.imdb_id);
                             setMovieCardOn("")
                         }}
                     >
                         <div className="poster">
-                            <img src={item.image_url} alt={item.title} />
+                            <img src={item.image_url !== "aa.com" ?
+                                item.image_url :
+                                "../../images/poster_blank.png"} alt={item.title} />
                         </div>
 
                         <div className="info">
@@ -157,6 +210,22 @@ function SearchMovies() {
                     null
                 }
             </div>
+
+            {/* Forward - Backward Button for Search Results */}
+            {numberOfMovies ?
+                <div>
+                    <div style={{ textAlign: "center" }}>Page : {page} / {lastPage}</div>
+
+                    <div className="buttonContainerSearch">
+                        {page === 1 ? null : <button className="prev" onClick={handleBackwardButton}>❮ Previous</button>}
+
+
+                        {page >= lastPage ? null : <button className="next" onClick={handleForwardButton}>Next ❯</button>}
+                    </div>
+                </div>
+                :
+                null
+            }
 
             {showMovie ? <MovieById movieId={movieId} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} /> : null}
 

@@ -169,7 +169,7 @@ exports.deleteUser = async (req, res) => {
             deletedUser: user,
         });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         res.status(400).send({
             message: "Error occurred",
             error: error.message,
@@ -247,7 +247,7 @@ exports.getFriendsOfUser = async (req, res) => {
             .select("friends.user")
             .populate("friends.user");
 
-        console.log(user);
+        // console.log(user);
 
         if (user === null || user.deleted === true) {
             return res
@@ -351,6 +351,13 @@ exports.addFriend = async (req, res) => {
             { new: true }
         );
 
+        await friend.updateOne(
+            {
+                $addToSet: { friends: { user: user._id } },
+            },
+            { new: true }
+        );
+
         res.status(200).json({
             message: `${friend.username} successfully added to your friends' list`,
         });
@@ -404,10 +411,17 @@ exports.deleteFriend = async (req, res) => {
                 });
         }
 
-        // deleting a friend from the friends' list
+        // deleting a friend from the friends' list and automatically removing yourself from that friend's friends' list
         await user.updateOne(
             {
                 $pull: { friends: { user: friend._id } },
+            },
+            { new: true }
+        );
+
+        await friend.updateOne(
+            {
+                $pull: { friends: { user: user._id } },
             },
             { new: true }
         );

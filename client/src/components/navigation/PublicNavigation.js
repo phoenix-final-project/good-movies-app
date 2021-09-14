@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import NavBanner from "../navBanner/NavBanner";
 
 
@@ -6,11 +6,11 @@ export default function PublicNavigation() {
     return (
         <NavBanner>
             <div className="container-button">
-                <Link to='/movies'><div className="tour" title='Click to have a small tour in the application'>DISCOVER</div></Link>
+                <NavLink exact to='/movies'><div className="tour" title='Click to have a small tour in the application'>DISCOVER</div></NavLink>
                 
-                <Link to='/login'><div className="tour" title='Click to have a small tour in the application'>LOGIN</div></Link>
+                <NavLink exact to='/login'><div className="tour" title='Click to have a small tour in the application'>LOGIN</div></NavLink>
 
-                <Link to='/registration'><button className="registration-btn" title='Feel free to register yourself'>get started</button></Link>
+                <NavLink exact to='/registration'><button className="registration-btn" title='Feel free to register yourself'>get started</button></NavLink>
             </div>
         </NavBanner>
     );
