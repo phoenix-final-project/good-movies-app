@@ -83,23 +83,27 @@ export default function Friend({ searchOrFriends }) {
 
     return (
         <div>
-            <div className="friends-box">
+            {/* STRUCTURE FOR LIST OF FRIENDS OR SEARCH RESULTS (FriendsPage)*/}
+            <section className="friends-box">
                 {searchOrFriends.map((item) => (
                     <div key={item.username} className="one-friend-box">
                         <div className="friend-data">
-                            <div className="avatar">{item.avatar}</div>
+                            <div className="friend-data-1st-box">
+                                <div className="avatar">{item.avatar}</div>
 
-                            <div>
-                                <p>
-                                    {item.firstname} {item.lastname}
-                                </p>
-                                <p>{item.username}</p>
+                                <div className="friend-name">
+                                    <p>
+                                        {item.firstname} {item.lastname}
+                                    </p>
+                                    <p>{item.username}</p>
+                                </div>
                             </div>
 
+                            {/* BUTTONS */}
                             {listFriends.some(
                                 (friend) => friend.username === item.username
                             ) ? (
-                                <div>
+                                <div className="friend-buttons-div">
                                     <button
                                         onClick={() => compareWishlist(item.id)}
                                     >
@@ -123,23 +127,49 @@ export default function Friend({ searchOrFriends }) {
                         </div>
                     </div>
                 ))}
-            </div>
+            </section>
 
+            {/* DISPLAY MOVIES IN COMMON */}
             {isMovieInCommon ? (
-                <div className="common-movies-box">
+                <section className="common-movies-card">
                     <h3>
-                        Movies in common with {friendFirstname} {friendLastname}
+                        Movies in common with{" "}
+                        <span>
+                            {friendFirstname} {friendLastname}
+                        </span>
                     </h3>
-                    <div>
-                        {commonWishlist.map((movie) => (
-                            <div key={movie.imdb_id} className="one-movie-box">
+
+                    {commonWishlist.map((movie) => (
+                        <div key={movie.imdb_id} className="one-movie-box">
+                            <div className="one-movie-box-data">
                                 <img src={movie.image_url} alt="" />
-                                <h5>{movie.title}</h5>
-                                <p>{movie.year}</p>
+
+                                <div className="movie-data">
+                                    <p>
+                                        Title: <span>{movie.title}</span>
+                                    </p>
+                                    <p>
+                                        Year: <span>{movie.year}</span>
+                                    </p>
+                                    {movie.movie_length !== 0 && (
+                                        <p>
+                                            Length:{" "}
+                                            <span>{movie.movie_length}</span>
+                                        </p>
+                                    )}
+
+                                    <p>
+                                        Rating: <span>{movie.rating}</span>
+                                    </p>
+                                </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
+
+                            <div>
+                                <button>Invite to watch</button>
+                            </div>
+                        </div>
+                    ))}
+                </section>
             ) : null}
         </div>
     );

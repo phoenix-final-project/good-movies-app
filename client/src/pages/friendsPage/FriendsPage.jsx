@@ -70,9 +70,10 @@ export default function FriendsPage() {
 
     return (
         <div className="friends-page">
-            <h1>My friends</h1>
+            {/* <h1>My friends</h1> */}
 
-            <form onSubmit={searchForUser}>
+            {/* SEARCHBAR */}
+            <form onSubmit={searchForUser} className="form-search-user">
                 <label htmlFor="header-search">
                     <span className="visually-hidden">Find a friend</span>
                 </label>
@@ -86,20 +87,26 @@ export default function FriendsPage() {
                 <button type="submit">Search</button>
             </form>
 
+            {/* DISPLAY SEARCH RESULTS */}
             {userFounded ? (
-                <div>
-                    <h3>Search Results</h3>
+                <div className="friends-page-display-box">
+                    <h2>Search Results</h2>
                     <Friend
                         searchOrFriends={searchedUser}
                         isFriend={isAlreadyFriend}
                     />
-                    <button onClick={backToFriends}>Back to my friends</button>
+                    <div className="back-friends-div">
+                        <button onClick={backToFriends}>
+                            Back to my friends
+                        </button>
+                    </div>
                 </div>
             ) : null}
 
+            {/* DISPLAY FRIENDS */}
             {friends.length !== 0 && !userFounded ? (
-                <div>
-                    <h3>My Friends</h3>
+                <div className="friends-page-display-box">
+                    <h2>My Friends</h2>
                     <Friend
                         searchOrFriends={friends}
                         isFriend={isAlreadyFriend}
