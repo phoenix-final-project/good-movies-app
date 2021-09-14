@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useEffect } from "react";
-import axiosApiInstance from "../../util/APIinstance";
+import React, { useState, useCallback, useEffect } from 'react';
+import axiosApiInstance from '../../util/APIinstance';
 
 // Component
-import MovieById from "../../components/movieById/MovieById";
+import MovieById from '../../components/movieById/MovieById';
 
 // styling
-import "./MoviesPage.scss";
-import SearchMovies from "../../components/searchMovies/SearchMovies";
+import './MoviesPage.scss';
+import SearchMovies from '../../components/searchMovies/SearchMovies';
 
 export default function MoviesPage() {
     // Local state
@@ -20,6 +20,7 @@ export default function MoviesPage() {
     const [lastPage1, setLastPage1] = useState();
     const [lastPage2, setLastPage2] = useState();
 
+    // pop-up "modal" for a movie
     const [movieCardOn, setMovieCardOn] = useState("")
 
 
@@ -45,7 +46,6 @@ export default function MoviesPage() {
             if (res.status === 200) {
                 setTopRatedMovies(res.data.foundMovies);
                 setLastPage2(res.data.numberOfPages)
-
             }
         } catch (error) {
             console.log("Something went wrong", error.message);
@@ -85,20 +85,26 @@ export default function MoviesPage() {
             <SearchMovies />
 
             {/* UPCOMING MOVIES box */}
-            <h3>Upcoming Movies</h3>
+            <h3>Upcoming Movies </h3>
             <div className="moviesContainer">
                 {upcomingMovies.map((item) => (
                     <div
+                        title={item.title}
                         className="movieBox"
                         key={item.imdb_id}
                         onClick={() => {
-                            console.log(item.imdb_id);
+                            // console.log(item.imdb_id);
                             setShowMovie(true);
                             setMovieId(item.imdb_id);
                             setMovieCardOn("")
                         }}
                     >
-                        <img src={item.image_url} alt={item.title} />
+                        {/* <img src={item.image_url} alt={item.title} /> */}
+                        <img src={item.image_url !== "aa.com" ?
+                            item.image_url :
+                            "../../images/poster_blank.png"} alt={item.title} />
+
+                        {item.image_url !== "aa.com" ? null : <div className="posterTitle">{item.title}</div>}
                     </div>
                 ))}
             </div>
@@ -114,10 +120,11 @@ export default function MoviesPage() {
             <div className="moviesContainer">
                 {topRatedMovies.map((item) => (
                     <div
+                        title={item.title}
                         className="movieBox"
                         key={item.imdb_id}
                         onClick={() => {
-                            console.log(item.imdb_id);
+                            // console.log(item.imdb_id);
                             setShowMovie(true);
                             setMovieId(item.imdb_id);
                             setMovieCardOn("")

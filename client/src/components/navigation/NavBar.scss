@@ -1,3 +1,8 @@
-a {
-    color: white;
+/* Links to the Pages */
+.container-button a:hover, 
+.container-button a.active {
+    // color: red ;
+    // text-underline-offset: 8px;
+    text-decoration: underline var(--first-color);
+    text-underline-position: under
 }

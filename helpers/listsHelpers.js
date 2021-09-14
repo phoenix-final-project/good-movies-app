@@ -1,6 +1,11 @@
 const { redisClient } = require('../redis-server');
 const findMovieById = require('../helpers/findMovieById');
 
+exports.getListMovieIds = async (schema, userId) => {
+	const docs = await schema.find({ user: userId });
+	return docs.map(item => item.movieId);
+};
+
 /**
  *
  * Returns a list of movie objects, received either from cache or from external API
@@ -59,7 +64,7 @@ exports.addMovieToList = async (firstList, secondList, userId, imdb_id, movie, n
 
 	if (movieToDelete) {
 		const deletedMovie = await movieToDelete.deleteOne();
-		console.log(deletedMovie);
+		// console.log(deletedMovie);
 	} else {
 		await redisClient.set(imdb_id, JSON.stringify(movie));
 	}

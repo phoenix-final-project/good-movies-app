@@ -100,7 +100,7 @@ function RegistrationPage() {
 
                     setTimeout(() => {
                         setAlertMessageError('hidden');
-                    }, 4000);
+                    }, 3000);
                 });
         }
     };
