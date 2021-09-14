@@ -122,7 +122,24 @@
                     color: var(--first-color);
                     transition: all .5s ease;
                 }
+            &.added {
+                background: #333333;
+
+                &:hover {
+                    color: var(--font-color);
+                }
             }
+
+            &:nth-of-type(3) {
+                background: #333333;
+                border: 3px solid #494949;
+                cursor: auto;
+
+                &:hover {
+                    color: var(--font-color);
+                }
+            }
+        }
     }
 
     .trailer {

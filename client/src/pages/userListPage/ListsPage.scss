@@ -124,6 +124,13 @@
                             color: var(--font-color);
                             background-color: var(--first-color);
                         }
+
+                        &:nth-of-type(3) {
+                            background: #333333;
+                            border: 3px solid #494949;
+                            cursor: auto;
+                            color: var(--font-color);
+                        }
                     }
                 }
             }

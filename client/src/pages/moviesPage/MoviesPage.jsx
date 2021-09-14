@@ -1,12 +1,12 @@
-import React, { useState, useCallback, useEffect } from "react";
-import axiosApiInstance from "../../util/APIinstance";
+import React, { useState, useCallback, useEffect } from 'react';
+import axiosApiInstance from '../../util/APIinstance';
 
 // Component
-import MovieById from "../../components/movieById/MovieById";
+import MovieById from '../../components/movieById/MovieById';
 
 // styling
-import "./MoviesPage.scss";
-import SearchMovies from "../../components/searchMovies/SearchMovies";
+import './MoviesPage.scss';
+import SearchMovies from '../../components/searchMovies/SearchMovies';
 
 export default function MoviesPage() {
     // Local state
