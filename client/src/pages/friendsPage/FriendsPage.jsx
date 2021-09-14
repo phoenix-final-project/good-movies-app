@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axiosApiInstance from "../../util/APIinstance";
 import Friend from "../../components/friend/Friend";
-import { Alert } from "@material-ui/lab";
 
 // styling
 import "./FriendsPage.scss";
@@ -70,7 +69,7 @@ export default function FriendsPage() {
     }, []);
 
     return (
-        <React.Fragment>
+        <div className="friends-page">
             <h1>My friends</h1>
 
             <form onSubmit={searchForUser}>
@@ -86,8 +85,6 @@ export default function FriendsPage() {
                 />
                 <button type="submit">Search</button>
             </form>
-
-            {/*  {isError ? <Alert severity="warning">{errorMessage}</Alert> : null} */}
 
             {userFounded ? (
                 <div>
@@ -109,6 +106,6 @@ export default function FriendsPage() {
                     />
                 </div>
             ) : null}
-        </React.Fragment>
+        </div>
     );
 }
