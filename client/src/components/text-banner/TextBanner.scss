@@ -7,7 +7,7 @@
     border-radius: 5%;
     
     position: absolute;
-    top: 150px;
+    top: 130px;
     left: 100px;
 
     @include tablet {
@@ -16,7 +16,7 @@
     }
 
     .description-container {
-        padding: 20px;
+        padding: 15px;
 
         .title {
             text-align: center;
@@ -27,11 +27,11 @@
         .paragraph {
             margin-top: 20px;
             text-align: left;
-            font-size: 1.2rem;
+            font-size: .9rem;
             letter-spacing: 0.1rem;
 
             @include tablet {
-                font-size: 1rem;
+                font-size: .6rem;
             }
         }
     }
