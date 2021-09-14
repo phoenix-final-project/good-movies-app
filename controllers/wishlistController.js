@@ -1,6 +1,8 @@
 const WishList = require('../models/WishList');
 const WatchedList = require('../models/WatchedList');
-const { getListFromCache, addMovieToList } = require('../helpers/listsHelpers');
+const User = require('../models/User');
+
+const { getListFromCache, addMovieToList, getListMovieIds } = require('../helpers/listsHelpers');
 const { redisClient } = require('../redis-server');
 
 exports.addMovie = async (req, res) => {
@@ -10,6 +12,9 @@ exports.addMovie = async (req, res) => {
 
 	try {
 		const response = await addMovieToList(WishList, WatchedList, userId, imdb_id, movie, 'Wishlist');
+
+		const genres = movie.gen.map(item => item.genre);
+		console.log(genres);
 		res.json(response);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
@@ -37,6 +42,17 @@ exports.showWishlist = async (req, res) => {
 	try {
 		const MoviesInWishlist = await getListFromCache(WishList, userId);
 		res.send(MoviesInWishlist);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
+exports.getMoviesIds = async (req, res) => {
+	const { userId } = req.params;
+	try {
+		// const docs = await WishList.find({ user: userId });
+		const arrayOfIds = await getListMovieIds(WishList, userId);
+		res.send(arrayOfIds);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
