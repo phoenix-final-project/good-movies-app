@@ -3,9 +3,13 @@ import axiosApiInstance from "../../util/APIinstance";
 
 import "./Friend.scss";
 
-export default function Friend({ friends, isFriend, searchedUser }) {
+export default function Friend({ searchOrFriends }) {
     const [listFriends, setListFriends] = useState([]);
     const [commonWishlist, setCommonWishlist] = useState([]);
+    const [isMovieInCommon, setIsMovieInCommon] = useState(false);
+    //const [friendUsername, setFriendUsername] = useState("");
+    const [friendFirstname, setFriendFirstname] = useState("");
+    const [friendLastname, setFriendLastname] = useState("");
 
     // Add a friend
     const addFriend = async (username) => {
@@ -44,8 +48,17 @@ export default function Friend({ friends, isFriend, searchedUser }) {
                     "user_id"
                 )}/${friendId}`
             );
-            console.log(res.data);
-            setCommonWishlist(res.data);
+            //console.log(res.data);
+
+            const friendTarget = listFriends.find(
+                (friend) => friend.id === res.data.friendUserId
+            );
+            //console.log(friendTarget);
+
+            setCommonWishlist(res.data.moviesInCommon);
+            setIsMovieInCommon(true);
+            setFriendFirstname(friendTarget.firstname);
+            setFriendLastname(friendTarget.lastname);
         } catch (error) {
             console.log("Something went wrong", error.response.data.error);
         }
@@ -69,41 +82,65 @@ export default function Friend({ friends, isFriend, searchedUser }) {
     }, []);
 
     return (
-        <div className="friends-box">
-            {friends.map((item) => (
-                <div key={item.username} className="one-friend-box">
-                    <div className="friend-data">
-                        <div className="avatar">{item.avatar}</div>
-                        <div>
-                            <p>
-                                {item.firstname} {item.lastname}
-                            </p>
-                            <p>{item.username}</p>
-                        </div>
+        <div>
+            <div className="friends-box">
+                {searchOrFriends.map((item) => (
+                    <div key={item.username} className="one-friend-box">
+                        <div className="friend-data">
+                            <div className="avatar">{item.avatar}</div>
 
-                        {listFriends.some(
-                            (friend) => friend.username === item.username
-                        ) ? (
                             <div>
-                                <button
-                                    onClick={() => compareWishlist(item.id)}
-                                >
-                                    Compare wishlist
-                                </button>
-                                <button
-                                    onClick={() => deleteFriend(item.username)}
-                                >
-                                    Remove Friend
-                                </button>
+                                <p>
+                                    {item.firstname} {item.lastname}
+                                </p>
+                                <p>{item.username}</p>
                             </div>
-                        ) : (
-                            <button onClick={() => addFriend(item.username)}>
-                                Add Friend
-                            </button>
-                        )}
+
+                            {listFriends.some(
+                                (friend) => friend.username === item.username
+                            ) ? (
+                                <div>
+                                    <button
+                                        onClick={() => compareWishlist(item.id)}
+                                    >
+                                        Compare wishlist
+                                    </button>
+                                    <button
+                                        onClick={() =>
+                                            deleteFriend(item.username)
+                                        }
+                                    >
+                                        Remove Friend
+                                    </button>
+                                </div>
+                            ) : (
+                                <button
+                                    onClick={() => addFriend(item.username)}
+                                >
+                                    Add Friend
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {isMovieInCommon ? (
+                <div className="common-movies-box">
+                    <h3>
+                        Movies in common with {friendFirstname} {friendLastname}
+                    </h3>
+                    <div>
+                        {commonWishlist.map((movie) => (
+                            <div key={movie.imdb_id} className="one-movie-box">
+                                <img src={movie.image_url} alt="" />
+                                <h5>{movie.title}</h5>
+                                <p>{movie.year}</p>
+                            </div>
+                        ))}
                     </div>
                 </div>
-            ))}
+            ) : null}
         </div>
     );
 }

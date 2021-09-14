@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import axiosApiInstance from "../../util/APIinstance";
-import { usePagination } from '@material-ui/lab/Pagination';
+// import { usePagination } from '@material-ui/lab/Pagination';
 
 // Component
 import MovieById from "../../components/movieById/MovieById";
@@ -22,12 +22,11 @@ function SearchMovies() {
     const [lastPage, setLastPage] = useState();
     const [numberOfMovies, setNumberOfMovies] = useState(0);
 
+    const [movieCardOn, setMovieCardOn] = useState("")
 
     // const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
-
-    // console.log("OUT***", page, searchBy, searchParam);
 
     // Search movies by title and searchParam ("london" for example)
     const getMoviesBySearchParam = async (e) => {
@@ -35,9 +34,8 @@ function SearchMovies() {
 
         try {
             let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/${page}`);
-            // console.log(res.data);
 
-            console.log("IN***", page, searchBy, searchParam);
+            // console.log("IN***", page, searchBy, searchParam);
 
             if (res.status === 200) {
                 console.log(res.data.numberOfMovies, res.data.foundMovies);
@@ -132,6 +130,7 @@ function SearchMovies() {
                             console.log(item.imdb_id);
                             setShowMovie(true);
                             setMovieId(item.imdb_id);
+                            setMovieCardOn("")
                         }}
                     >
                         <div className="poster">
@@ -144,12 +143,12 @@ function SearchMovies() {
                                 <div>Length: {item.movie_length} min | Rating: {item.rating} </div>
                             </div>
 
-                            <p>
+                            <div>
                                 <h4>Plot</h4>
                                 <div>{item.plot}</div>
-                            </p>
+                            </div>
 
-                            <p> | {item.gen.map(genre => <span> {genre.genre} |</span>)} </p>
+                            <p> | {item.gen.map(genre => <span key={genre.genre}> {genre.genre} |</span>)} </p>
 
                         </div>
                     </div>
@@ -159,8 +158,7 @@ function SearchMovies() {
                 }
             </div>
 
-            {showMovie ? <MovieById movieId={movieId} /> : null}
-
+            {showMovie ? <MovieById movieId={movieId} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} /> : null}
 
         </div>
     )

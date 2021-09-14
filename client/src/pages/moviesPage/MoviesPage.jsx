@@ -1,11 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import axiosApiInstance from "../../util/APIinstance";
 
-// importing Link
-import { Link } from "react-router-dom";
-
-import NavBanner from '../../components/navBanner/NavBanner';
-
 // Component
 import MovieById from "../../components/movieById/MovieById";
 
@@ -25,10 +20,7 @@ export default function MoviesPage() {
     const [lastPage1, setLastPage1] = useState();
     const [lastPage2, setLastPage2] = useState();
 
-    const handleLogout = () => {
-        window.localStorage.clear();
-        window.location.href = '/registration';
-    };
+    const [movieCardOn, setMovieCardOn] = useState("")
 
 
     const getUpcomingMovies = useCallback(async () => {
@@ -36,7 +28,6 @@ export default function MoviesPage() {
             let res = await axiosApiInstance.get(`/api/movie/upcoming/${page1}`);
 
             if (res.status === 200) {
-                console.log(res.data.numberOfPages, res.data.foundMovies);
                 setUpcomingMovies(res.data.foundMovies);
                 setLastPage1(res.data.numberOfPages)
             }
@@ -52,7 +43,6 @@ export default function MoviesPage() {
             let res = await axiosApiInstance.get(`/api/movie/toprated/${page2}`);
 
             if (res.status === 200) {
-                console.log(res.data.foundMovies);
                 setTopRatedMovies(res.data.foundMovies);
                 setLastPage2(res.data.numberOfPages)
 
@@ -68,8 +58,6 @@ export default function MoviesPage() {
     useEffect(() => {
         getUpcomingMovies();
         getTopRatedMovies();
-        console.log("Upcoming movies, page:", page1, lastPage1);
-        console.log("TopRated movies, page:", page2, lastPage2);
 
     }, [page1, page2, lastPage1, lastPage2, getUpcomingMovies, getTopRatedMovies]);
 
@@ -92,19 +80,11 @@ export default function MoviesPage() {
 
     return (
         <React.Fragment>
-            <NavBanner>
-                <div className="container-button">
-                    <Link to='/my-list'><div className="tour">MY LIST</div></Link>
-                    <Link to='/watched'><div className="tour">WATCHED</div></Link>
-                    <Link to='/search-for-friends'><div className="tour">FRIENDS</div></Link>
-                    <Link to='/invite-friends'><div className="tour">INVITE FRIENDS</div></Link>
-                    <Link to='/my-profile'><div className="tour">PROFILE</div></Link>
-                    <Link ><button className="registration-btn" title='Registration' onClick={handleLogout}>logout</button></Link>
-                </div>
-            </NavBanner>
 
+            {/* SEARCH MOVIES component */}
             <SearchMovies />
 
+            {/* UPCOMING MOVIES box */}
             <h3>Upcoming Movies</h3>
             <div className="moviesContainer">
                 {upcomingMovies.map((item) => (
@@ -115,9 +95,10 @@ export default function MoviesPage() {
                             console.log(item.imdb_id);
                             setShowMovie(true);
                             setMovieId(item.imdb_id);
+                            setMovieCardOn("")
                         }}
                     >
-                        <img src={item.image_url} alt={item.title} /* width="100%" */ />
+                        <img src={item.image_url} alt={item.title} />
                     </div>
                 ))}
             </div>
@@ -128,7 +109,7 @@ export default function MoviesPage() {
             </div>
 
 
-
+            {/* TOP RATED MOVIES box */}
             <h3>Top Rated Movies</h3>
             <div className="moviesContainer">
                 {topRatedMovies.map((item) => (
@@ -139,6 +120,7 @@ export default function MoviesPage() {
                             console.log(item.imdb_id);
                             setShowMovie(true);
                             setMovieId(item.imdb_id);
+                            setMovieCardOn("")
                         }}
                     >
                         <img src={item.image_url} alt={item.title} />
@@ -152,7 +134,7 @@ export default function MoviesPage() {
                 {page2 >= lastPage2 ? null : <button className="next" onClick={handleForwardButton2}> ▶️ </button>}
             </div>
 
-            {showMovie ? <MovieById movieId={movieId} /> : null}
+            {showMovie ? <MovieById movieId={movieId} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} /> : null}
 
         </React.Fragment>
     );

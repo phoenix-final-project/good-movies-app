@@ -14,9 +14,8 @@ const {
 } = require("../middleware/movieListsChecks");
 
 router.post(
-    "/add-movie/:userId/:action",
+    "/add-movie/:userId",
     passport.authenticate("jwt", { session: false }),
-    ifMovieInWishOrWatchedLists,
     ifUserExists,
     addMovie
 );
