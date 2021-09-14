@@ -1,3 +1,5 @@
+@import '../../styles/mixin';
+
 .description-app-section {
     width: 30%;
     height: 450px;
@@ -7,6 +9,11 @@
     position: absolute;
     top: 150px;
     left: 100px;
+
+    @include tablet {
+        height: auto;
+        width: 50%;
+    }
 
     .description-container {
         padding: 20px;
@@ -22,6 +29,10 @@
             text-align: left;
             font-size: 1.2rem;
             letter-spacing: 0.1rem;
+
+            @include tablet {
+                font-size: 1rem;
+            }
         }
     }
 }
