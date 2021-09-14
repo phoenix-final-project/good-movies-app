@@ -327,55 +327,68 @@ exports.addFriend = async (req, res) => {
 
 // PUT - delete a friend from a user - editing a user
 exports.deleteFriend = async (req, res) => {
-	try {
-		const { username, friendUsername } = req.body;
+    try {
+        const { username, friendUsername } = req.body;
 
-		// checking if the friend and user exist in our DB (and not deleted)
-		const friend = await User.findOne({
-			username: friendUsername,
-			deleted: false,
-		});
-		const user = await User.findOne({ username, deleted: false });
+        // checking if the friend and user exist in our DB (and not deleted)
+        const friend = await User.findOne({
+            username: friendUsername,
+            deleted: false,
+        });
+        const user = await User.findOne({ username, deleted: false });
 
-		if (friend === null || user === null) {
-			return res.status(404).json({
-				message: `User ${req.body.friendUsername} was not found`,
-			});
-		}
+        if (friend === null || user === null) {
+            return res
+                .status(404)
+                .json({
+                    message: `User ${req.body.friendUsername} was not found`,
+                });
+        }
 
-		// checking if this friend is user's friend
-		const checkFriendExist = user.friends.find(item => {
-			return item.user.equals(friend._id);
-		});
+        // checking if this friend is user's friend
+        const checkFriendExist = user.friends.find((item) => {
+            return item.user.equals(friend._id);
+        });
 
-		if (!checkFriendExist) {
-			return res.status(400).json({
-				message: `User ${req.body.friendUsername} is not in your friends' list!`,
-			});
-		}
+        if (!checkFriendExist) {
+            return res
+                .status(400)
+                .json({
+                    message: `User ${req.body.friendUsername} is not in your friends' list!`,
+                });
+        }
 
-		// checking user authorization to perform the action
-		if (user.username != req.user.username) {
-			return res.status(401).json({
-				message: 'User is not authorized to perform this action',
-			});
-		}
+        // checking user authorization to perform the action
+        if (user.username != req.user.username) {
+            return res
+                .status(401)
+                .json({
+                    message: "User is not authorized to perform this action",
+                });
+        }
 
-		// deleting a friend from the friends' list
-		await user.updateOne(
-			{
-				$pull: { friends: { user: friend._id } },
-			},
-			{ new: true },
-		);
+        // deleting a friend from the friends' list and automatically removing yourself from that friend's friends' list
+        await user.updateOne(
+            {
+                $pull: { friends: { user: friend._id } },
+            },
+            { new: true }
+        );
 
-		res.status(200).json({
-			message: `${friend.username} deleted from your friends' list`,
-		});
-	} catch (error) {
-		res.status(400).send({
-			message: 'Error occurred',
-			error: error.message,
-		});
-	}
+        await friend.updateOne(
+            {
+                $pull: { friends: { user: user._id } },
+            },
+            { new: true }
+        );
+
+        res.status(200).json({
+            message: `${friend.username} deleted from your friends' list`,
+        });
+    } catch (error) {
+        res.status(400).send({
+            message: "Error occurred",
+            error: error.message,
+        });
+    }
 };
