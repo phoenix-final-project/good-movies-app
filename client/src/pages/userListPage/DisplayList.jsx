@@ -1,7 +1,7 @@
 import React from 'react'
 import "./ListsPage.scss";
 
-function DisplayList({ movieList, deleteMovie, addMovieToAnotherList }) {
+function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove }) {
     return (
         <div className='movie-list'>
             {movieList.map((movie) => (
@@ -33,7 +33,7 @@ function DisplayList({ movieList, deleteMovie, addMovieToAnotherList }) {
                     <section>
                         <button onClick={() => deleteMovie(movie.imdb_id)}>Delete</button>
                         
-                        <button onClick={() => addMovieToAnotherList(movie)}>Watched</button>
+                        <button onClick={() => addMovieToAnotherList(movie)}>{listToMove}</button>
 
                         <button>Favorite</button>
                     </section>

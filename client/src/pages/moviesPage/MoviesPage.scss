@@ -35,11 +35,36 @@ h3 {
         background-color: black;
         width: 160px;
         height: 240px;
+        position: relative;
+
+        &:hover {
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--first-color);;
+            // transform: scale(1.05, 1.05); 
+            // transition: 0.5s;  
+        }
 
         img {
             width: 100%;
             height: 100%;
         }
+
+        
+        .posterTitle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 200;
+            text-align: center;
+            font-size: 1.6rem;
+            text-shadow: 0 0 20px black;
+
+            &:hover {
+                box-shadow: none;
+            }
+        }
+
     }
 }
 

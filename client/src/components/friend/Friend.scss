@@ -29,3 +29,14 @@
         }
     }
 }
+
+.common-movies-box {
+    border: solid 2px fuchsia;
+    margin-top: 20px;
+    width: 50%;
+
+    .one-movie-box {
+        border: solid 2px white;
+        margin: 10px;
+    }
+}

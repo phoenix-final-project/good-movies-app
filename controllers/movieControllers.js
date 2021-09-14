@@ -172,10 +172,6 @@ const moviesByTitle = async (req, res) => {
         });
 };
 
-// GET movies by director
-const moviesByDirector = async (req, res) => {
-    res.status(200).json({ message: "connected to moviesByDirector" });
-};
 
 // GET movies by genre
 const moviesByGenre = async (req, res) => {
@@ -284,6 +280,12 @@ const moviesByYear = async (req, res) => {
             res.status(400).json({ error: error.message });
         });
 };
+
+// GET movies by director - NOT READY
+const moviesByDirector = async (req, res) => {
+    res.status(200).json({ message: "connected to moviesByDirector" });
+};
+
 
 // FOR INDIVIDUAL MOVIE:
 // **************************************
