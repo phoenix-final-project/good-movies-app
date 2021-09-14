@@ -4,6 +4,8 @@ export const getListMoviesIds = async (listName, callback) => {
 	try {
 		const listIds = await axios.get(`/api/${listName}/movies-id/${window.localStorage.getItem('user_id')}`);
 		callback(listIds.data);
+		// console.log(listName, listIds.data);
+		if (listName === 'wishlist') console.log('OK');
 	} catch (error) {
 		console.log(error);
 	}
