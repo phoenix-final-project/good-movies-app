@@ -1,53 +1,60 @@
 .banner {
     margin-top: -80px;
+    // position: relative;
 
     .img {
+        background-position: center;
+        background-size: cover;
         width: 100%;
     }
 
     .button-container {
         position: absolute;
         top: 650px;
-        left: 100px;
+        left: 120px;
 
         .discover-button {
-            display: flex;
-            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            margin: 0 0 20px 0;
 
             .check-h3 {
-                margin-right: 40px;
+                margin-left: -1px;
             }
 
-            .discover {
-                margin-right: 30px;
-                font-size: 1.3em;
-                text-transform: uppercase;
-                font-weight: 100;
-                color: var(--container-color);
-                transition: all .5s ease-in-out;
+            .span-discover {
+                margin: 30px 0 0 0;
 
-                &:hover {
-                    color: var(--first-color);
-                    transition: all .5s ease-out;
-                }
+                .discover {
+                    font-size: 1.3em;
+                    text-transform: uppercase;
+                    font-weight: 100;
+                    color: var(--container-color);
+                    transition: all .5s ease-in-out;
 
-                &:after {    
-                    content: "";
-                    position: absolute;
-                    top: 22px;
-                    left: 65%;
-                    width: 0;
-                    height: 3px;
+                    &:hover {
+                        color: var(--first-color);
+                        transition: all .5s ease-out;
+                    }
+
+                    &:after {    
+                        content: "";
+                        position: absolute;
+                        top: 52px;
+                        left: 55%;
+                        width: 0;
+                        height: 3px;
                     
-                    background: none repeat scroll 0 0 transparent;
-                    display: block;
-                    background: var(--first-color);
-                    transition: width 0.5s ease-in-out 0s, left 0.5s ease-in-out 0s;
-                }
+                        background: none repeat scroll 0 0 transparent;
+                        display: block;
+                        background: var(--first-color);
+                        transition: width 0.5s ease-in-out 0s, left 0.5s ease-in-out 0s;
+                    }
 
-                &:hover:after { 
-                    width: 24%; 
-                    left: 68%;
+                    &:hover:after { 
+                        width: 20%; 
+                        left: 50%;
+                    }
                 }
             }
         }

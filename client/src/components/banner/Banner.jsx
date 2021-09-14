@@ -14,13 +14,13 @@ let intervalID;
 
 export default function Banner() {
     const [index, setIndex] = React.useState(0);
-    const [indexText, setIndexText] = React.useState(0);
+    // const [indexText, setIndexText] = React.useState(0);
 
     React.useEffect(() => {
         // window.scrollTop = 0;
         indexFunction();
         return () => clearInterval(intervalID);
-    }, [index, indexText]); // , [index]
+    }, [index]); // , [index]
 
     const indexFunction = () => {
         intervalID = setInterval(() => {
@@ -32,13 +32,13 @@ export default function Banner() {
                 return index;
             });
 
-            setIndexText(indexText => {
-                indexText = indexText + 1;
-                if (indexText === 3) {
-                    indexText = 0
-                }
-                return indexText;
-            });
+            // setIndexText(indexText => {
+            //     indexText = indexText + 1;
+            //     if (indexText === 3) {
+            //         indexText = 0
+            //     }
+            //     return indexText;
+            // });
         }, 6000);
     }
 
@@ -46,12 +46,12 @@ export default function Banner() {
         <React.Fragment>
             <div className="banner">
                 <img className='img' src={changeBackgroundImage[index]} alt="cinema" />
-                <TextBanner title='Hello World' paragraph={textData[indexText]}/>
+                <TextBanner title='Hello World' paragraph={textData[0]}/>
                 <div className="button-container">
                     <div className="discover-button">
                         <h3 className='check-h3'>Want first to discover the app?</h3>
                         <span className="span-discover">
-                            <Link className='discover' to='/public-movies'>discover</Link>
+                            <Link className='discover' to='/movies'>discover</Link>
                         </span>
                     </div>
                     <Link to='/registration'>
