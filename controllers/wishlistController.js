@@ -8,6 +8,7 @@ const {
     getListMovieIds,
 } = require("../helpers/listsHelpers");
 const { redisClient } = require("../redis-server");
+const { findByIdAndMap } = require("../helpers/findByIdAndMap");
 
 exports.addMovie = async (req, res) => {
     const { userId } = req.params;

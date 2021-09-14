@@ -71,7 +71,7 @@ export default function FriendsPage() {
 
     return (
         <React.Fragment>
-            <h1>Hello from friends page</h1>
+            <h1>My friends</h1>
 
             <form onSubmit={searchForUser}>
                 <label htmlFor="header-search">
