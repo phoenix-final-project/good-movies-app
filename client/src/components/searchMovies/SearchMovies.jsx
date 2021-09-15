@@ -118,17 +118,36 @@ function SearchMovies() {
                             <option value="title">Title</option>
                             <option value="year">Year</option>
                             <option value="genre">Genre</option>
-                            <option value="person" disabled>Person</option>
+                            <option value="director">Director</option>
                         </select>
 
-                        <input id="header-search" value={searchParam} required onChange={(e) => setSearchParam(e.target.value)} type={searchBy === "year" ? "number" : "text"} placeholder={searchBy === "year" ? "Type any year between 1960-2021" : searchBy === "title" ? "Type any word from a movie title" : "Your favorite genre: horror, adventure.. "} min={searchBy === "year" ? "1960" : null} max={searchBy === "year" ? "2021" : null} />
-                        <span className="clear" onClick={() => {
-                            setSearchParam("");
-                            setSearchResults([]);
-                            setPage(0);
-                            setLastPage(0);
-                            setNumberOfMovies(0)
-                        }}> ✕ </span>
+                        <input
+                            id="header-search"
+                            value={searchParam}
+                            required
+                            onChange={(e) => setSearchParam(e.target.value)}
+                            type={searchBy === "year" ? "number" : "text"}
+                            placeholder={
+                                searchBy === "year" ? "Type any year between 1960-2021"
+                                    :
+                                    searchBy === "title" ? "Type any word from a movie title"
+                                        :
+                                        searchBy === "genre" ? "Your favorite genre: horror, adventure.. "
+                                            : "Full name, e.g. James Cameron"}
+                            min={searchBy === "year" ? "1960" : null}
+                            max={searchBy === "year" ? "2021" : null}
+                        />
+
+                        <span
+                            className="clear"
+                            title="Clear all search results"
+                            onClick={() => {
+                                setSearchParam("");
+                                setSearchResults([]);
+                                setPage(0);
+                                setLastPage(0);
+                                setNumberOfMovies(0)
+                            }}> ✕ </span>
 
                         <button type="submit">Search</button>
                     </form>
