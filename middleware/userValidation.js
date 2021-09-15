@@ -12,7 +12,7 @@ module.exports.validateUser = [
 			});
 		next();
 	},
-	body('firstname').exists().trim().isAlpha().withMessage('First name must include only letters!'),
+	body('firstname').exists().trim().withMessage('First name must include only letters!'),
 	function (req, res, next) {
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
@@ -22,7 +22,7 @@ module.exports.validateUser = [
 			});
 		next();
 	},
-	body('lastname').exists().trim().isAlpha().withMessage('Last name must include only letters!'),
+	body('lastname').exists().trim().withMessage('Last name must include only letters!'),
 	function (req, res, next) {
 		let errors = validationResult(req);
 		if (!errors.isEmpty())
