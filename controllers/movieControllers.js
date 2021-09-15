@@ -202,59 +202,57 @@ const moviesByTitle = async (req, res) => {
 
 // GET movies by genre
 const moviesByGenre = async (req, res) => {
+	const genre = req.params.genre[0].toUpperCase() + req.params.genre.slice(1);
+
 	let options = {
 		method: 'GET',
-		url: `https://data-imdb1.p.rapidapi.com/movie/byGen/${req.params.genre}/`,
+		url: `https://data-imdb1.p.rapidapi.com/movie/byGen/${genre}/`,
 		headers: rapidApiHeaders,
 	};
 
-	await axios
-		.request(options)
-		.then(async response => {
-			const numberOfMoviesToShow = 20;
-			console.log(response.data);
+	try {
+		// get data
+		const foundByGenre = await getDataRedisOrApi(genre, options);
 
-			// getting ALL movies for that genre (can be a lot)
-			const foundByGenre = Object.values(response.data)[0];
-			const numberOfMovies = foundByGenre.length;
+		// proceed data
+		const numberOfMovies = foundByGenre.length;
 
-			// then limiting a number of results of "foundByGenre" to 20
-			// const foundByGenre20 = foundByGenre.slice(0, numberOfMoviesToShow);
+		// then limiting a number of results of "foundByGenre" to 20
+		// const foundByGenre20 = foundByGenre.slice(0, numberOfMoviesToShow);
 
-			if (foundByGenre.length === 0) {
-				return res.status(404).json({
-					message: `No movies for *${req.params.genre}* were found`,
-				});
-			}
-			const page = req.params.page - 1;
-			const limit = 10;
-			const numberOfPages = Math.ceil(numberOfMovies / limit);
-
-			let start, end;
-
-			if (page >= 0 && page < numberOfPages) {
-				start = limit * page;
-				end = limit + start;
-			} else {
-				return res.status(500).json({ message: 'No such page found' });
-			}
-			const foundByGenrePart = foundByGenre.slice(start, end);
-
-			// helper for extended info on movies
-			const withExtendedInfo = await findByIdAndMap(foundByGenrePart);
-
-			return res.status(200).json({
-				searchParam: req.params.genre,
-				numberOfMovies: numberOfMovies,
-				numberOfPages: numberOfPages,
-				currentPage: +req.params.page,
-				foundMovies: withExtendedInfo,
+		if (foundByGenre.length === 0) {
+			return res.status(404).json({
+				message: `No movies for *${req.params.genre}* were found`,
 			});
-		})
-		.catch(error => {
-			console.error(error.message);
-			res.status(400).json({ error: error.message });
+		}
+		const page = req.params.page - 1;
+		const limit = 10;
+		const numberOfPages = Math.ceil(numberOfMovies / limit);
+
+		let start, end;
+
+		if (page >= 0 && page < numberOfPages) {
+			start = limit * page;
+			end = limit + start;
+		} else {
+			return res.status(500).json({ message: 'No such page found' });
+		}
+		const foundByGenrePart = foundByGenre.slice(start, end);
+
+		// helper for extended info on movies
+		const withExtendedInfo = await findByIdAndMap(foundByGenrePart);
+
+		return res.status(200).json({
+			searchParam: req.params.genre,
+			numberOfMovies: numberOfMovies,
+			numberOfPages: numberOfPages,
+			currentPage: +req.params.page,
+			foundMovies: withExtendedInfo,
 		});
+	} catch (error) {
+		console.error(error.message);
+		res.status(400).json({ error: error.message });
+	}
 };
 
 // GET movies by year
