@@ -83,45 +83,45 @@
         }
     }
     
-    .buttonContainerSearch {
     
-        width: 300px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-around;
-        padding: 20px 0;
+}
+
+.buttonContainerSearch {
     
-        button {
-            display: inline-block;
-    
-            width: 110px;
-            padding: 5px 0;
-            font-weight: bold;
-            color: var(--font-color);
-            background-color: var(--first-color);
-            border: 3px solid var(--first-color);
-            border-radius: 5px;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.5s ease-in-out;
-            background: transparent;
-            color: var(--first-color);
-    
-                &:hover {
-                    background: transparent;
-                    color: var(--first-color);
-                    transition: all .5s ease;
-                    color: var(--font-color);
-                    background-color: var(--first-color);
-                }
-    
-            
-        }
+    width: 300px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    padding: 20px 0;
+
+    button {
+        display: inline-block;
+
+        width: 110px;
+        padding: 5px 0;
+        font-weight: bold;
+        color: var(--font-color);
+        background-color: var(--first-color);
+        border: 3px solid var(--first-color);
+        border-radius: 5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.5s ease-in-out;
+        background: transparent;
+        color: var(--first-color);
+
+            &:hover {
+                background: transparent;
+                color: var(--first-color);
+                transition: all .5s ease;
+                color: var(--font-color);
+                background-color: var(--first-color);
+            }
     }
 }
 
 .movie-container {
-    margin-top: -50px;
+    margin-top: -70px;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;

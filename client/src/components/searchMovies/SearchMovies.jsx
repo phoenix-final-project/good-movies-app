@@ -217,12 +217,9 @@ function SearchMovies() {
                     <div className="buttonContainerSearch">
                         {page === 1 ? null : <button className="prev" onClick={handleBackwardButton}>❮ Previous</button>}
 
-
                         {page >= lastPage ? null : <button className="next" onClick={handleForwardButton}>Next ❯</button>}
                     </div>
-                </div>
-                :
-                null
+                </div> : null
             }
 
             {showMovie ? <MovieById movieId={movieId} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} /> : null}
