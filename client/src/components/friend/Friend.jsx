@@ -7,9 +7,10 @@ export default function Friend({ searchOrFriends }) {
     const [listFriends, setListFriends] = useState([]);
     const [commonWishlist, setCommonWishlist] = useState([]);
     const [isMovieInCommon, setIsMovieInCommon] = useState(false);
-    //const [friendUsername, setFriendUsername] = useState("");
     const [friendFirstname, setFriendFirstname] = useState("");
     const [friendLastname, setFriendLastname] = useState("");
+    const [color, setColor] = useState("#ffffff");
+    //const [movieCard, setMovieCard] = useState("hidden");
 
     // Add a friend
     const addFriend = async (username) => {
@@ -77,8 +78,20 @@ export default function Friend({ searchOrFriends }) {
         }
     };
 
+    // Random color Avatar
+    const randomizeColor = () => {
+        let randomColor = "#";
+        for (let i = 0; i < 3; i++)
+            randomColor += (
+                "0" +
+                Math.floor((Math.random() * Math.pow(16, 2)) / 2).toString(16)
+            ).slice(-2);
+        setColor(randomColor);
+    };
+
     useEffect(() => {
         getFriends();
+        randomizeColor();
     }, []);
 
     return (
@@ -89,7 +102,12 @@ export default function Friend({ searchOrFriends }) {
                     <div key={item.username} className="one-friend-box">
                         <div className="friend-data">
                             <div className="friend-data-1st-box">
-                                <div className="avatar">{item.avatar}</div>
+                                <div
+                                    className="avatar"
+                                    style={{ backgroundColor: color }}
+                                >
+                                    {item.avatar}
+                                </div>
 
                                 <div className="friend-name">
                                     <p>
@@ -131,44 +149,56 @@ export default function Friend({ searchOrFriends }) {
 
             {/* DISPLAY MOVIES IN COMMON */}
             {isMovieInCommon ? (
-                <section className="common-movies-card">
-                    <h3>
-                        Movies in common with{" "}
-                        <span>
-                            {friendFirstname} {friendLastname}
-                        </span>
-                    </h3>
+                <section className="cover-outside-card">
+                    <div className="common-movies-card">
+                        <h3>
+                            Movies in common with{" "}
+                            <span>
+                                {friendFirstname} {friendLastname}
+                            </span>
+                        </h3>
 
-                    {commonWishlist.map((movie) => (
-                        <div key={movie.imdb_id} className="one-movie-box">
-                            <div className="one-movie-box-data">
-                                <img src={movie.image_url} alt="" />
+                        {commonWishlist.map((movie) => (
+                            <div key={movie.imdb_id} className="one-movie-box">
+                                <div className="one-movie-box-data">
+                                    <img src={movie.image_url} alt="" />
 
-                                <div className="movie-data">
-                                    <p>
-                                        Title: <span>{movie.title}</span>
-                                    </p>
-                                    <p>
-                                        Year: <span>{movie.year}</span>
-                                    </p>
-                                    {movie.movie_length !== 0 && (
+                                    <div className="movie-data">
                                         <p>
-                                            Length:{" "}
-                                            <span>{movie.movie_length}</span>
+                                            Title: <span>{movie.title}</span>
                                         </p>
-                                    )}
+                                        <p>
+                                            Year: <span>{movie.year}</span>
+                                        </p>
+                                        {movie.movie_length !== 0 && (
+                                            <p>
+                                                Length:{" "}
+                                                <span>
+                                                    {movie.movie_length}
+                                                </span>
+                                            </p>
+                                        )}
+                                        <p>
+                                            Rating: <span>{movie.rating}</span>
+                                        </p>
+                                    </div>
+                                </div>
 
-                                    <p>
-                                        Rating: <span>{movie.rating}</span>
-                                    </p>
+                                {/* <div>
+                                    <button
+                                        className="closeCard"
+                                        onClick={(e) => setMovieCard("hidden")}
+                                    >
+                                        x
+                                    </button>
+                                </div> */}
+
+                                <div>
+                                    <button>Invite to watch</button>
                                 </div>
                             </div>
-
-                            <div>
-                                <button>Invite to watch</button>
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </section>
             ) : null}
         </div>
