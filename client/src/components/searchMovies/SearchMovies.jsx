@@ -38,15 +38,12 @@ function SearchMovies() {
         try {
             let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/1`);
 
-            // let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/${page}`);
-            // let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/${page !== 1 ? 1 : 1}`);
-
-            if (res.status === 200) {
-                // console.log(res.data.numberOfMovies, res.data.foundMovies);
-                setSearchResults(res.data.foundMovies);
-                setNumberOfMovies(res.data.numberOfMovies)
-                setLastPage(res.data.numberOfPages)
-            }
+            // if (res.status === 200) {
+            // console.log(res.data.numberOfMovies, res.data.foundMovies);
+            setSearchResults(res.data.foundMovies);
+            setNumberOfMovies(res.data.numberOfMovies)
+            setLastPage(res.data.numberOfPages)
+            // }
         } catch (error) {
             console.log("Something went wrong:", error.response.data.message);
             // setIsError(true);
@@ -120,7 +117,7 @@ function SearchMovies() {
                         <option value="title">Title</option>
                         <option value="year">Year</option>
                         <option value="genre">Genre</option>
-                        <option value="person" disabled>Person</option>
+                        <option value="director">Director</option>
                     </select>
 
                     <input
@@ -134,13 +131,15 @@ function SearchMovies() {
                                 :
                                 searchBy === "title" ? "Type any word from a movie title"
                                     :
-                                    "Your favorite genre: horror, adventure.. "}
+                                    searchBy === "genre" ? "Your favorite genre: horror, adventure.. "
+                                        : "Full name, e.g. James Cameron"}
                         min={searchBy === "year" ? "1960" : null}
                         max={searchBy === "year" ? "2021" : null}
-
                     />
+
                     <span
                         className="clear"
+                        title="Clear all search results"
                         onClick={() => {
                             setSearchParam("");
                             setSearchResults([]);
@@ -200,6 +199,10 @@ function SearchMovies() {
                                 <h4>Plot</h4>
                                 <div>{item.plot}</div>
                             </div>
+
+                            {/* Adding DIRECTOR for "director" search only */}
+                            {item.director ? <div>Director: <span className="director">{item.director}</span></div> : null}
+                        
 
                             <p> | {item.gen.map(genre => <span key={genre.genre}> {genre.genre} |</span>)} </p>
 
