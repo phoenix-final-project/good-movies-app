@@ -1,9 +1,99 @@
-.visually-hidden {
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    height: 1px;
-    overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
+.friends-page {
+    margin: 3% auto;
+    width: 60%;
+
+    h2 {
+        color: var(--first-color);
+    }
+
+    button {
+        display: inline-block;
+
+        width: 170px;
+        padding: 5px 0;
+        font-weight: bold;
+        color: var(--font-color);
+        background-color: var(--first-color);
+        border: 1px solid var(--first-color);
+        border-radius: 5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.5s ease-in-out;
+        background: transparent;
+        color: var(--first-color);
+
+        &:hover {
+            background: transparent;
+            color: var(--first-color);
+            transition: all 0.5s ease;
+            color: var(--font-color);
+            background-color: var(--first-color);
+        }
+    }
+
+    .form-search-user {
+        //width: 600px;
+        text-align: center;
+
+        input {
+            width: 300px;
+            border: none;
+            border-bottom: 2px solid var(--first-color);
+            background-color: transparent;
+            color: var(--container-color);
+            font-size: 1rem;
+            border-radius: 3px;
+            padding: 5px;
+            outline: none;
+        }
+
+        .visually-hidden {
+            clip: rect(0 0 0 0);
+            clip-path: inset(50%);
+            height: 1px;
+            overflow: hidden;
+            position: absolute;
+            white-space: nowrap;
+            width: 1px;
+        }
+
+        button {
+            display: inline-block;
+
+            width: 110px;
+            padding: 5px 0;
+            font-weight: bold;
+            color: var(--font-color);
+            background-color: var(--first-color);
+            border: 3px solid var(--first-color);
+            border-radius: 5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.5s ease-in-out;
+            background: transparent;
+            color: var(--first-color);
+
+            &:hover {
+                background: transparent;
+                color: var(--first-color);
+                transition: all 0.5s ease;
+                color: var(--font-color);
+                background-color: var(--first-color);
+            }
+        }
+    }
+
+    .friends-page-display-box {
+        margin-top: 30px;
+
+        .back-friends-div {
+            width: 97%;
+            display: flex;
+            justify-content: flex-end;
+
+            button {
+                margin-top: 20px;
+            }
+        }
+    }
 }

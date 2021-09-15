@@ -1,6 +1,13 @@
+// mixin
+@import '../../styles/mixin';
+
 .main-form {
     width: 50%;
     margin: 100px auto;
+
+    @include tablet {
+        margin: 150px auto;
+    }
 
     .text-form {
         text-align: center;
@@ -9,10 +16,19 @@
         padding: 0 3.5rem ;
         font-size: 1rem;
 
-
         &::after {
             content: ' STARTED.';
             color: var(--first-color);
+        }
+
+        @include tablet {
+            font-size: 0.8em;
+            padding: 0 2rem;
+        }
+
+        @include mobile {
+            font-size: 0.6em;
+            padding: 0 1rem;
         }
     }
 
@@ -21,6 +37,15 @@
         padding: 30px;
         display: grid;
         grid-template-columns: 1fr;
+
+        @include tablet {
+            padding: 0;
+            margin-top: 50px;
+        }
+
+        @include mobile {
+            margin-top: 30px;
+        }
 
         label {
             display: flex;
@@ -31,6 +56,10 @@
             color: var(--first-color);
             text-transform: uppercase;
             margin-left: 10px;
+
+            @include mobile {
+                font-size: .6rem;
+            }
         }
 
         input[type=text], input[type=email], input[type=password]{
@@ -44,16 +73,24 @@
             width: 100%;
             margin-bottom: 20px;
             outline: none;
+
+            @include mobile {
+                font-size: .5rem;
+            }
         }
 
         .error-para {
             color: red;
             text-transform: capitalize;
+
+            @include mobile {
+                font-size: 0.5rem;
+            }
         }
 
         .submit-btn {
             width: 20%;
-            padding: .6rem;
+            padding: .5rem;
             font-size: 0.6rem;
             color: var(--font-color);
             background-color: var(--first-color);
@@ -64,6 +101,15 @@
 
             letter-spacing: var(--letter-spacing-btn);
             transition: all 0.5s ease-in-out;
+
+            @include tablet {
+                width: 30%;
+            }
+
+            @include mobile {
+                width: 50%;
+                padding: .4rem;
+            }
 
             &:hover {
                 background: transparent;
@@ -82,11 +128,15 @@
     margin: 0 auto;
     border-radius: 10px;
     text-align: center;
-    font: 1.2em;
+    font-size: 1.2em;
     color: var(--container-color);
     background-color: var(--first-color);
 
     display: block;
+
+    @include mobile {
+        font-size: .6em;
+    }
 }
 
 .error {
@@ -101,6 +151,10 @@
     background-color: red;
 
     display: block;
+
+    @include mobile {
+        font-size: .6em;
+    }
 }
 
 .hidden {
