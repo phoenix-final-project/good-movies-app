@@ -10,14 +10,10 @@ const UserSchema = new Schema({
 	firstname: { type: String, required: [true, 'Please, provide your first name'] },
 	lastname: { type: String, required: [true, 'Please, provide your last name'] },
 	avatar: { type: String },
+	avatarColor: { type: String },
 	password: { type: String, required: [true, 'Please, provide a password'], min: [5, 'The password must be at least 5 characters long'] },
 	email: { type: String, required: [true, 'Please, provide your email address'] },
-	favoriteGenres: [
-		{
-			type: String,
-			// required: true,
-		},
-	],
+	favoriteGenres: [{ type: String }],
 	registerDate: { type: Date, default: Date.now },
 	friends: [{ user: { type: Schema.Types.ObjectId, ref: 'User' }, date: { type: Date, default: Date.now }, deleted: { type: Boolean, default: false } }],
 	deleted: { type: Boolean, default: false }, // to delete the user
