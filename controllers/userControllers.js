@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Genre = require('../models/Genre');
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../helpers/jwtIssuer');
+const { randomizeColor } = require('../helpers/avatarColor');
 
 // REGISTER a user
 exports.registerUser = async (req, res) => {
@@ -24,6 +25,7 @@ exports.registerUser = async (req, res) => {
 			firstname,
 			lastname,
 			avatar: (firstname[0] + lastname[0]).toUpperCase(),
+			avatarColor: randomizeColor(),
 			password: hashedPassword,
 			email,
 		});
