@@ -3,11 +3,12 @@ const axios = require('axios').default;
 
 const getDataRedisOrApi = async (key, options) => {
 	try {
-		// 1. go to Redis and get data from cache
-		let result = await redisClient.get(key);
 		let foundTitles;
 
-		// 2. if not in redis, fetch from api and store in Redis
+		// 1. go to Redis and get data from cache
+		let result = await redisClient.get(key);
+
+		// 2. if in redis, give results, in not - fetch from api and store in Redis
 		if (result) {
 			foundTitles = JSON.parse(result);
 			console.log('REDIS');

@@ -132,32 +132,9 @@ const moviesByTitle = async (req, res) => {
 		headers: rapidApiHeaders,
 	};
 
-	// try {
-	// 	// 1. go to redis, get from there.
-	// 	let results = await redisClient.get(title);
-	// 	let foundTitles = JSON.parse(results);
-	// 	// console.log('Redis', foundTitles);
-
-	// 	// 2. if not in redis, fetch from api and store in Redis
-	// 	if (foundTitles === null) {
-	// 		const resp = await axios.request(options);
-	// 		foundTitles = Object.values(resp.data)[0];
-	// 		// console.log('api', foundTitles);
-
-	// 		// store in redis
-	// 		await redisClient.setex(title, 1800, JSON.stringify(foundTitles));
-	// 	}
-
-	// 	res.send(foundTitles);
-	// } catch (error) {
-	// 	console.error(error.message);
-	// 	res.status(400).json({ error: error.message });
-	// }
-
-	//======================================================================
 	try {
 		// get data
-		const foundTitles = await getDataRedisOrApi(title, options);
+		const foundTitles = await getDataRedisOrApi(`byTitle_${title}`, options);
 
 		// proceed data
 		const numberOfMovies = foundTitles.length;
@@ -212,7 +189,7 @@ const moviesByGenre = async (req, res) => {
 
 	try {
 		// get data
-		const foundByGenre = await getDataRedisOrApi(genre, options);
+		const foundByGenre = await getDataRedisOrApi(`byGenre_${genre}`, options);
 
 		// proceed data
 		const numberOfMovies = foundByGenre.length;
@@ -257,53 +234,54 @@ const moviesByGenre = async (req, res) => {
 
 // GET movies by year
 const moviesByYear = async (req, res) => {
+	const { year } = req.params;
 	let options = {
 		method: 'GET',
-		url: `https://data-imdb1.p.rapidapi.com/movie/byYear/${req.params.year}/`,
+		url: `https://data-imdb1.p.rapidapi.com/movie/byYear/${year}/`,
 		headers: rapidApiHeaders,
 	};
 
-	axios
-		.request(options)
-		.then(async response => {
-			const foundByYear = Object.values(response.data)[0];
-			const numberOfMovies = foundByYear.length;
+	try {
+		// get data
+		const foundByYear = await getDataRedisOrApi(`byYear_${year}`, options);
 
-			if (foundByYear.length === 0) {
-				return res.status(404).json({
-					message: `No movies for *${req.params.year}* were found`,
-				});
-			}
+		// process data
+		const numberOfMovies = foundByYear.length;
 
-			const page = req.params.page - 1;
-			const limit = 10;
-			const numberOfPages = Math.ceil(numberOfMovies / limit);
-
-			let start, end;
-
-			if (page >= 0 && page < numberOfPages) {
-				start = limit * page;
-				end = limit + start;
-			} else {
-				return res.status(500).json({ message: 'No such page found' });
-			}
-			const foundByYearPart = foundByYear.slice(start, end);
-
-			// helper for extended info on movies
-			const withExtendedInfo = await findByIdAndMap(foundByYearPart);
-
-			return res.status(200).json({
-				searchParam: req.params.year,
-				numberOfMovies: numberOfMovies,
-				numberOfPages: numberOfPages,
-				currentPage: +req.params.page,
-				foundMovies: withExtendedInfo,
+		if (foundByYear.length === 0) {
+			return res.status(404).json({
+				message: `No movies for *${req.params.year}* were found`,
 			});
-		})
-		.catch(error => {
-			console.error(error.message);
-			res.status(400).json({ error: error.message });
+		}
+
+		const page = req.params.page - 1;
+		const limit = 10;
+		const numberOfPages = Math.ceil(numberOfMovies / limit);
+
+		let start, end;
+
+		if (page >= 0 && page < numberOfPages) {
+			start = limit * page;
+			end = limit + start;
+		} else {
+			return res.status(500).json({ message: 'No such page found' });
+		}
+		const foundByYearPart = foundByYear.slice(start, end);
+
+		// helper for extended info on movies
+		const withExtendedInfo = await findByIdAndMap(foundByYearPart);
+
+		return res.status(200).json({
+			searchParam: req.params.year,
+			numberOfMovies: numberOfMovies,
+			numberOfPages: numberOfPages,
+			currentPage: +req.params.page,
+			foundMovies: withExtendedInfo,
 		});
+	} catch (error) {
+		console.error(error.message);
+		res.status(400).json({ error: error.message });
+	}
 };
 
 // GET movies by director - NOT READY
