@@ -9,7 +9,7 @@ export default function PublicNavigation() {
                 
                 <NavLink exact to='/login'><div className="tour" title='Click to have a small tour in the application'>LOGIN</div></NavLink>
 
-                <NavLink exact to='/registration'><button className="registration-btn" title='Feel free to register yourself'>get started</button></NavLink>
+                <NavLink exact to='/registration'><button className="registration-btn" title='Feel free to register yourself'>sign up</button></NavLink>
         </NavBanner>
     );
 }

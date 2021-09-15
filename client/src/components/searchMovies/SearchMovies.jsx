@@ -112,78 +112,56 @@ function SearchMovies() {
 
     return (
         <div>
-            <div className="search" >
+            <div className='search-container'>
+                <div className="search" >
 
-                <form onSubmit={getMoviesBySearchParam}>
+                    <form onSubmit={getMoviesBySearchParam}>
 
-                    <select name="search" id="search" onChange={(e) => { setSearchBy(e.target.value); setSearchParam("") }}>
-                        <option value="title">Title</option>
-                        <option value="year">Year</option>
-                        <option value="genre">Genre</option>
-                        <option value="person" disabled>Person</option>
-                    </select>
+                        <select name="search" id="search" onChange={(e) => { setSearchBy(e.target.value); setSearchParam("") }}>
+                            <option value="title">Title</option>
+                            <option value="year">Year</option>
+                            <option value="genre">Genre</option>
+                            <option value="person" disabled>Person</option>
+                        </select>
 
-                    <input
-                        id="header-search"
-                        value={searchParam}
-                        required
-                        onChange={(e) => setSearchParam(e.target.value)}
-                        type={searchBy === "year" ? "number" : "text"}
-                        placeholder={
-                            searchBy === "year" ? "Type any year between 1960-2021"
-                                :
-                                searchBy === "title" ? "Type any word from a movie title"
-                                    :
-                                    "Your favorite genre: horror, adventure.. "}
-                        min={searchBy === "year" ? "1960" : null}
-                        max={searchBy === "year" ? "2021" : null}
-
-                    />
-                    <span
-                        className="clear"
-                        onClick={() => {
-                            setSearchParam("");
+                        <input id="header-search" value={searchParam} required onChange={(e) => setSearchParam(e.target.value)} type={searchBy === "year" ? "number" : "text"} placeholder={ searchBy === "year" ? "Type any year between 1960-2021" : searchBy === "title" ? "Type any word from a movie title" : "Your favorite genre: horror, adventure.. " } min={searchBy === "year" ? "1960" : null} max={searchBy === "year" ? "2021" : null} />
+                        <span className="clear" onClick={() => { 
+                            setSearchParam(""); 
                             setSearchResults([]);
                             setPage(0);
                             setLastPage(0);
                             setNumberOfMovies(0)
                         }}> ✕ </span>
 
-                    <button type="submit">Search</button>
-                </form>
+                        <button type="submit">Search</button>
+                    </form>
 
-                <p>Search Results: {numberOfMovies} </p>
-            </div>
-
-            {/* Forward - Backward Button for Search Results */}
-            {numberOfMovies ?
-                <div>
-                    <div style={{ textAlign: "center" }}>Page : {page} / {lastPage}</div>
-
-                    <div className="buttonContainerSearch">
-                        {page === 1 ? null : <button className="prev" onClick={handleBackwardButton}>❮ Previous</button>}
-
-
-                        {page >= lastPage ? null : <button className="next" onClick={handleForwardButton}>Next ❯</button>}
-                    </div>
+                    <p>Search Results: {numberOfMovies} </p>
                 </div>
-                :
-                null
-            }
 
-            <div className="movie-container">
+                {/* Forward - Backward Button for Search Results */}
+                {numberOfMovies ?
+                    <div>
+                        <div style={{ textAlign: "center" }}>Page : {page} / {lastPage}</div>
 
-                {searchResults ? searchResults.map((item) => (
-                    <div
-                        className="movieBox"
-                        key={item.imdb_id}
-                        onClick={() => {
+                        <div className="buttonContainerSearch">
+                            {page === 1 ? null : <button className="prev" onClick={handleBackwardButton}>❮ Previous</button>}
+
+                            {page >= lastPage ? null : <button className="next" onClick={handleForwardButton}>Next ❯</button>}
+                        </div>
+                    </div> : null
+                }
+                </div>
+
+                <div className="movie-container">
+
+                    {searchResults ? searchResults.map((item) => (
+                        <div className="movieBox" key={item.imdb_id} onClick= {() => {
                             // console.log(item.imdb_id);
                             setShowMovie(true);
                             setMovieId(item.imdb_id);
                             setMovieCardOn("")
-                        }}
-                    >
+                        }}>
                         <div className="poster">
                             <img src={item.image_url !== "aa.com" ?
                                 item.image_url :
@@ -192,7 +170,7 @@ function SearchMovies() {
 
                         <div className="info">
                             <div>
-                                <h3>{item.title} ({item.year}) </h3>
+                                <h3 className='poster-title'>{item.title} ({item.year}) </h3>
                                 <div>Length: {item.movie_length} min | Rating: {item.rating} </div>
                             </div>
 
@@ -228,7 +206,6 @@ function SearchMovies() {
             }
 
             {showMovie ? <MovieById movieId={movieId} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} /> : null}
-
         </div>
     )
 }

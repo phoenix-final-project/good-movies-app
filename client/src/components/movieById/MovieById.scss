@@ -1,3 +1,6 @@
+// importing mixin
+@import '../../styles/mixin';
+
 .showMovie {
     position: fixed;
     width: 100vw;
@@ -9,7 +12,6 @@
 }
 
 .movieCard {
-    // width: 660px;
     width: 50vw;
     height: 65vh;
     min-height: 370px;
@@ -24,7 +26,12 @@
     padding: 10px;
     box-shadow: 0 0 10px var(--first-color);
     position: relative;
-
+    
+    @include tablet {
+        width: 75vw;
+        height: 55vh;
+        min-height: 270px;
+    }
 
     button {
         margin-left: auto;
@@ -50,6 +57,7 @@
                 background-color: var(--first-color);
             }
         }
+
     .closeCard {
         width: 50px;
         height: 50px;
@@ -67,31 +75,65 @@
             color: var(--first-color);
         }
 
+        @include tablet {
+            font-size: 1.4rem;
+            width: 40px;
+            height: 40px;
+        }
     }
 
     .poster {
         width: 20%;
         min-width: 120px;
-        // background-color: black;
-        // height: 1.5v;
 
         img {
             width: 100%;
-            // height: 100%;
         }
     }
 
     .info {
-        // position: relative;
         width: 75%;
         display: flex;
         flex-flow: column;
         justify-content: space-between;
         padding: 5px 0;
 
-        h3 {
+        .title {
             margin: 0;
             color: var(--first-color);
+
+            @include tablet {
+                font-size: 1.2em;
+                margin-left: 20px;
+            }
+        }
+
+        .length {
+            @include tablet {
+                font-size: .9em;
+                margin: 10px 0 0 20px;
+            }
+        }
+
+        .desc {
+            @include tablet {
+                font-size: .9em;
+                margin: -10px 0 10px 20px;
+            }
+        }
+
+        .movie-desc {
+            @include tablet {
+                font-size: .8em;
+                margin: 0 0 0 20px;
+            }
+        }
+
+        .movie-para {
+            @include tablet {
+                font-size: .8em;
+                margin: 0 0 0 20px;
+            }
         }
     }
 

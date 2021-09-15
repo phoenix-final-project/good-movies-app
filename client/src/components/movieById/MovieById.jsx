@@ -84,22 +84,22 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 					</button>
 
 					<div>
-						<h3>
+						<h3 className='title'>
 							{movie.title} ({movie.year}){' '}
 						</h3>
-						<div>
+						<div className='length'>
 							Length: {movie.movie_length} min | Rating: {movie.rating}{' '}
 						</div>
 					</div>
 
 					<div>
-						<h4>Description</h4>
-						<div>{movie.description}</div>
+						<h4 className='desc'>Description</h4>
+						<div className='movie-desc'>{movie.description}</div>
 					</div>
 
 					{/* GENRES */}
 					{movie.gen ? (
-						<p>
+						<p className='movie-para'>
 							{' '}
 							|{' '}
 							{movie.gen.map(genre => (

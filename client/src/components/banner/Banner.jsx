@@ -10,42 +10,42 @@ import { changeBackgroundImage, textData } from "./DataBanner";
 
 import './Banner.scss';
 
-let intervalID;
+// let intervalID;
 
 export default function Banner() {
-    const [index, setIndex] = React.useState(0);
-    // const [indexText, setIndexText] = React.useState(0);
+    // const [index, setIndex] = React.useState(0);
+    // // const [indexText, setIndexText] = React.useState(0);
 
-    React.useEffect(() => {
-        // window.scrollTop = 0;
-        indexFunction();
-        return () => clearInterval(intervalID);
-    }, [index]); // , [index]
+    // React.useEffect(() => {
+    //     // window.scrollTop = 0;
+    //     indexFunction();
+    //     return () => clearInterval(intervalID);
+    // }, [index]); // , [index]
 
-    const indexFunction = () => {
-        intervalID = setInterval(() => {
-            setIndex(index => {
-                index = index + 1;
-                if (index === 3) {
-                    index = 0
-                }
-                return index;
-            });
+    // const indexFunction = () => {
+    //     intervalID = setInterval(() => {
+    //         setIndex(index => {
+    //             index = index + 1;
+    //             if (index === 3) {
+    //                 index = 0
+    //             }
+    //             return index;
+    //         });
 
-            // setIndexText(indexText => {
-            //     indexText = indexText + 1;
-            //     if (indexText === 3) {
-            //         indexText = 0
-            //     }
-            //     return indexText;
-            // });
-        }, 6000);
-    }
+    //         // setIndexText(indexText => {
+    //         //     indexText = indexText + 1;
+    //         //     if (indexText === 3) {
+    //         //         indexText = 0
+    //         //     }
+    //         //     return indexText;
+    //         // });
+    //     }, 6000);
+    // }
 
     return (
         <React.Fragment>
             <div className="banner">
-                <img className='img' src={changeBackgroundImage[index]} alt="cinema" />
+                <img className='img' src={changeBackgroundImage[1]} alt="cinema" />
                 <TextBanner title='Hello World' paragraph={textData[0]}/>
                 <div className="button-container">
                     <div className="discover-button">
@@ -55,7 +55,7 @@ export default function Banner() {
                         </span>
                     </div>
                     <Link to='/registration'>
-                        <button className="get-button" title='Feel free to register yourself'>get started</button>
+                        <button className="get-button" title='Feel free to register yourself'>sign up</button>
                     </Link>
                 </div>
             </div>
