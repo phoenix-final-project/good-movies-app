@@ -1,120 +1,129 @@
-.search {
+// importing mixin
+@import '../../styles/mixin';
+
+.search-container {
     width: 600px;
-        // display: flex;
-    margin: 30px auto 10px;
+    margin: 100px auto;
     text-align: center;
+    
+    // @include mobile {
+    //     display: grid;
+    //     grid-template-columns: 1fr;
+    //     grid-template-rows: repeat(4, 1fr);
+    // }
 
-    label {
-        font-weight: bold;
-        color: var(--first-color);
-        text-transform: uppercase;
-        margin-right: 10px;
-    }
-    select {
-        padding: 6px 20px 6px 10px;
-        margin-right: 7px;
-        border: none;
-        border-bottom: 2px solid var(--first-color);
-        background-color: transparent;
-        color: var(--container-color);
-        color: var(--first-color);
+    .search {
+        width: 100%;
 
-        font-size: 1rem;
-        border-radius: 3px;
-        padding: 5px;
-        outline: none;
+        select {
+            padding: 6px 20px 6px 10px;
+            margin-right: 20px;
+            border: none;
+            border-bottom: 2px solid var(--first-color);
+            background-color: transparent;
+            color: var(--container-color);
+            color: var(--first-color);
+    
+            font-size: 1rem;
+            border-radius: 3px;
+            padding: 5px;
+            outline: none;
+    
+            option {
+                background: transparent;
+            }
+        }
 
-        option {
-            background:rgba(51,51,51, 1);
+        input {
+            width: 300px;
+            border: none;
+            border-bottom: 2px solid var(--first-color);
+            background-color: transparent;
+            color: var(--container-color);
+            font-size: 1rem;
+            border-radius: 3px;
+            padding: 5px;
+            outline: none;
+        }
+    
+        button {
+            padding: 0.35rem;
+            margin-left: 30px;
+            font-size: 0.8rem;
+            color: var(--font-color);
+            background-color: var(--first-color);
+            border: 3px solid var(--first-color);
+            border-radius: 10px;
+            text-transform: uppercase;
+    
+            transition: all 0.5s ease-in-out;
+    
+                &:hover {
+                    background: transparent;
+                    color: var(--first-color);
+                    transition: all .5s ease;
+                    border-radius: 10px;
+                    cursor: pointer;
+                }
+        }
+    
+        p {
+            margin: 20px auto;
+        }
+    
+        .clear {
+            color: var(--first-color);
+            font-size: 1.2rem;
+            margin-left: 20px;
+    
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
-    input {
+    
+    .buttonContainerSearch {
+    
         width: 300px;
-        border: none;
-        border-bottom: 2px solid var(--first-color);
-        background-color: transparent;
-        color: var(--container-color);
-        font-size: 1rem;
-        border-radius: 3px;
-        padding: 5px;
-        outline: none;
-    }
-
-    button {
-        padding: 0.35rem;
-        margin-left: 15px;
-
-        color: var(--font-color);
-        background-color: var(--first-color);
-        border: 3px solid var(--first-color);
-        border-radius: 10px;
-        text-transform: uppercase;
-        cursor: pointer;
-
-        transition: all 0.5s ease-in-out;
-
-            &:hover {
-                background: transparent;
-                color: var(--first-color);
-                transition: all .5s ease;
-                border-radius: 10px;
-            }
-    }
-
-    p {
-        margin: 10px 0;
-    }
-
-    .clear {
-        color: var(--first-color);
-        font-size: 1.4rem;
-
-        &:hover {
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-around;
+        padding: 20px 0;
+    
+        button {
+            display: inline-block;
+    
+            width: 110px;
+            padding: 5px 0;
+            font-weight: bold;
+            color: var(--font-color);
+            background-color: var(--first-color);
+            border: 3px solid var(--first-color);
+            border-radius: 5px;
+            text-transform: uppercase;
             cursor: pointer;
+            transition: all 0.5s ease-in-out;
+            background: transparent;
+            color: var(--first-color);
+    
+                &:hover {
+                    background: transparent;
+                    color: var(--first-color);
+                    transition: all .5s ease;
+                    color: var(--font-color);
+                    background-color: var(--first-color);
+                }
+    
+            
         }
-    }
-}
-
-.buttonContainerSearch {
-
-    width: 300px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-around;
-    padding: 20px 0;
-
-    button {
-        display: inline-block;
-
-        width: 110px;
-        padding: 5px 0;
-        font-weight: bold;
-        color: var(--font-color);
-        background-color: var(--first-color);
-        border: 3px solid var(--first-color);
-        border-radius: 5px;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: all 0.5s ease-in-out;
-        background: transparent;
-        color: var(--first-color);
-
-            &:hover {
-                background: transparent;
-                color: var(--first-color);
-                transition: all .5s ease;
-                color: var(--font-color);
-                background-color: var(--first-color);
-            }
-
-        
     }
 }
 
 .movie-container {
+    margin-top: -50px;
     display: flex;
     flex-wrap: wrap;
-    padding: 30px;
+    gap: 20px;
 
     .movieBox {
         width: 660px;
@@ -146,10 +155,15 @@
             justify-content: space-between;
             padding: 5px 0;
 
-            h3 {
+            .poster.title {
                 margin: 0;
                 color: var(--first-color);
+
+                @include tablet {
+                    margin-left: 20px;
+                }
             }
+
         }
     }
 }

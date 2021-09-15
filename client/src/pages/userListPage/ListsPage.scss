@@ -31,12 +31,11 @@
             section {
                 height: 100%;
                 // border-right: 1px dotted var(--first-color);
-                font-size: .9rem;
+                font-size: 0.9rem;
                 overflow: hidden;
 
-
                 &:first-of-type {
-                width: 100px;
+                    width: 100px;
 
                     .poster {
                         height: 100%;
@@ -44,7 +43,7 @@
                         img {
                             height: 100%;
                             object-fit: cover;
-                        };
+                        }
                     }
                 }
 
@@ -53,10 +52,10 @@
 
                     p {
                         color: var(--first-color);
-                        margin-bottom: .3rem;
+                        margin-bottom: 0.3rem;
 
                         span {
-                            color: white
+                            color: white;
                         }
                     }
 
@@ -64,17 +63,15 @@
                         background-color: var(--first-color);
                         color: var(--title-color);
                         padding: 2px 5px;
-                        border-radius: .4rem;
+                        border-radius: 0.4rem;
                         border: 2px solid inherit;
                         display: inline-block;
                         font-weight: 600;
-
 
                         &:hover {
                             background-color: inherit;
                             border: 2px solid var(--first-color);
                             color: var(--first-color);
-
                         }
                     }
                 }
@@ -87,12 +84,12 @@
 
                     h4 {
                         color: var(--first-color);
-                        margin-bottom: .4rem;
-                        padding-top: .3rem;
+                        margin-bottom: 0.4rem;
+                        padding-top: 0.3rem;
                     }
 
                     span {
-                        padding: 0 .5rem;
+                        padding: 0 0.5rem;
                         border-right: 1px solid white;
                         border-left: 1px solid white;
                     }
@@ -104,8 +101,8 @@
                     button {
                         margin-left: auto;
                         width: 100%;
-                        padding: .2rem 0;
-                        margin: .5rem 0;
+                        padding: 0.2rem 0;
+                        margin: 0.5rem 0;
                         font-weight: bold;
                         color: var(--font-color);
                         background-color: var(--first-color);
@@ -117,10 +114,11 @@
                         background: transparent;
                         color: var(--first-color);
 
-                        &:hover:nth-of-type(1), &:hover:nth-of-type(2) {
+                        &:hover:nth-of-type(1),
+                        &:hover:nth-of-type(2) {
                             background: transparent;
                             color: var(--first-color);
-                            transition: all .5s ease;
+                            transition: all 0.5s ease;
                             color: var(--font-color);
                             background-color: var(--first-color);
                         }

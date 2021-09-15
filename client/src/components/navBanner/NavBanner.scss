@@ -10,11 +10,8 @@
 .nav {
     z-index: 10;
     background-color: none;
-    // box-shadow: 5px 3px 10px var(--first-color);
     width: 100%;
-    // position: absolute;
-    // top: 0;
-    // left: 0;
+    height: 70px;
 
     .header-container {
         display: flex;
@@ -36,7 +33,12 @@
         }
         
         .link-logo {
+            margin-top: 2px;
             z-index: 100;
+
+            @include tablet {
+                margin-top: 5px;
+            }
         }
 
         .container-button {
@@ -82,7 +84,7 @@
             .registration-btn, .logout-btn {
                 width: 100%;
                 padding: .4rem;
-                font-size: 0.5rem;
+                font-size: 0.6rem;
                 color: var(--font-color);
                 background-color: var(--first-color);
                 border: 3px solid var(--first-color);
@@ -92,6 +94,10 @@
                 
                 letter-spacing: var(--letter-spacing-btn);
                 transition: all 0.5s ease-in-out;
+
+                @include mobile {
+                    padding: .3rem .8rem;
+                }
                 
                 &:hover {
                     background: transparent;
@@ -106,6 +112,7 @@
             font-size: 2em;
             font-weight: 700;
             color: var(--container-color);
+            z-index: 100;
 
             display: none;
 
@@ -131,6 +138,7 @@
         .nav-toggle {
             font-size: var(--h2-font-size);
             color: var(--font-color);
+            z-index: 100;
 
             display: none;
 

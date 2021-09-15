@@ -291,7 +291,98 @@ const moviesByYear = async (req, res) => {
 
 // GET movies by director - NOT READY
 const moviesByDirector = async (req, res) => {
+<<<<<<< HEAD
 	res.status(200).json({ message: 'connected to moviesByDirector' });
+=======
+
+    let options = {
+        method: "GET",
+        url: `https://data-imdb1.p.rapidapi.com/actor/imdb_id_byName/${req.params.director}/`,
+        headers: rapidApiHeaders,
+    };
+    console.log(options);
+
+    await axios
+        .request(options)
+        .then(async (response) => {
+
+            // console.log(response.data);
+
+            const foundPeople = Object.values(response.data)[0];
+            // const numberOfPeople = foundPeople.length;
+
+            if (foundPeople.length === 0) {
+                return res.status(404).json({
+                    message: `We could not find anyone with the name *${req.params.director}*`,
+                });
+            }
+
+            // DB gives wrong data format for Stanley Kubrick, we need a condition here
+            let foundPeopleCondition = foundPeople[0].name == "Stanley Kubrick" ? [foundPeople[0]] : foundPeople
+
+            const peopleInfo = foundPeopleCondition.map(async person => {
+
+                let options = {
+                    method: 'GET',
+                    url: `https://data-imdb1.p.rapidapi.com/movie/byActor/${person.imdb_id}/`,
+                    headers: {
+                        'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
+                        'x-rapidapi-key': process.env.RAPID_API_KEY
+                    }
+                }
+
+                return await axios.request(options)
+                    .then((response) => response.data)
+                    .catch((error) => {
+                        console.error(error.message);
+                    });
+            })
+
+            return Promise.all(peopleInfo)
+                .then(results => Object.values(results))
+                .then(async (data) => {
+                    let peopleArray = [];
+
+                    data.forEach((item) => {
+                        let person = Object.values(item)[0];
+
+                        if (person.length > 0) {
+                            person.find(movie => {
+                                movie[1].find(item => {
+                                    if (item.role == "Director") {
+
+                                        let movieData = {
+                                            "imdb_id": movie[0].imdb_id,
+                                            "title": movie[0].title,
+                                            "director": movie[1][0].actor.name,
+                                            "director_id": movie[1][0].actor.imdb_id,
+                                        }
+                                        peopleArray.push(movieData);
+                                    }
+                                })
+                            })
+
+                        }
+                    });
+
+                    // helper for extended info on movies
+                    const withExtendedInfo = await findByIdAndMap(peopleArray);
+
+
+                    return res.status(200).json({
+                        searchParam: req.params.director,
+                        numberOfMovies: peopleArray.length,
+                        foundMovies: withExtendedInfo,
+                        numberOfPages: 1
+                    });
+                })
+
+        })
+        .catch((error) => {
+            console.error(error.message);
+            res.status(400).json({ error: error.message });
+        });
+>>>>>>> main
 };
 
 // FOR INDIVIDUAL MOVIE:

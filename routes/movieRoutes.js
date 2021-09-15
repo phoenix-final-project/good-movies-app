@@ -31,9 +31,6 @@ router.get("/toprated/:page", topRatedMovies);
 router.get("/title/:title/:page", moviesByTitle);
 // check: http://localhost:5000/api/movie/title/london/1
 
-// GET movies by director - NOT DONE
-router.get("/director/:director", moviesByDirector);
-
 // GET movies by genre
 router.get("/genre/:genre/:page", moviesByGenre);
 // check: http://localhost:5000/api/movie/genre/comedy/1
@@ -42,12 +39,15 @@ router.get("/genre/:genre/:page", moviesByGenre);
 router.get("/year/:year/:page", moviesByYear);
 // check: http://localhost:5000/api/movie/year/1999/1
 
+// GET movies by director - IN PROCESS
+router.get("/director/:director/:page", moviesByDirector);
+
 // FOR INDIVIDUAL MOVIE:
 // **************************************
 router.get("/oneMovieById/:imdbId", movieById);
 // check: http://localhost:5000/api/movie/oneMovieById/tt0451279
 
 // General search by title/year/genre/director
-router.get("/search/:searchParam", moviesByRandomSearch);
+// router.get("/search/:searchParam", moviesByRandomSearch);
 
 module.exports = router;

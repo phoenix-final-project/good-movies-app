@@ -85,8 +85,12 @@ export default function MoviesPage() {
             <SearchMovies />
 
             {/* UPCOMING MOVIES box */}
-            <h3>Upcoming Movies </h3>
+            <h3 className='movies-title'>Upcoming Movies </h3>
             <div className="moviesContainer">
+                <div className="buttonContainer">
+                    {page1 === 1 ? null : <button className="prev" onClick={handleBackwardButton1}> <i className="fas fa-chevron-circle-left"></i></button>}
+                </div>
+                
                 {upcomingMovies.map((item) => (
                     <div
                         title={item.title}
@@ -107,17 +111,18 @@ export default function MoviesPage() {
                         {item.image_url !== "aa.com" ? null : <div className="posterTitle">{item.title}</div>}
                     </div>
                 ))}
-            </div>
-            <div className="buttonContainer">
-                {page1 === 1 ? null : <button className="prev" onClick={handleBackwardButton1}> ◀️</button>}
-
-                {page1 >= lastPage1 ? null : <button className="next" onClick={handleForwardButton1}> ▶️ </button>}
+                <div className="buttonContainer">
+                    {page1 >= lastPage1 ? null : <button className="next" onClick={handleForwardButton1}> <i className="fas fa-chevron-circle-right"></i> </button>}
+                </div>
             </div>
 
 
             {/* TOP RATED MOVIES box */}
-            <h3>Top Rated Movies</h3>
+            <h3 className='movies-title'>Top Rated Movies</h3>
             <div className="moviesContainer">
+                <div className="buttonContainer">
+                    {page2 === 1 ? null : <button className="prev" onClick={handleBackwardButton2}><i className="fas fa-chevron-circle-left"></i> </button>}
+                </div>
                 {topRatedMovies.map((item) => (
                     <div
                         title={item.title}
@@ -133,12 +138,9 @@ export default function MoviesPage() {
                         <img src={item.image_url} alt={item.title} />
                     </div>
                 ))}
-            </div>
-
-            <div className="buttonContainer">
-                {page2 === 1 ? null : <button className="prev" onClick={handleBackwardButton2}>◀️ </button>}
-
-                {page2 >= lastPage2 ? null : <button className="next" onClick={handleForwardButton2}> ▶️ </button>}
+                <div className="buttonContainer">
+                    {page2 >= lastPage2 ? null : <button className="next" onClick={handleForwardButton2}> <i className="fas fa-chevron-circle-right"></i> </button>}
+                </div>
             </div>
 
             {showMovie ? <MovieById movieId={movieId} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} /> : null}

@@ -1,17 +1,37 @@
+// importing mixin
+@import '../../styles/mixin' ;
+
 .banner {
     margin-top: -80px;
     // position: relative;
 
     .img {
-        background-position: center;
-        background-size: cover;
+        /* Set rules to fill background */
+        min-height: 100%;
+        min-width: 1024px;
+        
+        /* Set up proportionate scaling */
         width: 100%;
+        height: auto;
+
+        /* Set up positioning */
+        position: fixed;
+        top: 0;
+        left: 0;
     }
 
     .button-container {
         position: absolute;
         top: 650px;
         left: 120px;
+
+        @include tablet {
+            margin: -50px 0 0 12%;
+        }
+
+        @include mobile {
+            margin: -80px 0 0 -55px;
+        }
 
         .discover-button {
             display: grid;
@@ -21,6 +41,11 @@
             .check-h3 {
                 margin: 0 -10px 15px 0;
                 font-size: 1em;
+                color: var(--first-color);
+
+                @include mobile {
+                    font-size: 0.8em;
+                }
             }
 
             .span-discover {
@@ -33,6 +58,10 @@
                     padding-left: 30px;
                     color: var(--container-color);
                     transition: all .5s ease-in-out;
+
+                    @include mobile {
+                        font-size: 0.7em;
+                    }
 
                     &:hover {
                         color: var(--first-color);
@@ -80,6 +109,11 @@
                 color: var(--first-color);
                 transition: all .5s ease;
                 border-radius: 10px;
+            }
+
+            @include mobile {
+                font-size: 0.5em;
+                padding: .1rem;
             }
         }
     }
