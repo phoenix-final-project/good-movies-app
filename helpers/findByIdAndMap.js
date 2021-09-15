@@ -25,9 +25,22 @@ exports.findByIdAndMap = (array) => {
         .then(results => Object.values(results))
         .then((data) => {
             let movieArray = [];
+
             data.forEach((item) => {
                 let movie = Object.values(item)[0];
-                movieArray.push(movie);
+
+                if (array[data.indexOf(item)].director) {
+                    let movie2 = {
+                        "director": array[data.indexOf(item)].director,
+                        "director_id": array[data.indexOf(item)].director_id,
+                        ...movie
+                    }
+
+                    movieArray.push(movie2);
+
+                } else {
+                    movieArray.push(movie);
+                }
             });
 
             return movieArray

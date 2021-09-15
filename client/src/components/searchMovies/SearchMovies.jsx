@@ -38,15 +38,12 @@ function SearchMovies() {
         try {
             let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/1`);
 
-            // let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/${page}`);
-            // let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/${page !== 1 ? 1 : 1}`);
-
-            if (res.status === 200) {
-                // console.log(res.data.numberOfMovies, res.data.foundMovies);
-                setSearchResults(res.data.foundMovies);
-                setNumberOfMovies(res.data.numberOfMovies)
-                setLastPage(res.data.numberOfPages)
-            }
+            // if (res.status === 200) {
+            // console.log(res.data.numberOfMovies, res.data.foundMovies);
+            setSearchResults(res.data.foundMovies);
+            setNumberOfMovies(res.data.numberOfMovies)
+            setLastPage(res.data.numberOfPages)
+            // }
         } catch (error) {
             console.log("Something went wrong:", error.response.data.message);
             // setIsError(true);
@@ -124,9 +121,9 @@ function SearchMovies() {
                             <option value="person" disabled>Person</option>
                         </select>
 
-                        <input id="header-search" value={searchParam} required onChange={(e) => setSearchParam(e.target.value)} type={searchBy === "year" ? "number" : "text"} placeholder={ searchBy === "year" ? "Type any year between 1960-2021" : searchBy === "title" ? "Type any word from a movie title" : "Your favorite genre: horror, adventure.. " } min={searchBy === "year" ? "1960" : null} max={searchBy === "year" ? "2021" : null} />
-                        <span className="clear" onClick={() => { 
-                            setSearchParam(""); 
+                        <input id="header-search" value={searchParam} required onChange={(e) => setSearchParam(e.target.value)} type={searchBy === "year" ? "number" : "text"} placeholder={searchBy === "year" ? "Type any year between 1960-2021" : searchBy === "title" ? "Type any word from a movie title" : "Your favorite genre: horror, adventure.. "} min={searchBy === "year" ? "1960" : null} max={searchBy === "year" ? "2021" : null} />
+                        <span className="clear" onClick={() => {
+                            setSearchParam("");
                             setSearchResults([]);
                             setPage(0);
                             setLastPage(0);
@@ -151,17 +148,17 @@ function SearchMovies() {
                         </div>
                     </div> : null
                 }
-                </div>
+            </div>
 
-                <div className="movie-container">
+            <div className="movie-container">
 
-                    {searchResults ? searchResults.map((item) => (
-                        <div className="movieBox" key={item.imdb_id} onClick= {() => {
-                            // console.log(item.imdb_id);
-                            setShowMovie(true);
-                            setMovieId(item.imdb_id);
-                            setMovieCardOn("")
-                        }}>
+                {searchResults ? searchResults.map((item) => (
+                    <div className="movieBox" key={item.imdb_id} onClick={() => {
+                        // console.log(item.imdb_id);
+                        setShowMovie(true);
+                        setMovieId(item.imdb_id);
+                        setMovieCardOn("")
+                    }}>
                         <div className="poster">
                             <img src={item.image_url !== "aa.com" ?
                                 item.image_url :
@@ -178,6 +175,10 @@ function SearchMovies() {
                                 <h4>Plot</h4>
                                 <div>{item.plot}</div>
                             </div>
+
+                            {/* Adding DIRECTOR for "director" search only */}
+                            {item.director ? <div>Director: <span className="director">{item.director}</span></div> : null}
+
 
                             <p> | {item.gen.map(genre => <span key={genre.genre}> {genre.genre} |</span>)} </p>
 
