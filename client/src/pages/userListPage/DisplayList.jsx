@@ -2,6 +2,17 @@ import React from 'react'
 import "./ListsPage.scss";
 
 function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove }) {
+
+    // scrollToTop
+    let scrollToTop = () => {
+        return window.scrollTo({
+                left: 0,
+                top: 0,
+                behavior: 'smooth',
+        });
+    }
+
+    
     return (
         <div className='movie-list'>
             {movieList.map((movie) => (
@@ -39,6 +50,9 @@ function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove
                     </section>
                 </div>
             ))}
+                <div className="go-top" onClick={scrollToTop}>
+                    <i className="fas fa-arrow-up"></i>
+                </div>
             </div>
     )
 }
