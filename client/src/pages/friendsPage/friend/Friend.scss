@@ -77,16 +77,15 @@
     top: 0;
     z-index: 1000; */
 
- 
     .hidden {
         visibility: hidden;
     }
-    
+
     .common-movies-card {
         border: solid 2px var(--first-color);
         border-radius: 5px;
         margin-top: 20px;
-        width:60vw;
+        width: 60vw;
         position: relative;
         padding-top: 20px;
 
@@ -96,7 +95,6 @@
         transform: translate(-50%, -50%);
         background-color: #333333;
         box-shadow: 0 0 10px var(--first-color);
-
 
         h3 {
             color: var(--first-color);
@@ -120,7 +118,7 @@
             z-index: 200;
             color: var(--font-color);
             background-color: var(--first-color);
-    
+
             &:hover {
                 background: transparent;
                 color: var(--first-color);
@@ -132,7 +130,7 @@
             height: 65vh;
             min-height: 370px;
             overflow-y: scroll;
-            
+
             -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
             scrollbar-width: none; /* Hide scrollbar for Firefox */
 
@@ -148,7 +146,6 @@
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                
 
                 .one-movie-box-data {
                     display: flex;

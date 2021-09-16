@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axiosApiInstance from "../../../util/APIinstance";
 import MoviesInCommon from "./MoviesInCommon";
 
@@ -8,11 +8,11 @@ export default function Friend({ searchOrFriends }) {
     const [listFriends, setListFriends] = useState([]);
     const [commonWishlist, setCommonWishlist] = useState([]);
     const [isMovieInCommon, setIsMovieInCommon] = useState(false);
+    const [noMoviesInCommon, setNoMoviesInCommon] = useState(false);
     const [friendFirstname, setFriendFirstname] = useState("");
     const [friendLastname, setFriendLastname] = useState("");
     const [showMoviesInCommon, setShowMoviesInCommon] = useState("showMovie");
-
-    //const [movieCard, setMovieCard] = useState("hidden");
+    const [errorMessage, setErrorMessage] = useState("");
 
     // Add a friend
     const addFriend = async (username) => {
@@ -30,6 +30,19 @@ export default function Friend({ searchOrFriends }) {
     };
 
     // Delete a friend
+    /* const deleteFriend = useCallback(async (username) => {
+        try {
+            const res = await axiosApiInstance.put(`/api/user/friends/delete`, {
+                username: localStorage.getItem("username"),
+                friendUsername: username,
+            });
+            console.log(res.data);
+            getFriends();
+        } catch (error) {
+            console.log("Something went wrong", error.response.data.message);
+        }
+    }, []); */
+
     const deleteFriend = async (username) => {
         try {
             const res = await axiosApiInstance.put(`/api/user/friends/delete`, {
@@ -51,7 +64,7 @@ export default function Friend({ searchOrFriends }) {
                     "user_id"
                 )}/${friendId}`
             );
-            //console.log(res.data);
+            console.log(res.data);
 
             const friendTarget = listFriends.find(
                 (friend) => friend.id === res.data.friendUserId
@@ -64,6 +77,16 @@ export default function Friend({ searchOrFriends }) {
             setFriendLastname(friendTarget.lastname);
         } catch (error) {
             console.log("Something went wrong", error.response.data.error);
+            if (
+                error.response.data.error ===
+                "Your friend has no movies on the  wishlist"
+            ) {
+                setNoMoviesInCommon(true);
+                setErrorMessage(error.response.data.error);
+                setTimeout(() => {
+                    setNoMoviesInCommon(false);
+                }, 3000);
+            }
         }
     };
 
@@ -106,7 +129,6 @@ export default function Friend({ searchOrFriends }) {
                                 <div className="friend-name">
                                     <p>
                                         {item.firstname} {item.lastname}
-                                        {item.avatarColor}
                                     </p>
                                     <p>{item.username}</p>
                                 </div>
@@ -153,7 +175,12 @@ export default function Friend({ searchOrFriends }) {
                     commonWishlist={commonWishlist}
                     showMovie={showMoviesInCommon}
                     setShowMoviesInCommon={setShowMoviesInCommon}
+                    setIsMovieInCommon={setIsMovieInCommon}
                 />
+            ) : null}
+
+            {noMoviesInCommon ? (
+                <div className="error-alert">{errorMessage}</div>
             ) : null}
         </div>
     );
