@@ -199,8 +199,6 @@ const moviesByGenre = async (req, res) => {
 		// proceed data
 		const numberOfMovies = foundByGenre.length;
 
-		// then limiting a number of results of "foundByGenre" to 20
-		// const foundByGenre20 = foundByGenre.slice(0, numberOfMoviesToShow);
 
 		if (foundByGenre.length === 0) {
 			return res.status(404).json({
@@ -289,7 +287,7 @@ const moviesByYear = async (req, res) => {
 	}
 };
 
-// GET movies by director - NOT READY
+// GET movies by director
 const moviesByDirector = async (req, res) => {
 	let options = {
 		method: 'GET',
@@ -302,25 +300,22 @@ const moviesByDirector = async (req, res) => {
 		.then(async response => {
 			const foundPeople = Object.values(response.data)[0];
 
-			// [{ imdb_id: 'nm0027271', name: 'Paul Anderson' }]
+			if (foundPeople.length === 0
+				&& !req.params.director.toLowerCase().includes("pedro almodóvar")
+				&& !req.params.director.toLowerCase().includes("pedro almodovar")
+				&& !req.params.director.toLowerCase().includes("paul anderson")) {
 
-			if (
-				foundPeople.length === 0 &&
-				!req.params.director.includes('lmodóvar') &&
-				!req.params.director.includes('lmodovar') &&
-				!req.params.director.includes('pedro')
-			) {
 				return res.status(404).json({ message: `We could not find anyone with the name *${req.params.director}*` });
 			}
 
-			// DB gives wrong data format for Stanley Kubrick, we need a condition here, also for Pedro Almodóvar - ó not recognized
-			let foundPeopleCondition = req.params.director.includes('ubrick')
-				? [foundPeople[0]]
-				: req.params.director.includes('lmodóvar')
-				? [{ imdb_id: 'nm0000264', name: 'Pedro Almodóvar' }]
-				: req.params.director.includes('lmodovar')
-				? [{ imdb_id: 'nm0000264', name: 'Pedro Almodóvar' }]
-				: foundPeople;
+			// Some conditions needed - DB gives wrong data format for Stanley Kubrick, also for Pedro Almodóvar - ó not recognized, and Paul Anderson is not searchable by name
+			let foundPeopleCondition =
+				(req.params.director.toLowerCase().includes("kubrick")) ? [foundPeople[0]]
+					: (req.params.director.toLowerCase().includes("pedro almodóvar")) ? [{ imdb_id: 'nm0000264', name: 'Pedro Almodóvar' }]
+						: (req.params.director.toLowerCase().includes("pedro almodovar")) ? [{ imdb_id: 'nm0000264', name: 'Pedro Almodóvar' }]
+							: (req.params.director.toLowerCase().includes("paul anderson")) ? [{ imdb_id: 'nm0027271', name: 'Paul Anderson' }]
+								: foundPeople
+
 
 			const peopleInfo = foundPeopleCondition.map(async person => {
 				let options = {
@@ -368,8 +363,6 @@ const moviesByDirector = async (req, res) => {
 					if (peopleArray.length === 0) {
 						return res.status(404).json({ message: `We could not find anyone with the name *${req.params.director}*` });
 					}
-
-					// console.log(peopleArray);
 
 					// helper for extended info on movies
 					const withExtendedInfo = await findByIdAndMap(peopleArray);
