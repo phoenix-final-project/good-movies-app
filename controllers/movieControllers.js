@@ -82,6 +82,8 @@ const topRatedMovies = async (req, res) => {
 		const topRatedMoviesAll = topRatedMoviesRaw.slice(1);
 
 		// proceed data
+		// getting TopRated Movies with little data (imdb_id, title, rating)
+		// limit to 6 movies
 		const numberOfMovies = topRatedMoviesAll.length;
 
 		// will try to make a helper for pagination later - this code is working
@@ -116,49 +118,6 @@ const topRatedMovies = async (req, res) => {
 		console.error(error.message);
 		res.status(400).json({ error: error.message });
 	}
-
-	// getting TopRated Movies with little data (imdb_id, title, rating)
-	// limit to 6 movies
-
-	// axios
-	// 	.request(options)
-	// 	.then(async response => {
-	// 		const topRatedMoviesAll = Object.values(response.data)[0].slice(1);
-	// 		const numberOfMovies = topRatedMoviesAll.length;
-
-	// 		// will try to make a helper for pagination later - this code is working
-	// 		const page = req.params.page - 1;
-	// 		const limit = 6;
-	// 		const numberOfPages = Math.ceil(numberOfMovies / limit);
-
-	// 		let start, end;
-
-	// 		if (page >= 0 && page < numberOfPages) {
-	// 			start = limit * page;
-	// 			end = limit + start;
-	// 		} else {
-	// 			return res.status(500).json({ message: 'No such page found' });
-	// 		}
-	// 		// the end of helper will be here
-
-	// 		// displaying 6 movies / page
-	// 		const topRatedMovies = topRatedMoviesAll.slice(start, end);
-
-	// 		// helper for extended info on movies
-	// 		const withExtendedInfo = await findByIdAndMap(topRatedMovies);
-
-	// 		res.status(200).json({
-	// 			numberOfMovies: numberOfMovies,
-	// 			numberOfMoviesPage: limit,
-	// 			numberOfPages: numberOfPages,
-	// 			currentPage: +req.params.page,
-	// 			foundMovies: withExtendedInfo,
-	// 		});
-	// 	})
-	// 	.catch(error => {
-	// 		console.error(error.message);
-	// 		res.status(400).json({ error: error.message });
-	// 	});
 };
 
 // GET movies by genre and by user id
