@@ -1,0 +1,60 @@
+@import "../../styles/mixin";
+
+.user-profile-container{
+ margin: 2% auto;
+    width: 70%;
+
+   header {
+       width: 70%;
+       border-bottom: 1px dotted  var(--first-color);
+       margin-bottom: 4rem;
+       padding-bottom: 1rem;
+       color: var(--first-color);
+       // padding: 0 30px;
+       display: flex;
+       align-items: center;
+
+       h2 {
+               font-size: 2rem;
+           }   
+   }
+
+  .display-user-container{
+     .avatar {
+          width: 60px;
+          height: 60px;
+          border: solid 1px white;
+          border-radius: 50%;
+          background-color: chocolate;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+      }
+  }
+
+   button {
+                        margin-left: auto;
+                        width: 150px;
+                        padding: 0.2rem 0;
+                        margin: 0.5rem 0;
+                        font-weight: bold;
+                        color: var(--font-color);
+                        background-color: var(--first-color);
+                        border: 3px solid var(--first-color);
+                        border-radius: 5px;
+                        text-transform: uppercase;
+                        cursor: pointer;
+                        transition: all 0.5s ease-in-out;
+                        background: transparent;
+                        color: var(--first-color);
+
+                        &:hover{
+                         background: transparent;
+                            color: var(--first-color);
+                            transition: all 0.5s ease;
+                            color: var(--font-color);
+                            background-color: var(--first-color);
+                        }
+   }
+
+}

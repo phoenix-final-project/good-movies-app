@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axiosApiInstance from "../../util/APIinstance";
+import axiosApiInstance from "../../../util/APIinstance";
 import MoviesInCommon from "./MoviesInCommon";
 
 import "./Friend.scss";
@@ -85,18 +85,28 @@ export default function Friend({ searchOrFriends }) {
     }, []);
 
     return (
-        <div>
+        <div className="friend-component">
             {/* STRUCTURE FOR LIST OF FRIENDS OR SEARCH RESULTS (FriendsPage)*/}
             <section className="friends-box">
                 {searchOrFriends.map((item) => (
                     <div key={item.username} className="one-friend-box">
                         <div className="friend-data">
                             <div className="friend-data-1st-box">
-                                <div className="avatar">{item.avatar}</div>
+                                <div
+                                    className={`avatar ${
+                                        item.avatarColor === "" && "fixedColor"
+                                    }`}
+                                    style={{
+                                        backgroundColor: item.avatarColor,
+                                    }}
+                                >
+                                    {item.avatar}
+                                </div>
 
                                 <div className="friend-name">
                                     <p>
                                         {item.firstname} {item.lastname}
+                                        {item.avatarColor}
                                     </p>
                                     <p>{item.username}</p>
                                 </div>
