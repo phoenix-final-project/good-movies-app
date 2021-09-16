@@ -1,3 +1,5 @@
+@import '../../styles/mixin';
+
 .friends-page {
     margin: 3% auto;
     width: 60%;
@@ -83,17 +85,23 @@
         }
     }
 
-    .friends-page-display-box {
-        margin-top: 30px;
-
-        .back-friends-div {
+    .back-friends-div {
             width: 97%;
             display: flex;
             justify-content: flex-end;
+            
 
             button {
                 margin-top: 20px;
             }
-        }
+    }
+
+    .friends-page-display-box {
+        margin-top: 30px;
+
+        /* @include tablet{
+        width: 100vw;
+        border: solid 1px lime;
+        }  */
     }
 }

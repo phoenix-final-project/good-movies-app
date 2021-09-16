@@ -1,6 +1,5 @@
 const WishList = require('../models/WishList');
 const WatchedList = require('../models/WatchedList');
-const User = require('../models/User');
 
 const { getListFromCache, addMovieToList, getListMovieIds } = require('../helpers/listsHelpers');
 

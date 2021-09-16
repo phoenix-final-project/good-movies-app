@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axiosApiInstance from "../../util/APIinstance";
+import axiosApiInstance from "../../../util/APIinstance";
+import MoviesInCommon from "./MoviesInCommon";
 
 import "./Friend.scss";
 
@@ -9,7 +10,8 @@ export default function Friend({ searchOrFriends }) {
     const [isMovieInCommon, setIsMovieInCommon] = useState(false);
     const [friendFirstname, setFriendFirstname] = useState("");
     const [friendLastname, setFriendLastname] = useState("");
-    const [color, setColor] = useState("#ffffff");
+    const [showMoviesInCommon, setShowMoviesInCommon] = useState("showMovie");
+
     //const [movieCard, setMovieCard] = useState("hidden");
 
     // Add a friend
@@ -78,24 +80,12 @@ export default function Friend({ searchOrFriends }) {
         }
     };
 
-    // Random color Avatar
-    const randomizeColor = () => {
-        let randomColor = "#";
-        for (let i = 0; i < 3; i++)
-            randomColor += (
-                "0" +
-                Math.floor((Math.random() * Math.pow(16, 2)) / 2).toString(16)
-            ).slice(-2);
-        setColor(randomColor);
-    };
-
     useEffect(() => {
         getFriends();
-        randomizeColor();
     }, []);
 
     return (
-        <div>
+        <div className="friend-component">
             {/* STRUCTURE FOR LIST OF FRIENDS OR SEARCH RESULTS (FriendsPage)*/}
             <section className="friends-box">
                 {searchOrFriends.map((item) => (
@@ -103,8 +93,12 @@ export default function Friend({ searchOrFriends }) {
                         <div className="friend-data">
                             <div className="friend-data-1st-box">
                                 <div
-                                    className="avatar"
-                                    style={{ backgroundColor: color }}
+                                    className={`avatar ${
+                                        item.avatarColor === "" && "fixedColor"
+                                    }`}
+                                    style={{
+                                        backgroundColor: item.avatarColor,
+                                    }}
                                 >
                                     {item.avatar}
                                 </div>
@@ -112,6 +106,7 @@ export default function Friend({ searchOrFriends }) {
                                 <div className="friend-name">
                                     <p>
                                         {item.firstname} {item.lastname}
+                                        {item.avatarColor}
                                     </p>
                                     <p>{item.username}</p>
                                 </div>
@@ -123,7 +118,10 @@ export default function Friend({ searchOrFriends }) {
                             ) ? (
                                 <div className="friend-buttons-div">
                                     <button
-                                        onClick={() => compareWishlist(item.id)}
+                                        onClick={() => {
+                                            compareWishlist(item.id);
+                                            setShowMoviesInCommon("showMovie");
+                                        }}
                                     >
                                         Compare wishlist
                                     </button>
@@ -149,57 +147,13 @@ export default function Friend({ searchOrFriends }) {
 
             {/* DISPLAY MOVIES IN COMMON */}
             {isMovieInCommon ? (
-                <section className="cover-outside-card">
-                    <div className="common-movies-card">
-                        <h3>
-                            Movies in common with{" "}
-                            <span>
-                                {friendFirstname} {friendLastname}
-                            </span>
-                        </h3>
-
-                        {commonWishlist.map((movie) => (
-                            <div key={movie.imdb_id} className="one-movie-box">
-                                <div className="one-movie-box-data">
-                                    <img src={movie.image_url} alt="" />
-
-                                    <div className="movie-data">
-                                        <p>
-                                            Title: <span>{movie.title}</span>
-                                        </p>
-                                        <p>
-                                            Year: <span>{movie.year}</span>
-                                        </p>
-                                        {movie.movie_length !== 0 && (
-                                            <p>
-                                                Length:{" "}
-                                                <span>
-                                                    {movie.movie_length}
-                                                </span>
-                                            </p>
-                                        )}
-                                        <p>
-                                            Rating: <span>{movie.rating}</span>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* <div>
-                                    <button
-                                        className="closeCard"
-                                        onClick={(e) => setMovieCard("hidden")}
-                                    >
-                                        x
-                                    </button>
-                                </div> */}
-
-                                <div>
-                                    <button>Invite to watch</button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+                <MoviesInCommon
+                    friendFirstname={friendFirstname}
+                    friendLastname={friendLastname}
+                    commonWishlist={commonWishlist}
+                    showMovie={showMoviesInCommon}
+                    setShowMoviesInCommon={setShowMoviesInCommon}
+                />
             ) : null}
         </div>
     );
