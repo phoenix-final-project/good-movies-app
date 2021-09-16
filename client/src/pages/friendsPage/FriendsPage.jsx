@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axiosApiInstance from "../../util/APIinstance";
-import Friend from "./friend/Friend";
-//import Friend from "./friend/Friend"
-/* import Friend from "../../components/friend/Friend"; */
+import Friend from "../../components/friend/Friend";
 
 // styling
 import "./FriendsPage.scss";
@@ -77,7 +75,7 @@ export default function FriendsPage() {
             {/* SEARCHBAR */}
             <form onSubmit={searchForUser} className="form-search-user">
                 <label htmlFor="header-search">
-                    <span className="visually-hidden">Find a new friend</span>
+                    <span className="visually-hidden">Find a friend</span>
                 </label>
                 <input
                     type="text"

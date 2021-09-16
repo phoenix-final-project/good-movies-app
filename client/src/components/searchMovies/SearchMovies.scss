@@ -56,6 +56,7 @@
             border: 3px solid var(--first-color);
             border-radius: 10px;
             text-transform: uppercase;
+    
             transition: all 0.5s ease-in-out;
     
                 &:hover {
@@ -80,12 +81,8 @@
                 cursor: pointer;
             }
         }
-
-        .errorMessage {
-            // color: var(--first-color);
-            color: red;
-        }
     }
+    
     
 }
 
@@ -99,9 +96,12 @@
 
     button {
         display: inline-block;
+
         width: 110px;
         padding: 5px 0;
         font-weight: bold;
+        color: var(--font-color);
+        background-color: var(--first-color);
         border: 3px solid var(--first-color);
         border-radius: 5px;
         text-transform: uppercase;
@@ -111,6 +111,8 @@
         color: var(--first-color);
 
             &:hover {
+                background: transparent;
+                color: var(--first-color);
                 transition: all .5s ease;
                 color: var(--font-color);
                 background-color: var(--first-color);

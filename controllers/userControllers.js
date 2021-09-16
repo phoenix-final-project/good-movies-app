@@ -165,7 +165,7 @@ exports.getUserByUsername = async (req, res) => {
 	try {
 		const user = await User.findOne({
 			username: req.params.username,
-		}).select('username firstname lastname avatar avatarColor email registerDate');
+		}).select('username firstname lastname avatar email registerDate');
 
 		if (user === null || user.deleted === true) {
 			return res.status(404).json({ message: `User ${req.params.username} was not found` });
@@ -203,7 +203,6 @@ exports.findUserByAnyName = async (req, res) => {
 				firstname: user.firstname,
 				lastname: user.lastname,
 				avatar: user.avatar,
-				avatarColor: user.avatarColor,
 				// email: user.email
 			});
 		});
@@ -225,7 +224,7 @@ exports.getFriendsOfUser = async (req, res) => {
 	try {
 		const user = await User.findOne({ username: req.params.username }).select('friends.user').populate('friends.user');
 
-		// console.log(user);
+		console.log(user);
 
 		if (user === null || user.deleted === true) {
 			return res.status(404).json({ message: `User ${req.params.username} was not found` });
@@ -252,7 +251,6 @@ exports.getFriendsOfUser = async (req, res) => {
 						firstname: item.user.firstname,
 						lastname: item.user.lastname,
 						avatar: item.user.avatar,
-						avatarColor: item.user.avatarColor,
 						email: item.user.email,
 						id: item.user._id,
 					});
@@ -314,13 +312,6 @@ exports.addFriend = async (req, res) => {
 		await user.updateOne(
 			{
 				$addToSet: { friends: { user: friend._id } },
-			},
-			{ new: true },
-		);
-		// adding automatically yourself to that friend's friends' list
-		await friend.updateOne(
-			{
-				$addToSet: { friends: { user: user._id } },
 			},
 			{ new: true },
 		);

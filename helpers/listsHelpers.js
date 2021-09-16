@@ -1,6 +1,5 @@
 const { redisClient } = require('../redis-server');
 const findMovieById = require('../helpers/findMovieById');
-const User = require('../models/User');
 
 exports.getListMovieIds = async (schema, userId) => {
 	const docs = await schema.find({ user: userId });
@@ -79,15 +78,4 @@ exports.addMovieToList = async (firstList, secondList, userId, imdb_id, movie, n
 	await movieToAdd.save();
 
 	return { message: `Movie added to the ${nameOfList}`, movie };
-};
-
-exports.addGenreToUser = async (movie, userId) => {
-	try {
-		const genres = movie.gen.map(item => item.genre);
-		genres.forEach(async genre => await User.findByIdAndUpdate(userId, { $addToSet: { favoriteGenres: genre } }, { new: true }));
-
-		Promise.resolve();
-	} catch (error) {
-		Promise.reject(error.message);
-	}
 };

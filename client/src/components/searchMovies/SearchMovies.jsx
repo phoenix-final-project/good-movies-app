@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axiosApiInstance from "../../util/APIinstance";
+// import { usePagination } from '@material-ui/lab/Pagination';
 
 // Component
 import MovieById from "../../components/movieById/MovieById";
@@ -23,28 +24,29 @@ function SearchMovies() {
 
     const [movieCardOn, setMovieCardOn] = useState("")
 
-    const [isError, setIsError] = useState(false);
+    // const [isError, setIsError] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
 
-    // Search movies by title/year/genre/director and searchParam ("london" for example)
+    // Search movies by title and searchParam ("london" for example)
     const getMoviesBySearchParam = async (e) => {
 
         e.preventDefault();
 
         setPage(1)
-        setIsError(false)
 
         try {
             let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/1`);
 
+            // if (res.status === 200) {
+            // console.log(res.data.numberOfMovies, res.data.foundMovies);
             setSearchResults(res.data.foundMovies);
             setNumberOfMovies(res.data.numberOfMovies)
             setLastPage(res.data.numberOfPages)
             // }
         } catch (error) {
             console.log("Something went wrong:", error.response.data.message);
-            setIsError(true);
+            // setIsError(true);
             setSearchResults([])
             setNumberOfMovies(0)
             setErrorMessage(error.response.data.message);
@@ -64,12 +66,17 @@ function SearchMovies() {
 
             let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/${page + 1}`);
 
+            // if (res.status === 200) {
+            // console.log(res.data.numberOfMovies, res.data.foundMovies);
             setSearchResults(res.data.foundMovies);
             setNumberOfMovies(res.data.numberOfMovies)
+            //setLastPage(res.data.numberOfPages)
+            // console.log(page, lastPage);
 
+            // }
         } catch (error) {
             console.log("Something went wrong:", error.response.data.message);
-            setIsError(true);
+            // setIsError(true);
             setSearchResults([])
             setNumberOfMovies(0)
             setErrorMessage(error.response.data.message);
@@ -80,21 +87,25 @@ function SearchMovies() {
     const handleBackwardButton = async () => {
 
         try {
+
             let res = await axiosApiInstance.get(`/api/movie/${searchBy}/${searchParam}/${page - 1}`);
 
+            // if (res.status === 200) {
             setSearchResults(res.data.foundMovies);
             setNumberOfMovies(res.data.numberOfMovies)
             setLastPage(res.data.numberOfPages)
             setPage(page - 1);
 
+            // }
         } catch (error) {
             console.log("Something went wrong:", error.response.data.message);
-            setIsError(true);
+            // setIsError(true);
             setSearchResults([])
             setNumberOfMovies(0)
             setErrorMessage(error.response.data.message);
         }
     };
+
 
     return (
         <div>
@@ -122,14 +133,9 @@ function SearchMovies() {
                                     searchBy === "title" ? "Type any word from a movie title"
                                         :
                                         searchBy === "genre" ? "Your favorite genre: horror, adventure.. "
-                                            : "Minimum 2 words, e.g. James Cameron"}
+                                            : "Full name, e.g. James Cameron"}
                             min={searchBy === "year" ? "1960" : null}
                             max={searchBy === "year" ? "2021" : null}
-
-                            // Checking if the user inserted min 2 words for Director search
-                            pattern={searchBy === "director" ? "([a-zA-Z]+\\s){1,}([a-zA-Z]+)" : null}
-
-                            title={searchBy === "director" ? "Minimum 2 words are required - name surname, separated by a single space" : null}
                         />
 
                         <span
@@ -140,16 +146,13 @@ function SearchMovies() {
                                 setSearchResults([]);
                                 setPage(0);
                                 setLastPage(0);
-                                setNumberOfMovies(0);
-                                setIsError(false)
+                                setNumberOfMovies(0)
                             }}> ✕ </span>
 
                         <button type="submit">Search</button>
                     </form>
 
-
-                    {isError ? <p className="errorMessage">{errorMessage}</p>
-                        : <p>Search Results: {numberOfMovies} </p>}
+                    <p>Search Results: {numberOfMovies} </p>
                 </div>
 
                 {/* Forward - Backward Button for Search Results */}
