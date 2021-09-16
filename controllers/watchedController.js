@@ -1,8 +1,7 @@
 const WishList = require('../models/WishList');
 const WatchedList = require('../models/WatchedList');
-const User = require('../models/User');
 
-const { getListFromCache, addMovieToList, getListMovieIds } = require('../helpers/listsHelpers');
+const { getListFromCache, addMovieToList, getListMovieIds, addGenreToUser } = require('../helpers/listsHelpers');
 
 const { redisClient } = require('../redis-server');
 
@@ -12,7 +11,12 @@ exports.addMovie = async (req, res) => {
 	const { imdb_id } = movie;
 
 	try {
+		// add movie to watched list
 		const response = await addMovieToList(WatchedList, WishList, userId, imdb_id, movie, 'Watched List');
+
+		// add genres to user
+		await addGenreToUser(movie, userId).catch(err => console.log(err.message));
+
 		res.json(response);
 	} catch (error) {
 		res.status(400).json({ error: error.message });

@@ -1,0 +1,75 @@
+// importing mixin
+@import '../../styles/mixin';
+
+.main-container {
+    width: 85%;
+    height: 600px;
+    margin: 20px auto;
+
+    .sub-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 30px;
+
+        @include tablet {
+            display: grid;
+            grid-template-columns: 1fr;
+        }
+
+        .emoji-container {
+            margin: 20px auto;
+            font-size: 30rem;
+            color: var(--first-color);
+        }
+
+        .error-text-container {
+            margin: 55px auto;
+
+            h1 {
+                margin-bottom: 30px;
+                color: var(--first-color);
+                font-size: 3em;
+            }
+
+            h2 {
+                margin-bottom: 30px;
+                font-size: 2em;
+                text-align: center;
+            }
+
+            .get-button {
+                width: 33%;
+                padding: .3rem;
+                margin: 100px 0 0 150px ;
+                font-size: 0.6rem;
+                color: var(--font-color);
+                background-color: var(--first-color);
+                border: 3px solid var(--first-color);
+                border-radius: 10px;
+                text-transform: uppercase;
+                cursor: pointer;
+    
+                letter-spacing: var(--letter-spacing-btn);
+                transition: all 0.5s ease-in-out;
+
+                @include tablet {
+                    margin: 100px 0 30px 150px;
+                }
+    
+                &:hover {
+                    background: transparent;
+                    color: var(--first-color);
+                    transition: all .5s ease;
+                    border-radius: 10px;
+                }
+    
+                @include mobile {
+                    font-size: 0.5em;
+                    padding: .1rem;
+                }
+            }
+        }
+    }
+}

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import axiosApiInstance from "../../util/APIinstance";
+import React, { useEffect, useState, useCallback } from "react";
+import axiosApiInstance from "../../../util/APIinstance";
+import MoviesInCommon from "./MoviesInCommon";
 
 import "./Friend.scss";
 
@@ -7,10 +8,11 @@ export default function Friend({ searchOrFriends }) {
     const [listFriends, setListFriends] = useState([]);
     const [commonWishlist, setCommonWishlist] = useState([]);
     const [isMovieInCommon, setIsMovieInCommon] = useState(false);
+    const [noMoviesInCommon, setNoMoviesInCommon] = useState(false);
     const [friendFirstname, setFriendFirstname] = useState("");
     const [friendLastname, setFriendLastname] = useState("");
-    const [color, setColor] = useState("#ffffff");
-    //const [movieCard, setMovieCard] = useState("hidden");
+    const [showMoviesInCommon, setShowMoviesInCommon] = useState("showMovie");
+    const [errorMessage, setErrorMessage] = useState("");
 
     // Add a friend
     const addFriend = async (username) => {
@@ -28,6 +30,19 @@ export default function Friend({ searchOrFriends }) {
     };
 
     // Delete a friend
+    /* const deleteFriend = useCallback(async (username) => {
+        try {
+            const res = await axiosApiInstance.put(`/api/user/friends/delete`, {
+                username: localStorage.getItem("username"),
+                friendUsername: username,
+            });
+            console.log(res.data);
+            getFriends();
+        } catch (error) {
+            console.log("Something went wrong", error.response.data.message);
+        }
+    }, []); */
+
     const deleteFriend = async (username) => {
         try {
             const res = await axiosApiInstance.put(`/api/user/friends/delete`, {
@@ -49,7 +64,7 @@ export default function Friend({ searchOrFriends }) {
                     "user_id"
                 )}/${friendId}`
             );
-            //console.log(res.data);
+            console.log(res.data);
 
             const friendTarget = listFriends.find(
                 (friend) => friend.id === res.data.friendUserId
@@ -62,6 +77,16 @@ export default function Friend({ searchOrFriends }) {
             setFriendLastname(friendTarget.lastname);
         } catch (error) {
             console.log("Something went wrong", error.response.data.error);
+            if (
+                error.response.data.error ===
+                "Your friend has no movies on the  wishlist"
+            ) {
+                setNoMoviesInCommon(true);
+                setErrorMessage(error.response.data.error);
+                setTimeout(() => {
+                    setNoMoviesInCommon(false);
+                }, 3000);
+            }
         }
     };
 
@@ -78,24 +103,12 @@ export default function Friend({ searchOrFriends }) {
         }
     };
 
-    // Random color Avatar
-    const randomizeColor = () => {
-        let randomColor = "#";
-        for (let i = 0; i < 3; i++)
-            randomColor += (
-                "0" +
-                Math.floor((Math.random() * Math.pow(16, 2)) / 2).toString(16)
-            ).slice(-2);
-        setColor(randomColor);
-    };
-
     useEffect(() => {
         getFriends();
-        randomizeColor();
     }, []);
 
     return (
-        <div>
+        <div className="friend-component">
             {/* STRUCTURE FOR LIST OF FRIENDS OR SEARCH RESULTS (FriendsPage)*/}
             <section className="friends-box">
                 {searchOrFriends.map((item) => (
@@ -103,8 +116,12 @@ export default function Friend({ searchOrFriends }) {
                         <div className="friend-data">
                             <div className="friend-data-1st-box">
                                 <div
-                                    className="avatar"
-                                    style={{ backgroundColor: color }}
+                                    className={`avatar ${
+                                        item.avatarColor === "" && "fixedColor"
+                                    }`}
+                                    style={{
+                                        backgroundColor: item.avatarColor,
+                                    }}
                                 >
                                     {item.avatar}
                                 </div>
@@ -123,7 +140,10 @@ export default function Friend({ searchOrFriends }) {
                             ) ? (
                                 <div className="friend-buttons-div">
                                     <button
-                                        onClick={() => compareWishlist(item.id)}
+                                        onClick={() => {
+                                            compareWishlist(item.id);
+                                            setShowMoviesInCommon("showMovie");
+                                        }}
                                     >
                                         Compare wishlist
                                     </button>
@@ -149,57 +169,18 @@ export default function Friend({ searchOrFriends }) {
 
             {/* DISPLAY MOVIES IN COMMON */}
             {isMovieInCommon ? (
-                <section className="cover-outside-card">
-                    <div className="common-movies-card">
-                        <h3>
-                            Movies in common with{" "}
-                            <span>
-                                {friendFirstname} {friendLastname}
-                            </span>
-                        </h3>
+                <MoviesInCommon
+                    friendFirstname={friendFirstname}
+                    friendLastname={friendLastname}
+                    commonWishlist={commonWishlist}
+                    showMovie={showMoviesInCommon}
+                    setShowMoviesInCommon={setShowMoviesInCommon}
+                    setIsMovieInCommon={setIsMovieInCommon}
+                />
+            ) : null}
 
-                        {commonWishlist.map((movie) => (
-                            <div key={movie.imdb_id} className="one-movie-box">
-                                <div className="one-movie-box-data">
-                                    <img src={movie.image_url} alt="" />
-
-                                    <div className="movie-data">
-                                        <p>
-                                            Title: <span>{movie.title}</span>
-                                        </p>
-                                        <p>
-                                            Year: <span>{movie.year}</span>
-                                        </p>
-                                        {movie.movie_length !== 0 && (
-                                            <p>
-                                                Length:{" "}
-                                                <span>
-                                                    {movie.movie_length}
-                                                </span>
-                                            </p>
-                                        )}
-                                        <p>
-                                            Rating: <span>{movie.rating}</span>
-                                        </p>
-                                    </div>
-                                </div>
-
-                                {/* <div>
-                                    <button
-                                        className="closeCard"
-                                        onClick={(e) => setMovieCard("hidden")}
-                                    >
-                                        x
-                                    </button>
-                                </div> */}
-
-                                <div>
-                                    <button>Invite to watch</button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
+            {noMoviesInCommon ? (
+                <div className="error-alert">{errorMessage}</div>
             ) : null}
         </div>
     );
