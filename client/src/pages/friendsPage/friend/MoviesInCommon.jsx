@@ -6,6 +6,7 @@ export default function MoviesInCommon({
     commonWishlist,
     showMovie,
     setShowMoviesInCommon,
+    setIsMovieInCommon,
 }) {
     return (
         <section className={`cover-outside-card ${showMovie}`}>
@@ -18,7 +19,6 @@ export default function MoviesInCommon({
                 </h3>
 
                 <div className="common-movies-container">
-
                     {commonWishlist.map((movie) => (
                         <div key={movie.imdb_id} className="one-movie-box">
                             <div className="one-movie-box-data">
@@ -43,15 +43,11 @@ export default function MoviesInCommon({
                                 </div>
                             </div>
 
-
-
                             <div>
                                 <button>Invite to watch</button>
                             </div>
                         </div>
-
                     ))}
-
                 </div>
 
                 <button
@@ -60,7 +56,6 @@ export default function MoviesInCommon({
                 >
                     ✕
                 </button>
-
             </div>
         </section>
     );
