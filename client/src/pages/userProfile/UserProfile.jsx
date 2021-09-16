@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axiosApiInstance from "../../util/APIinstance";
 import DisplayUser from "./DisplayUser";
+import UpdateForm from "./UpdateForm";
 
 // styling
 import "./UserProfile.scss";
 
 export default function UserProfile() {
     const [user, setUser] = useState({});
-    const [firstname, setFirstname] = useState("");
+    /* const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [password, setPassword] = useState(""); */
 
     // Find one user by username
     const getUser = async () => {
@@ -20,7 +21,7 @@ export default function UserProfile() {
             );
             console.log(res.data.foundUser);
             console.log(localStorage.getItem("username"));
-            //setUser(res.data)
+            setUser(res.data.foundUser);
             //setIsError(false);
         } catch (error) {
             console.log("Something went wrong", error.response.statusText);
@@ -39,10 +40,10 @@ export default function UserProfile() {
             const res = await axiosApiInstance.post(
                 `/api/update/${localStorage.getItem("username")}`,
                 {
-                    firstname: firstname,
-                    lastname: lastname,
-                    password: password,
-                    email: email,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    password: user.password,
+                    email: user.email,
                 }
             );
             console.log(res.data);
@@ -69,12 +70,15 @@ export default function UserProfile() {
                 <h2>My profile</h2>
             </header>
             <DisplayUser
-                firstname={firstname}
+                user={user}
+                /* firstname={firstname}
                 lastname={lastname}
-                email={email}
+                email={email} */
             />
             <button>Edit profile</button>
+
             <button>Delete user</button>
+            <UpdateForm user={user} />
         </div>
     );
 }

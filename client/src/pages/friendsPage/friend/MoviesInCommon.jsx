@@ -6,6 +6,7 @@ export default function MoviesInCommon({
     commonWishlist,
     showMovie,
     setShowMoviesInCommon,
+    setIsMovieInCommon,
 }) {
     return (
         <section className={`cover-outside-card ${showMovie}`}>
@@ -44,7 +45,10 @@ export default function MoviesInCommon({
                         <div className="closeCardDiv">
                             <button
                                 id="closeCard"
-                                onClick={(e) => setShowMoviesInCommon("hidden")}
+                                onClick={(e) => {
+                                    setShowMoviesInCommon("hidden");
+                                    setIsMovieInCommon(false);
+                                }}
                             >
                                 x
                             </button>

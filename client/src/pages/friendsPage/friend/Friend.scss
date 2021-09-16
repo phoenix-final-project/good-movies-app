@@ -13,8 +13,6 @@
         .one-friend-box {
             border-bottom: 1px solid var(--first-color);
 
-            //padding: 30px;
-
             padding: 20px;
             display: flex;
             align-items: center;
@@ -37,13 +35,10 @@
                         margin-right: 10px;
                         border-radius: 50%;
                         background-color: chocolate;
+
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                    }
-
-                    .fixedColor {
-                        background-color: chocolate;
                     }
 
                     .friend-name {
@@ -61,61 +56,86 @@
                 }
             }
         }
-        /* @media (min-width: 768px) {
-            flex-direction: column;
-            border: solid 1px white
-        } */
     }
-}
 
-.cover-outside-card {
-    /* position: fixed;
+    /* .error-alert {
+        color: red;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    } */
+
+    .cover-outside-card {
+        /* position: fixed;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.6);
     left: 0;
     top: 0;
     z-index: 1000; */
-    
 
-    .hidden {
-        visibility: hidden;
-    }
+        .hidden {
+            visibility: hidden;
+        }
 
-    .common-movies-card {
-        border: solid 2px var(--first-color);
-        border-radius: 5px;
-        margin-top: 20px;
-        width: 80%;
-        position: relative;
-        padding-top: 20px;
+        .common-movies-card {
+            border: solid 2px var(--first-color);
+            border-radius: 5px;
+            margin-top: 20px;
+            //width: 80%;
+            width: 60vw; // alina
+            position: relative;
+            padding-top: 20px;
 
-        width: 50vw;
+            //Alina
+            /* width: 50vw;
         height: 65vh;
         min-height: 370px;
-        overflow-y: scroll;
+        overflow-y: scroll; */
 
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        background-color: #333333;
-        box-shadow: 0 0 10px var(--first-color);
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333333;
+            box-shadow: 0 0 10px var(--first-color);
 
-        -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
-        scrollbar-width: none; /* Hide scrollbar for Firefox */
+            //Alina
+            //-ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+            //scrollbar-width: none; /* Hide scrollbar for Firefox */
 
-        /* Hide scrollbar for Chrome, Safari and Opera */
-        &::-webkit-scrollbar {
+            /* Hide scrollbar for Chrome, Safari and Opera */
+            // &::-webkit-scrollbar {
             display: none;
         }
 
         h3 {
             color: var(--first-color);
             text-align: center;
+            padding-bottom: 15px; //Alina
 
             span {
                 text-decoration: underline;
+                text-underline-position: under; //Alina
+            }
+        }
+
+        //Alina
+        button#closeCard {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            position: absolute;
+            right: -25px;
+            top: -25px;
+            font-size: 2rem;
+            z-index: 200;
+            color: var(--font-color);
+            background-color: var(--first-color);
+
+            &:hover {
+                background: transparent;
+                color: var(--first-color);
             }
         }
 
@@ -126,7 +146,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            
 
             .one-movie-box-data {
                 display: flex;

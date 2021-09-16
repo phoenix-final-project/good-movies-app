@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
-export default function DisplayUser({ firstname, lastname, email }) {
+export default function DisplayUser({ user }) {
     return (
         <div className="display-user-container">
             <div className="avatar">LC</div>
-            <p>{firstname}</p>
+            <p>
+                {user.firstname} {user.lastname}
+            </p>
         </div>
     );
 }
