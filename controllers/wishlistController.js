@@ -1,7 +1,8 @@
 const WishList = require('../models/WishList');
 const WatchedList = require('../models/WatchedList');
+const User = require('../models/User');
 
-const { getListFromCache, addMovieToList, getListMovieIds } = require('../helpers/listsHelpers');
+const { getListFromCache, addMovieToList, getListMovieIds, addGenreToUser } = require('../helpers/listsHelpers');
 const { findByIdAndMap } = require('../helpers/findByIdAndMap');
 
 exports.addMovie = async (req, res) => {
@@ -10,10 +11,12 @@ exports.addMovie = async (req, res) => {
 	const { imdb_id } = movie;
 
 	try {
+		// add movie to wishlist
 		const response = await addMovieToList(WishList, WatchedList, userId, imdb_id, movie, 'Wishlist');
 
-		const genres = movie.gen.map(item => item.genre);
-		console.log(genres);
+		// add genres to user
+		await addGenreToUser(movie, userId).catch(err => res.status(400).json({ error: error.message }));
+
 		res.json(response);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
