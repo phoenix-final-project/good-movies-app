@@ -25,6 +25,10 @@ const upcomingMovies = async (req, res) => {
             const upcomingAll = await Object.values(response.data)[0];
             const numberOfMovies = upcomingAll.length;
 
+            const upcomingAllCleaned = upcomingAll.filter(movie => movie.imdb_id !== "tt9115530" && movie.imdb_id !== "tt10838180")
+
+            // (movie.imdb_id !== "tt9115530" && movie.imdb_id !== "tt10838180")
+
             // will try to make a helper for pagination later - this code is working
             const page = req.params.page - 1;
             const limit = 6;
@@ -43,7 +47,7 @@ const upcomingMovies = async (req, res) => {
             // await paginationHelper(req, numberOfMovies)
 
             // displaying 6 movies / page
-            const upcoming = upcomingAll.slice(start, end);
+            const upcoming = upcomingAllCleaned.slice(start, end);
 
             // helper for extended info on movies
             const withExtendedInfo = await findByIdAndMap(upcoming);
@@ -289,25 +293,28 @@ const moviesByDirector = async (req, res) => {
         url: `https://data-imdb1.p.rapidapi.com/actor/imdb_id_byName/${req.params.director}/`,
         headers: rapidApiHeaders,
     };
-    console.log(options);
+
 
     await axios
         .request(options)
         .then(async (response) => {
 
-            // console.log(response.data);
-
             const foundPeople = Object.values(response.data)[0];
-            // const numberOfPeople = foundPeople.length;
 
-            if (foundPeople.length === 0) {
-                return res.status(404).json({
-                    message: `We could not find anyone with the name *${req.params.director}*`,
-                });
+            // [{ imdb_id: 'nm0027271', name: 'Paul Anderson' }]
+
+            if (foundPeople.length === 0 && !req.params.director.includes("lmodóvar") && !req.params.director.includes("lmodovar") && !req.params.director.includes("pedro")) {
+                return res.status(404).json({ message: `We could not find anyone with the name *${req.params.director}*` });
             }
 
-            // DB gives wrong data format for Stanley Kubrick, we need a condition here
-            let foundPeopleCondition = foundPeople[0].name == "Stanley Kubrick" ? [foundPeople[0]] : foundPeople
+
+            // DB gives wrong data format for Stanley Kubrick, we need a condition here, also for Pedro Almodóvar - ó not recognized
+            let foundPeopleCondition =
+                (req.params.director.includes("ubrick")) ? [foundPeople[0]]
+                    : (req.params.director.includes("lmodóvar")) ? [{ imdb_id: 'nm0000264', name: 'Pedro Almodóvar' }]
+                        : (req.params.director.includes("lmodovar")) ? [{ imdb_id: 'nm0000264', name: 'Pedro Almodóvar' }]
+                            : foundPeople
+
 
             const peopleInfo = foundPeopleCondition.map(async person => {
 
@@ -353,6 +360,12 @@ const moviesByDirector = async (req, res) => {
 
                         }
                     });
+
+                    if (peopleArray.length === 0) {
+                        return res.status(404).json({ message: `We could not find anyone with the name *${req.params.director}*` });
+                    }
+
+                    // console.log(peopleArray);
 
                     // helper for extended info on movies
                     const withExtendedInfo = await findByIdAndMap(peopleArray);
