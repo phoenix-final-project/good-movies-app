@@ -1,48 +1,45 @@
-const axios = require("axios").default;
+const axios = require('axios').default;
 
+exports.findByIdAndMap = array => {
+	const moviesInfo = array.map(async item => {
+		let options = {
+			method: 'GET',
+			url: `https://data-imdb1.p.rapidapi.com/movie/id/${item.imdb_id}/`,
+			headers: {
+				'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
+				'x-rapidapi-key': process.env.RAPID_API_KEY,
+			},
+		};
 
-exports.findByIdAndMap = (array) => {
+		return await axios
+			.request(options)
+			.then(response => response.data)
+			.catch(error => {
+				console.error(error.message);
+			});
+	});
 
-    const moviesInfo = array.map(async item => {
+	return Promise.all(moviesInfo)
+		.then(results => Object.values(results))
+		.then(data => {
+			let movieArray = [];
 
-        let options = {
-            method: 'GET',
-            url: `https://data-imdb1.p.rapidapi.com/movie/id/${item.imdb_id}/`,
-            headers: {
-                'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
-                'x-rapidapi-key': process.env.RAPID_API_KEY
-            }
-        }
+			data.forEach(item => {
+				let movie = Object.values(item)[0];
 
-        return await axios.request(options)
-            .then((response) => response.data)
-            .catch((error) => {
-                console.error(error.message);
-            });
-    })
+				if (array[data.indexOf(item)].director) {
+					let movie2 = {
+						director: array[data.indexOf(item)].director,
+						director_id: array[data.indexOf(item)].director_id,
+						...movie,
+					};
 
-    return Promise.all(moviesInfo)
-        .then(results => Object.values(results))
-        .then((data) => {
-            let movieArray = [];
+					movieArray.push(movie2);
+				} else {
+					movieArray.push(movie);
+				}
+			});
 
-            data.forEach((item) => {
-                let movie = Object.values(item)[0];
-
-                if (array[data.indexOf(item)].director) {
-                    let movie2 = {
-                        "director": array[data.indexOf(item)].director,
-                        "director_id": array[data.indexOf(item)].director_id,
-                        ...movie
-                    }
-
-                    movieArray.push(movie2);
-
-                } else {
-                    movieArray.push(movie);
-                }
-            });
-
-            return movieArray
-        })
-}
+			return movieArray;
+		});
+};

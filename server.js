@@ -38,10 +38,10 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/watched', watchedRoutes);
 
 // for heroku deployment
-app.use(express.static(path.join(__dirname, 'client/build')));
-app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname + '/client/build/index.html'));
-});
+// app.use(express.static(path.join(__dirname, 'client/build')));
+// app.get('*', (req, res) => {
+// 	res.sendFile(path.join(__dirname + '/client/build/index.html'));
+// });
 
 console.log('Connecting to database...💻');
 
