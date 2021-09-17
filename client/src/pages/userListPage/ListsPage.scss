@@ -136,9 +136,9 @@
 
         .go-top {
             font-size: 1.5rem;
-            margin: 0 0 0 1100px;
-            position: sticky;
-            bottom: 10px;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
 
             i {
                 color: var(--first-color);
