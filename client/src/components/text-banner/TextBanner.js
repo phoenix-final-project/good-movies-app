@@ -4,7 +4,6 @@ export default function TextBanner() {
     return (
         <section className="description-app-section">
             <div className="description-container">
-                <h1 className='title'><span className='ani1'>M</span>Y<span className='ani2'>MOVIE NATION</span></h1>
                 <div className='paragraph'>
                     <div className="text-top">
                         One app for more flexibility
