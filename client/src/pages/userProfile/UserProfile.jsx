@@ -7,11 +7,15 @@ import UpdateForm from "./UpdateForm";
 import "./UserProfile.scss";
 
 export default function UserProfile() {
-    const [user, setUser] = useState({});
-    /* const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState(""); */
+    const [user, setUser] = useState({
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+    });
+    const [showUpdateForm, setShowUpdateForm] = useState(false);
+    const [showConfirmDeleteBtn, setShowConfirmDeleteBtn] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("hidden");
 
     // Find one user by username
     const getUser = async () => {
@@ -19,7 +23,7 @@ export default function UserProfile() {
             const res = await axiosApiInstance.get(
                 `/api/user/username/${localStorage.getItem("username")}`
             );
-            console.log(res.data.foundUser);
+            //console.log(res.data.foundUser);
             console.log(localStorage.getItem("username"));
             setUser(res.data.foundUser);
             //setIsError(false);
@@ -34,34 +38,34 @@ export default function UserProfile() {
         getUser();
     }, []);
 
-    // Update user
-    const updateUser = async () => {
+    // DELETE A USER
+    // Confirm if the user want to delete his account
+    const askConfirmationDeleteUser = () => {
+        setShowConfirmDeleteBtn(true);
+    };
+
+    const handleDeleteUser = async (e) => {
+        e.preventDefault();
         try {
-            const res = await axiosApiInstance.post(
-                `/api/update/${localStorage.getItem("username")}`,
-                {
-                    firstname: user.firstname,
-                    lastname: user.lastname,
-                    password: user.password,
-                    email: user.email,
-                }
-            );
+            const res = await axiosApiInstance.put("/api/user/delete", {
+                userId: localStorage.getItem("user_id"),
+            });
             console.log(res.data);
+            setAlertMessage("alert-delete-success");
+            setShowConfirmDeleteBtn(false);
         } catch (error) {
             console.log("Something went wrong", error.response.statusText);
         }
     };
 
-    // Delete a user
-    const deleteUser = async () => {
-        try {
-            const res = await axiosApiInstance.put("/api/delete", {
-                userId: localStorage.getItem("user_id"),
-            });
-            console.log(res.data);
-        } catch (error) {
-            console.log("Something went wrong", error.response.statusText);
-        }
+    const closeDivConfirmDeleteUser = (e) => {
+        e.preventDefault();
+        setShowConfirmDeleteBtn(false);
+    };
+
+    // SHOW UPDATE FORM
+    const showForm = () => {
+        setShowUpdateForm(true);
     };
 
     return (
@@ -69,16 +73,42 @@ export default function UserProfile() {
             <header>
                 <h2>My profile</h2>
             </header>
-            <DisplayUser
-                user={user}
-                /* firstname={firstname}
+
+            <main>
+                <DisplayUser
+                    user={user}
+                    /* firstname={firstname}
                 lastname={lastname}
                 email={email} */
-            />
-            <button>Edit profile</button>
+                />
 
-            <button>Delete user</button>
-            <UpdateForm user={user} />
+                <div className={alertMessage}>
+                    The user was successfully deleted
+                </div>
+
+                <div className="btn-profile">
+                    <button onClick={showForm}>Edit profile</button>
+                    <button onClick={askConfirmationDeleteUser}>
+                        Delete user
+                    </button>
+                </div>
+            </main>
+
+            {showUpdateForm ? (
+                <UpdateForm setShowUpdateForm={setShowUpdateForm} user={user} />
+            ) : null}
+
+            {showConfirmDeleteBtn ? (
+                <div className="confirm-delete-div">
+                    <p>Are you sure that you want delete your account?</p>
+                    <div>
+                        <button onClick={handleDeleteUser}>Delete</button>
+                        <button onClick={closeDivConfirmDeleteUser}>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            ) : null}
         </div>
     );
 }
