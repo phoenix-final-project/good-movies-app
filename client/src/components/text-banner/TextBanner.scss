@@ -26,30 +26,9 @@
     .description-container {
         padding: 15px;
 
-<<<<<<< HEAD
-        .title {
-            text-align: center;
-            font-size: 2em;
-            color: var(--first-color);
-
-            @include tablet {
-                font-size: 1.6em;
-            }
-
-            @include mobile {
-                font-size: 1.2em;
-            }
-        }
-
-=======
->>>>>>> development
         .paragraph {
             margin-top: 20px;
             text-align: left;
-<<<<<<< HEAD
-            font-size: .9rem;
-            letter-spacing: 0.1rem;
-=======
             margin: 30px 0;
 
             .text-top {
@@ -74,7 +53,6 @@
                     }
                 }
             }
->>>>>>> development
 
             @include tablet {
                 font-size: .7rem;
@@ -83,8 +61,6 @@
             @include mobile {
                 font-size: .6rem;
             }
-<<<<<<< HEAD
-=======
 
             .animation-process {
                 margin: 0 0 0 60px;
@@ -98,7 +74,6 @@
                     color: var(--first-color);
                 }
             }
->>>>>>> development
         }
     }
 }

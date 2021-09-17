@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axiosApiInstance from "../../util/APIinstance";
-import Friend from "../../components/friend/Friend";
+import Friend from "./friend/Friend";
 
 // styling
 import "./FriendsPage.scss";

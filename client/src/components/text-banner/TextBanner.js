@@ -4,10 +4,6 @@ export default function TextBanner({ title, paragraph }) {
     return (
         <section className="description-app-section">
             <div className="description-container">
-<<<<<<< HEAD
-                <h1 className='title'>{title}</h1>
-                <p className='paragraph'>{paragraph}</p>
-=======
                 <div className='paragraph'>
                     <div className="text-top">
                         One app for more flexibility
@@ -21,7 +17,6 @@ export default function TextBanner({ title, paragraph }) {
                         <li><i className="fas fa-check"></i> And get some inspirations now</li>
                     </ul>
                 </div>
->>>>>>> development
             </div>
         </section> 
     )
