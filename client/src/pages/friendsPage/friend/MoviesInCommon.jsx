@@ -52,7 +52,10 @@ export default function MoviesInCommon({
 
                 <button
                     id="closeCard"
-                    onClick={(e) => setShowMoviesInCommon("hidden")}
+                    onClick={(e) => {
+                        setShowMoviesInCommon("hidden");
+                        setIsMovieInCommon(false);
+                    }}
                 >
                     ✕
                 </button>
@@ -60,5 +63,3 @@ export default function MoviesInCommon({
         </section>
     );
 }
-
-// setShowMoviesInCommon("hidden")

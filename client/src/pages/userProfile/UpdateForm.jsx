@@ -1,33 +1,46 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axiosApiInstance from "../../util/APIinstance";
 
-export default function UpdateForm({ user }) {
-    const [firstname, setFirstname] = useState(user.firstname);
-    const [lastname, setLastname] = useState(user.lastname);
-    const [email, setEmail] = useState(user.email);
+export default function UpdateForm({ user, setShowUpdateForm }) {
+    const [firstname, setFirstname] = useState("");
+    const [lastname, setLastname] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     // Update user
-    const updateUser = async () => {
+    const updateUser = async (e) => {
+        e.preventDefault();
         try {
-            const res = await axiosApiInstance.post(
-                `/api/update/${localStorage.getItem("username")}`,
-                {
-                    firstname: firstname,
-                    lastname: lastname,
-                    password: password,
-                    email: email,
-                }
-            );
+            const res = await axiosApiInstance.put(`/api/user/update`, {
+                username: localStorage.getItem("username"),
+                firstname: firstname,
+                lastname: lastname,
+                password: password,
+                email: email,
+            });
             console.log(res.data);
         } catch (error) {
             console.log("Something went wrong", error.response.statusText);
         }
     };
 
-    const handleUpdateUser = () => {};
+    useEffect(() => {
+        //console.log(user);
+        //setFirstname(user.firstname);
+    }, [user]);
+
+    //const handleUpdateUser = () => {};
     return (
-        <div>
+        <div className="update-user-form-container">
+            <button
+                id="closeCard"
+                onClick={(e) => setShowUpdateForm(false)}
+                //onClick={(e) => setShowMoviesInCommon("hidden")}
+            >
+                ✕
+            </button>
+
+            <h2>Edit profile</h2>
             <form onSubmit={updateUser} className="form-search-user">
                 <label /* htmlFor="header-search" */>
                     <span className="visually-hidden">First Name</span>
@@ -36,7 +49,7 @@ export default function UpdateForm({ user }) {
                     type="text"
                     //id="header-search"
                     //placeholder="Find a friend"
-                    value={user.firstname}
+                    value={firstname}
                     onChange={(e) => setFirstname(e.target.value)}
                 />
                 <label /* htmlFor="header-search" */>
@@ -45,8 +58,8 @@ export default function UpdateForm({ user }) {
                 <input
                     type="text"
                     //id="header-search"
-                    //placeholder="Find a friend"
-                    value={user.lastname}
+                    //placeholder="Lastname"
+                    value={lastname}
                     onChange={(e) => setLastname(e.target.value)}
                 />
                 <label /* htmlFor="header-search" */>
@@ -56,7 +69,7 @@ export default function UpdateForm({ user }) {
                     type="email"
                     //id="header-search"
                     //placeholder="Find a friend"
-                    value={user.email}
+                    value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <label /* htmlFor="header-search" */>
@@ -69,7 +82,9 @@ export default function UpdateForm({ user }) {
                     //value={user.email}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type="submit">Update</button>
+                <div className="btn-form">
+                    <button type="submit">Save</button>
+                </div>
             </form>
         </div>
     );
