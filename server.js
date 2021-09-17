@@ -17,6 +17,7 @@ const userRoutes = require('./routes/userRoutes');
 const movieRoutes = require('./routes/movieRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes');
 const watchedRoutes = require('./routes/watchedRoutes');
+const commentsRoutes = require('./routes/commentsRoutes');
 
 // importing passport
 const passport = require('passport');
@@ -36,6 +37,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/movie', movieRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/watched', watchedRoutes);
+app.use('/api/comments', commentsRoutes);
 
 // for heroku deployment
 // app.use(express.static(path.join(__dirname, 'client/build')));
