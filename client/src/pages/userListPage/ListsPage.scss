@@ -133,5 +133,26 @@
                 }
             }
         }
+
+        .go-top {
+            font-size: 1.5rem;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+
+            i {
+                color: var(--first-color);
+                border: 1px solid var(--first-color);
+                padding: 10px;
+                border-radius: 50%;
+
+                &:hover {
+                    color: var(--first-color);
+                    background-color: var(--title-color);
+                    border: 1px solid transparent;
+                    cursor: pointer;
+                }
+            }
+        }
     }
 }

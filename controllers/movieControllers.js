@@ -175,58 +175,55 @@ const moviesByTitle = async (req, res) => {
 
 // GET movies by genre
 const moviesByGenre = async (req, res) => {
-    let options = {
-        method: "GET",
-        url: `https://data-imdb1.p.rapidapi.com/movie/byGen/${req.params.genre}/`,
-        headers: rapidApiHeaders,
-    };
+	const genre = req.params.genre[0].toUpperCase() + req.params.genre.slice(1);
 
-    await axios
-        .request(options)
-        .then(async (response) => {
-            const numberOfMoviesToShow = 20;
+	let options = {
+		method: 'GET',
+		url: `https://data-imdb1.p.rapidapi.com/movie/byGen/${genre}/`,
+		headers: rapidApiHeaders,
+	};
 
-            // getting ALL movies for that genre (can be a lot)
-            const foundByGenre = Object.values(response.data)[0];
-            const numberOfMovies = foundByGenre.length;
+	try {
+		// get data
+		const foundByGenre = await getDataRedisOrApi(`byGenre_${genre}`, options);
 
-            // then limiting a number of results of "foundByGenre" to 20
-            // const foundByGenre20 = foundByGenre.slice(0, numberOfMoviesToShow);
+		// proceed data
+		const numberOfMovies = foundByGenre.length;
 
-            if (foundByGenre.length === 0) {
-                return res.status(404).json({
-                    message: `No movies for *${req.params.genre}* were found`,
-                });
-            }
-            const page = req.params.page - 1;
-            const limit = 10;
-            const numberOfPages = Math.ceil(numberOfMovies / limit);
 
-            let start, end;
+		if (foundByGenre.length === 0) {
+			return res.status(404).json({
+				message: `No movies for *${req.params.genre}* were found`,
+			});
+		}
+		const page = req.params.page - 1;
+		const limit = 10;
+		const numberOfPages = Math.ceil(numberOfMovies / limit);
 
-            if (page >= 0 && page < numberOfPages) {
-                start = limit * page;
-                end = limit + start;
-            } else {
-                return res.status(500).json({ message: "No such page found" });
-            }
-            const foundByGenrePart = foundByGenre.slice(start, end);
+		let start, end;
 
-            // helper for extended info on movies
-            const withExtendedInfo = await findByIdAndMap(foundByGenrePart);
+		if (page >= 0 && page < numberOfPages) {
+			start = limit * page;
+			end = limit + start;
+		} else {
+			return res.status(500).json({ message: 'No such page found' });
+		}
+		const foundByGenrePart = foundByGenre.slice(start, end);
 
-            return res.status(200).json({
-                searchParam: req.params.genre,
-                numberOfMovies: numberOfMovies,
-                numberOfPages: numberOfPages,
-                currentPage: +req.params.page,
-                foundMovies: withExtendedInfo,
-            });
-        })
-        .catch((error) => {
-            console.error(error.message);
-            res.status(400).json({ error: error.message });
-        });
+		// helper for extended info on movies
+		const withExtendedInfo = await findByIdAndMap(foundByGenrePart);
+
+		return res.status(200).json({
+			searchParam: req.params.genre,
+			numberOfMovies: numberOfMovies,
+			numberOfPages: numberOfPages,
+			currentPage: +req.params.page,
+			foundMovies: withExtendedInfo,
+		});
+	} catch (error) {
+		console.error(error.message);
+		res.status(400).json({ error: error.message });
+	}
 };
 
 // GET movies by year
@@ -281,96 +278,98 @@ const moviesByYear = async (req, res) => {
         });
 };
 
-// GET movies by director - NOT READY
+// GET movies by director
 const moviesByDirector = async (req, res) => {
+	let options = {
+		method: 'GET',
+		url: `https://data-imdb1.p.rapidapi.com/actor/imdb_id_byName/${req.params.director}/`,
+		headers: rapidApiHeaders,
+	};
 
-    let options = {
-        method: "GET",
-        url: `https://data-imdb1.p.rapidapi.com/actor/imdb_id_byName/${req.params.director}/`,
-        headers: rapidApiHeaders,
-    };
-    console.log(options);
+	await axios
+		.request(options)
+		.then(async response => {
+			const foundPeople = Object.values(response.data)[0];
 
-    await axios
-        .request(options)
-        .then(async (response) => {
+			if (foundPeople.length === 0
+				&& !req.params.director.toLowerCase().includes("pedro almodóvar")
+				&& !req.params.director.toLowerCase().includes("pedro almodovar")
+				&& !req.params.director.toLowerCase().includes("paul anderson")) {
 
-            // console.log(response.data);
+				return res.status(404).json({ message: `We could not find anyone with the name *${req.params.director}*` });
+			}
 
-            const foundPeople = Object.values(response.data)[0];
-            // const numberOfPeople = foundPeople.length;
-
-            if (foundPeople.length === 0) {
-                return res.status(404).json({
-                    message: `We could not find anyone with the name *${req.params.director}*`,
-                });
-            }
-
-            // DB gives wrong data format for Stanley Kubrick, we need a condition here
-            let foundPeopleCondition = foundPeople[0].name == "Stanley Kubrick" ? [foundPeople[0]] : foundPeople
-
-            const peopleInfo = foundPeopleCondition.map(async person => {
-
-                let options = {
-                    method: 'GET',
-                    url: `https://data-imdb1.p.rapidapi.com/movie/byActor/${person.imdb_id}/`,
-                    headers: {
-                        'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
-                        'x-rapidapi-key': process.env.RAPID_API_KEY
-                    }
-                }
-
-                return await axios.request(options)
-                    .then((response) => response.data)
-                    .catch((error) => {
-                        console.error(error.message);
-                    });
-            })
-
-            return Promise.all(peopleInfo)
-                .then(results => Object.values(results))
-                .then(async (data) => {
-                    let peopleArray = [];
-
-                    data.forEach((item) => {
-                        let person = Object.values(item)[0];
-
-                        if (person.length > 0) {
-                            person.find(movie => {
-                                movie[1].find(item => {
-                                    if (item.role == "Director") {
-
-                                        let movieData = {
-                                            "imdb_id": movie[0].imdb_id,
-                                            "title": movie[0].title,
-                                            "director": movie[1][0].actor.name,
-                                            "director_id": movie[1][0].actor.imdb_id,
-                                        }
-                                        peopleArray.push(movieData);
-                                    }
-                                })
-                            })
-
-                        }
-                    });
-
-                    // helper for extended info on movies
-                    const withExtendedInfo = await findByIdAndMap(peopleArray);
+			// Some conditions needed - DB gives wrong data format for Stanley Kubrick, also for Pedro Almodóvar - ó not recognized, and Paul Anderson is not searchable by name
+			let foundPeopleCondition =
+				(req.params.director.toLowerCase().includes("kubrick")) ? [foundPeople[0]]
+					: (req.params.director.toLowerCase().includes("pedro almodóvar")) ? [{ imdb_id: 'nm0000264', name: 'Pedro Almodóvar' }]
+						: (req.params.director.toLowerCase().includes("pedro almodovar")) ? [{ imdb_id: 'nm0000264', name: 'Pedro Almodóvar' }]
+							: (req.params.director.toLowerCase().includes("paul anderson")) ? [{ imdb_id: 'nm0027271', name: 'Paul Anderson' }]
+								: foundPeople
 
 
-                    return res.status(200).json({
-                        searchParam: req.params.director,
-                        numberOfMovies: peopleArray.length,
-                        foundMovies: withExtendedInfo,
-                        numberOfPages: 1
-                    });
-                })
+			const peopleInfo = foundPeopleCondition.map(async person => {
+				let options = {
+					method: 'GET',
+					url: `https://data-imdb1.p.rapidapi.com/movie/byActor/${person.imdb_id}/`,
+					headers: {
+						'x-rapidapi-host': 'data-imdb1.p.rapidapi.com',
+						'x-rapidapi-key': process.env.RAPID_API_KEY,
+					},
+				};
 
-        })
-        .catch((error) => {
-            console.error(error.message);
-            res.status(400).json({ error: error.message });
-        });
+				return await axios
+					.request(options)
+					.then(response => response.data)
+					.catch(error => {
+						console.error(error.message);
+					});
+			});
+
+			return Promise.all(peopleInfo)
+				.then(results => Object.values(results))
+				.then(async data => {
+					let peopleArray = [];
+
+					data.forEach(item => {
+						let person = Object.values(item)[0];
+
+						if (person.length > 0) {
+							person.find(movie => {
+								movie[1].find(item => {
+									if (item.role == 'Director') {
+										let movieData = {
+											imdb_id: movie[0].imdb_id,
+											title: movie[0].title,
+											director: movie[1][0].actor.name,
+											director_id: movie[1][0].actor.imdb_id,
+										};
+										peopleArray.push(movieData);
+									}
+								});
+							});
+						}
+					});
+
+					if (peopleArray.length === 0) {
+						return res.status(404).json({ message: `We could not find anyone with the name *${req.params.director}*` });
+					}
+
+					// helper for extended info on movies
+					const withExtendedInfo = await findByIdAndMap(peopleArray);
+
+					return res.status(200).json({
+						searchParam: req.params.director,
+						numberOfMovies: peopleArray.length,
+						foundMovies: withExtendedInfo,
+						numberOfPages: 1,
+					});
+				});
+		})
+		.catch(error => {
+			console.error(error.message);
+			res.status(400).json({ error: error.message });
+		});
 };
 
 

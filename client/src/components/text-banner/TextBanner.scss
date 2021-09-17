@@ -7,12 +7,8 @@
     border-radius: 10px;
     
     position: absolute;
-    top: 130px;
+    top: 150px;
     left: 100px;
-
-    &:hover {
-        box-shadow: 3px 4px 6px var(--first-color);
-    }
 
     @include tablet {
         height: auto;
@@ -30,6 +26,7 @@
     .description-container {
         padding: 15px;
 
+<<<<<<< HEAD
         .title {
             text-align: center;
             font-size: 2em;
@@ -44,11 +41,40 @@
             }
         }
 
+=======
+>>>>>>> development
         .paragraph {
             margin-top: 20px;
             text-align: left;
+<<<<<<< HEAD
             font-size: .9rem;
             letter-spacing: 0.1rem;
+=======
+            margin: 30px 0;
+
+            .text-top {
+                margin: 30px 10px;
+                width: 22ch;
+                animation: typing .7s steps(22), blink .8s step-end infinite alternate;
+                white-space: nowrap;
+                border-right: 2px solid var(--container-color);
+                color: var(--first-color);
+                overflow: hidden;
+                font-size: 1.2em;
+
+                @keyframes typing {
+                    from {
+                        width: 0
+                    }
+                }
+                          
+                @keyframes blink {
+                    50% {
+                        border-color: transparent
+                    }
+                }
+            }
+>>>>>>> development
 
             @include tablet {
                 font-size: .7rem;
@@ -57,6 +83,22 @@
             @include mobile {
                 font-size: .6rem;
             }
+<<<<<<< HEAD
+=======
+
+            .animation-process {
+                margin: 0 0 0 60px;
+
+                li {
+                    padding-bottom: 15px;
+                }
+
+                .fas {
+                    padding: 0 10px 0 0;
+                    color: var(--first-color);
+                }
+            }
+>>>>>>> development
         }
     }
 }

@@ -98,6 +98,7 @@ export default function Friend({ searchOrFriends }) {
         <div>
             {/* STRUCTURE FOR LIST OF FRIENDS OR SEARCH RESULTS (FriendsPage)*/}
             <section className="friends-box">
+                {console.log(searchOrFriends)}
                 {searchOrFriends.map((item) => (
                     <div key={item.username} className="one-friend-box">
                         <div className="friend-data">
@@ -123,7 +124,11 @@ export default function Friend({ searchOrFriends }) {
                             ) ? (
                                 <div className="friend-buttons-div">
                                     <button
-                                        onClick={() => compareWishlist(item.id)}
+                                        onClick={() => {
+                                            console.log(item.id);
+                                            compareWishlist(item.id);
+                                            setShowMoviesInCommon("showMovie");
+                                        }}
                                     >
                                         Compare wishlist
                                     </button>
