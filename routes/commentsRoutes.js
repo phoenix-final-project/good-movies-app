@@ -4,10 +4,15 @@ const passport = require('passport');
 
 const { createComment, getCommentsToMovie, editComment, deleteComment } = require('../controllers/commentControllers');
 
-// tt10288566
+// Get ALL comments to the movie
 router.get('/:movieId', getCommentsToMovie);
+
+// CREATE a new comment to the movie
 router.post('/create/:userId/:movieId', passport.authenticate('jwt', { session: false }), createComment);
+
 router.put('/edit/:userId/:commentId', passport.authenticate('jwt', { session: false }), editComment);
-router.delete('/delete/:userId/:commentId', passport.authenticate('jwt', { session: false }), deleteComment);
+
+// DELETE a comment while logged in using PUT method
+router.put('/delete/:userId/:commentId', passport.authenticate('jwt', { session: false }), deleteComment);
 
 module.exports = router;
