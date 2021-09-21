@@ -9,7 +9,7 @@ import Comments from '../comments/Comments';
 import './MovieById.scss';
 
 
-export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCardOn }) {
+export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCardOn, isList }) {
 	// local state
 	const [movie, setMovie] = useState({});
 	const [trailerOn, setTrailerOn] = useState('hidden');
@@ -26,11 +26,11 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 			let res = await axiosApiInstance.get(`/api/movie/oneMovieById/${movieId}`);
 
 			if (res.status === 200) {
-				console.log(res.data.foundMovie);
+				// console.log(res.data.foundMovie);
 				setMovie(res.data.foundMovie);
 			}
 		} catch (error) {
-			console.log('Something went wrong', error.message);
+			console.log('Something went wrong :', error.message);
 		}
 	}, [movieId]);
 
@@ -50,28 +50,30 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 
 					<img src={movie.image_url !== "aa.com" ? movie.image_url : "../../images/poster_blank.png"} alt={movie.title} />
 
-					<div className='buttons'>
-						<h4>Add to:</h4>
-						<AddToWishlistButton
-							wishlistMoviesIds={wishlistMoviesIds}
-							movieId={movieId}
-							movie={movie}
-							addedToWishlist={addedToWishlist}
-							setAddedToWishlist={setAddedToWishlist}
-							setAddedToWatchedList={setAddedToWatchedList}
-						/>
+					{isList ? null :
+						<div className='buttons'>
+							<h4>Add to:</h4>
+							<AddToWishlistButton
+								wishlistMoviesIds={wishlistMoviesIds}
+								movieId={movieId}
+								movie={movie}
+								addedToWishlist={addedToWishlist}
+								setAddedToWishlist={setAddedToWishlist}
+								setAddedToWatchedList={setAddedToWatchedList}
+							/>
 
-						<AddToWatchedButton
-							watchedListMoviesIds={watchedListMoviesIds}
-							movieId={movieId}
-							movie={movie}
-							addedToWatchedList={addedToWatchedList}
-							setAddedToWatchedList={setAddedToWatchedList}
-							setAddedToWishlist={setAddedToWishlist}
-						/>
+							<AddToWatchedButton
+								watchedListMoviesIds={watchedListMoviesIds}
+								movieId={movieId}
+								movie={movie}
+								addedToWatchedList={addedToWatchedList}
+								setAddedToWatchedList={setAddedToWatchedList}
+								setAddedToWishlist={setAddedToWishlist}
+							/>
 
-						<button disabled={true}> Favorite </button>
-					</div>
+							<button disabled={true}> Favorite </button>
+						</div>
+						}
 				</div>
 
 				<div className='info'>
@@ -111,7 +113,7 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 							))}{' '}
 						</div>
 					) : null}
-					
+
 					{/* "COMMENTS" and "Watch a trailer" buttons */}
 					<div className="info-buttons">
 						<button onClick={(e) => setCommentsOn("")}> Comments </button>
