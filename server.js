@@ -39,11 +39,11 @@ app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/watched', watchedRoutes);
 app.use('/api/comments', commentsRoutes);
 
-// for heroku deployment
-// app.use(express.static(path.join(__dirname, 'client/build')));
-// app.get('*', (req, res) => {
-// 	res.sendFile(path.join(__dirname + '/client/build/index.html'));
-// });
+//for heroku deployment
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
 
 console.log('Connecting to database...💻');
 
