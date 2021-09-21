@@ -66,6 +66,26 @@
             border: solid 1px white
         } */
     }
+
+    .error-alert {
+        width: 25%;
+        margin: 0 auto;
+        padding: 10px;
+        border: solid 2px var(--first-color);
+        border-radius: 5px;
+        color: white;
+        text-align: center;
+        text-transform: uppercase;
+        position: relative;
+
+        //position: absolute;
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #333333;
+        box-shadow: 0 0 10px var(--first-color);
+    }
 }
 
 .cover-outside-card {

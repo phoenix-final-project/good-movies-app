@@ -30,19 +30,6 @@ export default function Friend({ searchOrFriends }) {
     };
 
     // Delete a friend
-    /* const deleteFriend = useCallback(async (username) => {
-        try {
-            const res = await axiosApiInstance.put(`/api/user/friends/delete`, {
-                username: localStorage.getItem("username"),
-                friendUsername: username,
-            });
-            console.log(res.data);
-            getFriends();
-        } catch (error) {
-            console.log("Something went wrong", error.response.data.message);
-        }
-    }, []); */
-
     const deleteFriend = async (username) => {
         try {
             const res = await axiosApiInstance.put(`/api/user/friends/delete`, {
@@ -77,7 +64,15 @@ export default function Friend({ searchOrFriends }) {
             setFriendLastname(friendTarget.lastname);
         } catch (error) {
             console.log("Something went wrong", error.response.data.error);
-            if (
+
+            setNoMoviesInCommon(true);
+            setErrorMessage(error.response.data.error);
+            setTimeout(() => {
+                setNoMoviesInCommon(false);
+            }, 3000);
+
+            // If the user does not have movies in common with the friend
+            /* if (
                 error.response.data.error ===
                 "Your friend has no movies on the  wishlist"
             ) {
@@ -86,7 +81,7 @@ export default function Friend({ searchOrFriends }) {
                 setTimeout(() => {
                     setNoMoviesInCommon(false);
                 }, 3000);
-            }
+            } */
         }
     };
 

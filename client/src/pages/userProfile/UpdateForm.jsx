@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axiosApiInstance from "../../util/APIinstance";
 
 export default function UpdateForm({ user, setShowUpdateForm }) {
-    const [firstname, setFirstname] = useState("");
-    const [lastname, setLastname] = useState("");
-    const [email, setEmail] = useState("");
+    const [firstname, setFirstname] = useState(user.firstname);
+    const [lastname, setLastname] = useState(user.lastname);
+    const [email, setEmail] = useState(user.email);
     const [password, setPassword] = useState("");
 
     // Update user
