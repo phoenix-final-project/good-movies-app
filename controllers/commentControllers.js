@@ -10,9 +10,9 @@ exports.createComment = async (req, res) => {
 			comment,
 		});
 
-		res.send(resultComment);
+		res.status(200).send(resultComment);
 	} catch (error) {
-		res.send(400).json({ error: error.message });
+		res.status(400).json({ error: error.message });
 	}
 };
 
@@ -20,11 +20,11 @@ exports.getCommentsToMovie = async (req, res) => {
 	const { movieId } = req.params;
 
 	try {
-		const comments = await Comment.find({ movieId, deleted: false }).sort({ date: -1 });
+		const comments = await Comment.find({ movieId, deleted: false }).sort({ date: -1 }).populate("user", "username");
 
 		if (comments.length === 0) throw { message: 'There are not comments to this movie yet' };
 
-		res.json(comments);
+		res.status(200).json(comments);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
@@ -41,7 +41,7 @@ exports.editComment = async (req, res) => {
 
 		const resp = await Comment.updateOne({ comment });
 
-		res.send(resp);
+		res.status(200).json(resp);
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
@@ -49,15 +49,16 @@ exports.editComment = async (req, res) => {
 
 exports.deleteComment = async (req, res) => {
 	const { userId, commentId } = req.params;
+
 	try {
 		const commentToDelete = await Comment.findOne({ _id: commentId, deleted: false });
 
 		if (!commentToDelete) throw { message: 'Comment does not exist' };
 		if (commentToDelete.user != userId) throw { message: 'Not authorized to delete' };
 
-		const resp = await Comment.updateOne({ deleted: true });
+		const resp = await Comment.findByIdAndUpdate(commentId, { deleted: true });
 
-		res.send(resp);
+		res.status(200).json("This comment was successfully deleted");
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}

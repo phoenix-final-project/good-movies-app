@@ -3,14 +3,17 @@ import axiosApiInstance from '../../util/APIinstance';
 import { getListMoviesIds } from '../../util/MovieListsHelpers';
 import AddToWishlistButton from './AddToWishlistButton';
 import AddToWatchedButton from './AddToWatchedButton';
+import Comments from '../comments/Comments';
 
 // styling
 import './MovieById.scss';
+
 
 export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCardOn }) {
 	// local state
 	const [movie, setMovie] = useState({});
 	const [trailerOn, setTrailerOn] = useState('hidden');
+	const [commentsOn, setCommentsOn] = useState('hidden');
 
 	// For Buttons Change
 	const [wishlistMoviesIds, setWishlistMoviesIds] = useState([]);
@@ -77,6 +80,7 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 						onClick={e => {
 							setMovieCardOn('hidden');
 							setTrailerOn("hidden")
+							setCommentsOn("hidden")
 							// setMovieId("")
 						}}
 					>
@@ -99,20 +103,28 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 
 					{/* GENRES */}
 					{movie.gen ? (
-						<p className='movie-para'>
+						<div className='movie-para'>
 							{' '}
 							|{' '}
 							{movie.gen.map(genre => (
 								<span key={genre.genre}> {genre.genre} |</span>
 							))}{' '}
-						</p>
+						</div>
 					) : null}
+					
+					{/* "COMMENTS" and "Watch a trailer" buttons */}
+					<div className="info-buttons">
+						<button onClick={(e) => setCommentsOn("")}> Comments </button>
 
-					{movie.trailer === "aa.com" ? null :
-						movie.trailer === "" ? null
-							:
-							<button onClick={(e) => setTrailerOn("")}> Watch a Trailer </button>
-					}
+						{movie.trailer === "aa.com" ? null :
+							movie.trailer === "" ? null
+								:
+								<button onClick={(e) => setTrailerOn("")}> Watch a Trailer </button>
+						}
+					</div>
+
+					{/* COMMENTS */}
+					<Comments movieId={movieId} commentsOn={commentsOn} setCommentsOn={setCommentsOn}/>
 
 					{/* TRAILER */}
 					<div className={`trailer ${trailerOn}`}>
