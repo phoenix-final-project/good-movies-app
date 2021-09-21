@@ -2,23 +2,30 @@
     margin: 2% auto;
     width: 70%;
 
-    .btn-position {
-        position: fixed;
-        top: 120px;
-        right: 20px;
-    }
-
-    .movie-list-heading {
+    .div-container {
+        display: flex;
+        justify-content: space-between;
         border-bottom: 1px dotted var(--first-color);
         margin-bottom: 4rem;
         padding-bottom: 1rem;
-        color: var(--first-color);
-        display: flex;
-        justify-content: space-between;
 
-        h2 {
-            font-size: 2rem;
+        .movie-list-heading {
+            width: 75%;
+           
+            color: var(--first-color);
+            display: flex;
+            justify-content: space-between;
+    
+            h2 {
+                font-size: 2rem;
+            }
         }
+
+        div {
+            width: 25%;
+            text-align: right;
+        }
+        
     }
 
     .movie-list {
@@ -26,7 +33,7 @@
         display: flex;
         flex-direction: column;
 
-        .individual-movie-section, .on-picker {
+        .individual-movie-section {
             display: flex;
             justify-content: space-between;
             margin-bottom: 2rem;
