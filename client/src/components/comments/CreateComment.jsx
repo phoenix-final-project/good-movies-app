@@ -33,8 +33,6 @@ export default function CreateComment({ movieId, getComments }) {
         <>
             {/* Form for creating a new comment */}
             <form onSubmit={handleSubmit} className="create-comment">
-                {/* <details>
-                    <summary>Add a comment (click to open the form)</summary> */}
 
                 <textarea
                     required
@@ -47,7 +45,6 @@ export default function CreateComment({ movieId, getComments }) {
                 />
 
                 <button type='submit' disabled={window.localStorage.getItem("token") ? false : true}>Add a Comment</button>
-                {/* </details> */}
             </form>
         </>
     )
