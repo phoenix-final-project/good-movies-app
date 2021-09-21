@@ -47,7 +47,7 @@ export default function Friend({ searchOrFriends }) {
     const compareWishlist = async (friendId) => {
         try {
             const res = await axiosApiInstance.get(
-                `http://localhost:5000/api/wishlist/compare/${localStorage.getItem(
+                `/api/wishlist/compare/${localStorage.getItem(
                     "user_id"
                 )}/${friendId}`
             );
