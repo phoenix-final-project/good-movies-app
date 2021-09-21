@@ -70,18 +70,6 @@ export default function Friend({ searchOrFriends }) {
             setTimeout(() => {
                 setNoMoviesInCommon(false);
             }, 3000);
-
-            // If the user does not have movies in common with the friend
-            /* if (
-                error.response.data.error ===
-                "Your friend has no movies on the  wishlist"
-            ) {
-                setNoMoviesInCommon(true);
-                setErrorMessage(error.response.data.error);
-                setTimeout(() => {
-                    setNoMoviesInCommon(false);
-                }, 3000);
-            } */
         }
     };
 
