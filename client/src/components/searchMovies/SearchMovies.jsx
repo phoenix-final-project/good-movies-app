@@ -127,7 +127,7 @@ function SearchMovies() {
                             max={searchBy === "year" ? "2021" : null}
 
                             // Checking if the user inserted min 2 words for Director search
-                            pattern={searchBy === "director" ? "([a-zA-Z]+\\s){1,}([a-zA-Z]+)" : null}
+                            pattern={searchBy === "director" ? "([A-Za-zÀ-ÖØ-öø-ÿ]+\\s){1,}([A-Za-zÀ-ÖØ-öø-ÿ]+)" : null}
 
                             title={searchBy === "director" ? "Minimum 2 words are required - name surname, separated by a single space" : null}
                         />
