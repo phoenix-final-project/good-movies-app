@@ -1,63 +1,83 @@
-import React from 'react'
+import React, { useState } from 'react';
+
+// Component
+import MovieById from '../../components/movieById/MovieById';
+
+// Styling
 import "./ListsPage.scss";
 
 function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove, movieSectionStyle, ifWatchedList, pickAMovie }) {
-    
+
+    // setting up a pop-up "modal" for a movie
+    const [movieCardOn, setMovieCardOn] = useState("")
+    const [showMovie, setShowMovie] = useState(false);
+    const [movieId, setMovieId] = useState("");
 
     // scrollToTop
     let scrollToTop = () => {
         return window.scrollTo({
-                left: 0,
-                top: 0,
-                behavior: 'smooth',
+            left: 0,
+            top: 0,
+            behavior: 'smooth',
         });
     }
-    
+
     return (
         <div className='movie-list'>
+
+            <div className="click-on-poster" >Click on poster for detailed plot, trailer and comments</div>
+
             {movieList.map((movie) => {
-                const ifPicked = (!pickAMovie) ? false :  pickAMovie.imdb_id !== movie.imdb_id ;
-               
+                const ifPicked = (!pickAMovie) ? false : pickAMovie.imdb_id !== movie.imdb_id;
+
                 return (
-                // <div key={movie.imdb_id} className={ifWatchedList ? 'individual-movie-section' : movieSectionStyle} >
-                <div key={movie.imdb_id} className={ !ifPicked ? 'individual-movie-section' : movieSectionStyle} >
-                    <section>
-                        <div className='poster'>
-                            <img src={movie.image_url} alt={movie.title} />
-                        </div>
-                    </section>
+                    // <div key={movie.imdb_id} className={ifWatchedList ? 'individual-movie-section' : movieSectionStyle} >
+                    <div key={movie.imdb_id} className={!ifPicked ? 'individual-movie-section' : movieSectionStyle} >
+                        <section>
+                            <div className='poster' onClick={() => {
+                                setShowMovie(true);
+                                setMovieId(movie.imdb_id);
+                                setMovieCardOn("");
+                            }}>
+                                <img src={movie.image_url !== "aa.com" ? movie.image_url : "../../images/poster_blank.png"} alt={movie.title} />
+                            </div>
+                        </section>
 
-                    <section>
-                        <p>Title: <span>{movie.title}</span></p>
-                        <p>Year: <span>{movie.year}</span></p>
-                        { movie.movie_length !== 0 && <p>Length: <span>{movie.movie_length}</span></p>}
-                        {movie.rating !== 0 && <p>Rating: <span>{movie.rating}</span></p>}
-                        <a href={`https://www.imdb.com/title/${movie.imdb_id}`} target="_blank" rel="noreferrer noopener">IMDb</a>
-                    </section>
+                        <section>
+                            <p>Title: <span>{movie.title}</span></p>
+                            <p>Year: <span>{movie.year}</span></p>
+                            {movie.movie_length !== 0 && <p>Length: <span>{movie.movie_length}</span></p>}
+                            {movie.rating !== 0 && <p>Rating: <span>{movie.rating}</span></p>}
+                            <a href={`https://www.imdb.com/title/${movie.imdb_id}`} target="_blank" rel="noreferrer noopener">IMDb</a>
+                        </section>
 
-                    <section>
-                        <div>
-                            <h4>Plot</h4>
-                            <p>{movie.plot}</p>
-                        </div>
-                        <div>
-                            {movie.gen.map(gen => <span key={gen.id}>{gen.genre}</span>)}
-                        </div>
-                    </section>
+                        <section>
+                            <div>
+                                <h4>Plot</h4>
+                                <p>{movie.plot}</p>
+                            </div>
+                            <div>
+                                {movie.gen.map(gen => <span key={gen.id}>{gen.genre}</span>)}
+                            </div>
+                        </section>
 
-                    <section>
-                        <button onClick={() => deleteMovie(movie.imdb_id)}>Delete</button>
-                        
-                        <button onClick={() => addMovieToAnotherList(movie)}>{listToMove}</button>
+                        <section>
+                            <button onClick={() => deleteMovie(movie.imdb_id)}>Delete</button>
 
-                        <button>Favorite</button>
-                    </section>
-                </div>
-            )})}
-                <div className="go-top" onClick={scrollToTop}>
-                    <i className="fas fa-arrow-up"></i>
-                </div>
+                            <button onClick={() => addMovieToAnotherList(movie)}>{listToMove}</button>
+
+                            <button>Favorite</button>
+                        </section>
+                    </div>
+                )
+            })}
+            
+            <div className="go-top" onClick={scrollToTop}>
+                <i className="fas fa-arrow-up"></i>
             </div>
+
+            {showMovie ? <MovieById movieId={movieId} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} isList={true} /> : null}
+        </div>
     )
 }
 
