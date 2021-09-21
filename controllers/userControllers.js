@@ -167,7 +167,7 @@ exports.deleteUser = async (req, res) => {
             deletedUser: user,
         });
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         res.status(400).send({
             message: "Error occurred",
             error: error.message,
@@ -206,7 +206,6 @@ exports.findUserByAnyName = async (req, res) => {
             $text: { $search: req.params.name },
             deleted: false,
         });
-        // console.log("findAllUsers", findAllUsers.length);
 
         // return a message if no user was found
         if (findAllUsers.length === 0) {
@@ -249,8 +248,6 @@ exports.getFriendsOfUser = async (req, res) => {
             .select("friends.user")
             .populate("friends.user");
 
-        // console.log(user);
-
         if (user === null || user.deleted === true) {
             return res
                 .status(404)
@@ -286,7 +283,13 @@ exports.getFriendsOfUser = async (req, res) => {
             }
         });
 
+        // sort by firstname
+        friendsArray.sort((a, b) => (a.firstname.toUpperCase() > b.firstname.toUpperCase()) ? 1
+            : (a.firstname.toUpperCase() < b.firstname.toUpperCase()) ? -1
+                : 0)
+
         res.status(200).json(friendsArray);
+
     } catch (error) {
         res.status(400).send({
             message: "Error occurred",

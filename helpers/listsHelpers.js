@@ -39,7 +39,13 @@ exports.getListFromCache = async (schema, userId) => {
 	});
 
 	return Promise.all(moviesFromList).then(data => {
-		console.log(data);
+		// console.log(data);
+
+		// // sort movies data alphabetically by title
+		// data.sort((a, b) => (a.title.toUpperCase() > b.title.toUpperCase()) ? 1
+        //     : (a.title.toUpperCase() < b.title.toUpperCase()) ? -1
+        //         : 0)
+
 		return { numOfMovies: data.length, data };
 	});
 };

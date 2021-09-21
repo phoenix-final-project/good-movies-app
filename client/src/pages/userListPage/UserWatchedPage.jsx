@@ -46,9 +46,10 @@ function UserWatchedPage() {
 
 	return (
 		<div className='movie-list-container'>
-			<ListsHeading title='Watched' numOfMovies={numOfMovies} />
-
-			<DisplayList movieList={watchedListMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWishlist} listToMove='Wishlist' />
+			<div className='div-container'>
+				<ListsHeading title='Watched' numOfMovies={numOfMovies} ifWatchedList={true} />
+			</div>
+			<DisplayList movieList={watchedListMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWishlist} listToMove='Wishlist' ifWatchedList={true} />
 		</div>
 	);
 }
