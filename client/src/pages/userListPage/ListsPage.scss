@@ -2,17 +2,30 @@
     margin: 2% auto;
     width: 70%;
 
-    .movie-list-heading {
+    .div-container {
+        display: flex;
+        justify-content: space-between;
         border-bottom: 1px dotted var(--first-color);
         margin-bottom: 4rem;
         padding-bottom: 1rem;
-        color: var(--first-color);
-        display: flex;
-        justify-content: space-between;
 
-        h2 {
-            font-size: 2rem;
+        .movie-list-heading {
+            width: 75%;
+           
+            color: var(--first-color);
+            display: flex;
+            justify-content: space-between;
+    
+            h2 {
+                font-size: 2rem;
+            }
         }
+
+        div {
+            width: 25%;
+            text-align: right;
+        }
+        
     }
 
     .movie-list {
@@ -133,6 +146,12 @@
                     }
                 }
             }
+        }
+
+        .on-picker {
+            border: 2px solid var(--first-color);
+            padding: 20px;
+            transform: scale(1.08, 1.08);
         }
 
         .go-top {

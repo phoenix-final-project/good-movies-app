@@ -1,7 +1,8 @@
 import React from 'react'
 import "./ListsPage.scss";
 
-function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove }) {
+function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove, movieSectionStyle, ifWatchedList, pickAMovie }) {
+    
 
     // scrollToTop
     let scrollToTop = () => {
@@ -11,12 +12,15 @@ function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove
                 behavior: 'smooth',
         });
     }
-
     
     return (
         <div className='movie-list'>
-            {movieList.map((movie) => (
-                <div key={movie.imdb_id} className='individual-movie-section'>
+            {movieList.map((movie) => {
+                const ifPicked = (!pickAMovie) ? false :  pickAMovie.imdb_id !== movie.imdb_id ;
+               
+                return (
+                // <div key={movie.imdb_id} className={ifWatchedList ? 'individual-movie-section' : movieSectionStyle} >
+                <div key={movie.imdb_id} className={ !ifPicked ? 'individual-movie-section' : movieSectionStyle} >
                     <section>
                         <div className='poster'>
                             <img src={movie.image_url} alt={movie.title} />
@@ -49,7 +53,7 @@ function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove
                         <button>Favorite</button>
                     </section>
                 </div>
-            ))}
+            )})}
                 <div className="go-top" onClick={scrollToTop}>
                     <i className="fas fa-arrow-up"></i>
                 </div>
