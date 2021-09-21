@@ -1,7 +1,7 @@
 import React from 'react'
 import "./ListsPage.scss";
 
-function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove }) {
+function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove, onPickerStyle }) {
 
     // scrollToTop
     let scrollToTop = () => {
@@ -16,7 +16,7 @@ function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove
     return (
         <div className='movie-list'>
             {movieList.map((movie) => (
-                <div key={movie.imdb_id} className='individual-movie-section'>
+                <div key={movie.imdb_id} className='individual-movie-section' className={onPickerStyle}>
                     <section>
                         <div className='poster'>
                             <img src={movie.image_url} alt={movie.title} />

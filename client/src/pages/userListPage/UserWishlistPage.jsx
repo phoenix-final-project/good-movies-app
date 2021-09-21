@@ -10,6 +10,8 @@ import DisplayList from './DisplayList';
 export default function UserWishlistPage() {
 	const [wishlistMovies, setWishlistMovies] = useState([]);
 	const [numOfMovies, setNumOfMovies] = useState(0);
+	// const [pickAMovie, setPickAMovie] = useState(getListMovies);
+	const [onPickerStyle, setOnPickerStyle] = useState('individual-movie-section');
 
 	useEffect(() => {
 		getListMovies('wishlist', setWishlistMovies, setNumOfMovies);
@@ -46,11 +48,23 @@ export default function UserWishlistPage() {
 		}
 	};
 
+	// random movie picker
+	const randomMoviePicker = () => {
+		try {
+			// const pickRandomMovie = Math.random() * pickAMovie.length;
+			// console.log(setPickAMovie(pickRandomMovie));
+			setOnPickerStyle('on-picker');
+		} catch (error) {
+			console.log(error.response);
+		}
+	};
+
 	return (
 		<div className='movie-list-container'>
+			<button className="btn btn-position" onClick={randomMoviePicker}>picker</button>
 			<ListsHeading title='Want to Watch' numOfMovies={numOfMovies} />
 
-			<DisplayList movieList={wishlistMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWatched} listToMove='Watched' />
+			<DisplayList movieList={wishlistMovies} deleteMovie={deleteMovie} addMovieToAnotherList={addMovieToWatched} listToMove='Watched' onPickerStyle={onPickerStyle} />
 		</div>
 	);
 }
