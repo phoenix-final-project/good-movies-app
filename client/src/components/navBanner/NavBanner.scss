@@ -56,6 +56,7 @@
 
             a.active, a:hover {
                 text-decoration: 2.5px underline solid var(--first-color);
+                text-underline-position: under;
             }
 
             @include tablet {
