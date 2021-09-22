@@ -33,6 +33,7 @@ export default function PrivateNavigation() {
 
 			<div className='notification'>
 				<i className='far fa-bell'></i>
+				<span>2</span>
 			</div>
 
 			<div>

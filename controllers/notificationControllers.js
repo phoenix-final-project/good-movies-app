@@ -1,10 +1,10 @@
 const Notification = require('../models/Notification');
 
 exports.createNotification = async (req, res) => {
-	const { userId1, userId2, movieId } = req.body;
+	const { user1, user2, movieId } = req.body;
 
 	try {
-		const result = await Notification.create({ user1: userId1, user2: userId2, movieId });
+		const result = await Notification.create({ user1, user2, movieId });
 
 		res.status(200).json(result);
 	} catch (error) {
