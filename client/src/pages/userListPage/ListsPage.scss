@@ -168,6 +168,8 @@
             border: 2px solid var(--first-color);
             padding: 20px;
             transform: scale(1.08, 1.08);
+            box-shadow: 3px 4px 6px var(--first-color);
+            background-color: rgba(253, 253, 253, 0.233);
         }
 
         .go-top {
@@ -175,6 +177,7 @@
             position: fixed;
             bottom: 20px;
             right: 20px;
+            z-index: 100;
 
             i {
                 color: var(--first-color);

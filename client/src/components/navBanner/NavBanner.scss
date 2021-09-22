@@ -91,6 +91,34 @@
                 }
             }
 
+            .notification {
+                position: relative;
+
+                .far {
+                    font-size: 1.2em;
+
+                    &:hover {
+                        color: var(--first-color);
+                        transform: rotate(20deg);
+                        cursor: pointer;
+                    }
+                }
+
+                span {
+                    background-color: red;
+                    padding: 1px 4px;
+                    font-size: .7em;
+                    border-radius: 50%;
+                    position: absolute;
+                    bottom: 15px;
+                    right: 3px;
+
+                    @include tablet {
+                        right: 53px;
+                    }
+                }
+            }
+
             .registration-btn, .logout-btn {
                 width: 100%;
                 padding: .4rem;
