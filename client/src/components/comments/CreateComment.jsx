@@ -62,11 +62,12 @@ export default function CreateComment({ movieId, getComments }) {
                 <button type='submit' className="comment-button" disabled={window.localStorage.getItem("token") ? false : true}>Add a Comment</button>
 
                 <button type="button" className="emoji-button"
-                    onClick={() => setEmojisOn("show-emojis")}
+                    onClick={emojisOn === "none" ? () => setEmojisOn("show-emojis") : () => setEmojisOn("none")}
+
                     disabled={window.localStorage.getItem("token") ? false : true}
                 ><i className="far fa-smile"></i></button>
 
-                <div className={emojisOn} onMouseLeave={() => setEmojisOn("none")}>
+                <div className={emojisOn}>
                     <Picker onEmojiClick={onEmojiClick} />
                 </div>
             </form>
