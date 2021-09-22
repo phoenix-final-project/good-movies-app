@@ -1,16 +1,19 @@
 // import { useContext } from "react";
 import { NavLink } from 'react-router-dom';
-
 import NavBanner from '../navBanner/NavBanner';
+import useNotification from '../../hooks/useNotification';
 
 // styling
 import './NavBar.scss';
 
 export default function PrivateNavigation() {
+	const [numOfNewNotifications, newNotifications] = useNotification();
+
 	const handleLogout = () => {
 		window.localStorage.clear();
 		window.location.href = '/';
 	};
+	console.log(numOfNewNotifications, newNotifications);
 
 	return (
 		<NavBanner>
