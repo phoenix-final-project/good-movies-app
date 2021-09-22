@@ -1,17 +1,39 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-
 import NavBanner from '../navBanner/NavBanner';
+import useNotification from '../../hooks/useNotification';
+import axios from '../../util/APIinstance';
 
 // styling
 import './NavBar.scss';
 
 export default function PrivateNavigation() {
+	const [numOfNewNotifications, newNotifications, setNumOfNewNotifications] = useNotification();
 	const [isDropdownMenuClicked, setIsDropdownMenuClicked] = useState(true);
 
 	const handleLogout = () => {
 		window.localStorage.clear();
 		window.location.href = '/';
+	};
+
+	const setNotificationsAsRead = () => {
+		setIsDropdownMenuClicked(!isDropdownMenuClicked);
+		if (numOfNewNotifications !== 0) {
+			const notificationsId = newNotifications.map(notification => notification._id);
+
+			console.log(newNotifications);
+			notificationsId.forEach(async notificationId => {
+				try {
+					const response = await axios.put(`/api/notification/set-to-read/${notificationId}`);
+
+					setTimeout(() => setNumOfNewNotifications(0), 700);
+
+					console.log('RESPONSE ==>', response);
+				} catch (error) {
+					console.error(error.message);
+				}
+			});
+		}
 	};
 
 	return (
@@ -33,13 +55,13 @@ export default function PrivateNavigation() {
 				<div className='tour'>PROFILE</div>
 			</NavLink>
 
-			<div className='notification' onClick={() => setIsDropdownMenuClicked(!isDropdownMenuClicked)}>
-				<div className="notification-content">
+			<div className='notification' onClick={() => setNotificationsAsRead()}>
+				<div className='notification-content'>
 					<i className={isDropdownMenuClicked ? 'far fa-bell' : 'far fa-bell clicked-far'}></i>
-				<span>10</span>
+					{numOfNewNotifications != 0 && <span>{numOfNewNotifications}</span>}
 				</div>
-				<div className={isDropdownMenuClicked ? "dropdown-content": "dropdown-content-click"}>
-					<p className="dropdown-menu-text">Hello world</p>
+				<div className={isDropdownMenuClicked ? 'dropdown-content' : 'dropdown-content-click'}>
+					<p className='dropdown-menu-text'>Hello world</p>
 				</div>
 			</div>
 

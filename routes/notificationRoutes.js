@@ -4,8 +4,8 @@ const passport = require('passport');
 
 const { createNotification, setToRead, getUserNotifications } = require('../controllers/notificationControllers');
 
-router.post('/create', createNotification);
-router.put('/set-to-read/:notificationId', setToRead);
-router.get('/:userId', getUserNotifications);
+router.post('/create', passport.authenticate('jwt', { session: false }), createNotification);
+router.put('/set-to-read/:notificationId', passport.authenticate('jwt', { session: false }), setToRead);
+router.get('/:userId', passport.authenticate('jwt', { session: false }), getUserNotifications);
 
 module.exports = router;
