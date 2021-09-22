@@ -18,6 +18,7 @@ const movieRoutes = require('./routes/movieRoutes');
 const wishlistRoutes = require('./routes/wishlistRoutes');
 const watchedRoutes = require('./routes/watchedRoutes');
 const commentsRoutes = require('./routes/commentsRoutes');
+const notificationRoutes = require('./routes/notificationRoutes');
 
 // importing passport
 const passport = require('passport');
@@ -38,12 +39,13 @@ app.use('/api/movie', movieRoutes);
 app.use('/api/wishlist', wishlistRoutes);
 app.use('/api/watched', watchedRoutes);
 app.use('/api/comments', commentsRoutes);
+app.use('/api/notification', notificationRoutes);
 
 // for heroku deployment
-// app.use(express.static(path.join(__dirname, 'client/build')));
-// app.get('*', (req, res) => {
-// 	res.sendFile(path.join(__dirname + '/client/build/index.html'));
-// });
+app.use(express.static(path.join(__dirname, 'client/build')));
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname + '/client/build/index.html'));
+});
 
 console.log('Connecting to database...💻');
 
