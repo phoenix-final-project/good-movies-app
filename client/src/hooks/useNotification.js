@@ -26,7 +26,7 @@ const useNotification = () => {
 	};
 
 	useEffect(() => {
-		console.log('useEffect triggered');
+		// console.log('useEffect triggered');
 		// setNumOfNewNotifications(window.localStorage.getItem('numNotifications'));
 		getNotifications();
 
