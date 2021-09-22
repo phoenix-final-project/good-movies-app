@@ -67,9 +67,11 @@ export default function UserWishlistPage() {
 				await setMovieSectionStyle('individual-movie-section on-picker');
 
 				scroller.scrollTo("on-picker", {
-					duration: 200,
-					smooth: "smooth",
+					duration: 300,
+					smooth: "easeInOutQuad",
+					offset: -100
 				});
+				
 				setAlreadyPickedMovie(alreadyPickedMovie => [pickRandomMovie, ...alreadyPickedMovie]);
 			}
 			else {
