@@ -1,4 +1,4 @@
-// import { useContext } from "react";
+import React, { useState } from "react";
 import { NavLink } from 'react-router-dom';
 
 import NavBanner from '../navBanner/NavBanner';
@@ -7,6 +7,8 @@ import NavBanner from '../navBanner/NavBanner';
 import './NavBar.scss';
 
 export default function PrivateNavigation() {
+	const [isDropdownMenuClicked, setIsDropdownMenuClicked] = useState(true);
+
 	const handleLogout = () => {
 		window.localStorage.clear();
 		window.location.href = '/';
@@ -31,9 +33,14 @@ export default function PrivateNavigation() {
 				<div className='tour'>PROFILE</div>
 			</NavLink>
 
-			<div className='notification'>
-				<i className='far fa-bell'></i>
-				<span>2</span>
+			<div className='notification' onClick={() => setIsDropdownMenuClicked(!isDropdownMenuClicked)}>
+				<div className="notification-content">
+					<i className={isDropdownMenuClicked ? 'far fa-bell' : 'far fa-bell clicked-far'}></i>
+				<span>10</span>
+				</div>
+				<div className={isDropdownMenuClicked ? "dropdown-content": "dropdown-content-click"}>
+					<p className="dropdown-menu-text">Hello world</p>
+				</div>
 			</div>
 
 			<div>
