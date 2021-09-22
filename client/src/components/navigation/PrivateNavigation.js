@@ -1,4 +1,4 @@
-// import { useContext } from "react";
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import NavBanner from '../navBanner/NavBanner';
 import useNotification from '../../hooks/useNotification';
@@ -9,6 +9,7 @@ import './NavBar.scss';
 
 export default function PrivateNavigation() {
 	const [numOfNewNotifications, newNotifications, setNumOfNewNotifications] = useNotification();
+	const [isDropdownMenuClicked, setIsDropdownMenuClicked] = useState(true);
 
 	const handleLogout = () => {
 		window.localStorage.clear();
@@ -16,6 +17,7 @@ export default function PrivateNavigation() {
 	};
 
 	const setNotificationsAsRead = () => {
+		setIsDropdownMenuClicked(!isDropdownMenuClicked);
 		if (numOfNewNotifications !== 0) {
 			const notificationsId = newNotifications.map(notification => notification._id);
 
@@ -53,9 +55,14 @@ export default function PrivateNavigation() {
 				<div className='tour'>PROFILE</div>
 			</NavLink>
 
-			<div className='notification' onClick={setNotificationsAsRead}>
-				<i className='far fa-bell'></i>
-				{numOfNewNotifications !== 0 && <span>{numOfNewNotifications}</span>}
+			<div className='notification' onClick={() => setNotificationsAsRead()}>
+				<div className='notification-content'>
+					<i className={isDropdownMenuClicked ? 'far fa-bell' : 'far fa-bell clicked-far'}></i>
+					{numOfNewNotifications != 0 && <span>{numOfNewNotifications}</span>}
+				</div>
+				<div className={isDropdownMenuClicked ? 'dropdown-content' : 'dropdown-content-click'}>
+					<p className='dropdown-menu-text'>Hello world</p>
+				</div>
 			</div>
 
 			<div>
