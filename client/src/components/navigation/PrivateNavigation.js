@@ -2,18 +2,37 @@
 import { NavLink } from 'react-router-dom';
 import NavBanner from '../navBanner/NavBanner';
 import useNotification from '../../hooks/useNotification';
+import axios from '../../util/APIinstance';
 
 // styling
 import './NavBar.scss';
 
 export default function PrivateNavigation() {
-	const [numOfNewNotifications, newNotifications] = useNotification();
+	const [numOfNewNotifications, newNotifications, setNumOfNewNotifications] = useNotification();
 
 	const handleLogout = () => {
 		window.localStorage.clear();
 		window.location.href = '/';
 	};
-	console.log(numOfNewNotifications, newNotifications);
+
+	const setNotificationsAsRead = () => {
+		if (numOfNewNotifications !== 0) {
+			const notificationsId = newNotifications.map(notification => notification._id);
+
+			console.log(newNotifications);
+			notificationsId.forEach(async notificationId => {
+				try {
+					const response = await axios.put(`/api/notification/set-to-read/${notificationId}`);
+
+					setTimeout(() => setNumOfNewNotifications(0), 700);
+
+					console.log('RESPONSE ==>', response);
+				} catch (error) {
+					console.error(error.message);
+				}
+			});
+		}
+	};
 
 	return (
 		<NavBanner>
@@ -34,9 +53,9 @@ export default function PrivateNavigation() {
 				<div className='tour'>PROFILE</div>
 			</NavLink>
 
-			<div className='notification'>
+			<div className='notification' onClick={setNotificationsAsRead}>
 				<i className='far fa-bell'></i>
-				<span>2</span>
+				{numOfNewNotifications !== 0 && <span>{numOfNewNotifications}</span>}
 			</div>
 
 			<div>
