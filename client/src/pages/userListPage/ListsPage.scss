@@ -2,23 +2,42 @@
     margin: 2% auto;
     width: 70%;
 
-    .movie-list-heading {
-        border-bottom: 1px dotted var(--first-color);
-        margin-bottom: 4rem;
-        padding-bottom: 1rem;
-        color: var(--first-color);
+    .div-container {
         display: flex;
         justify-content: space-between;
+        border-bottom: 1px dotted var(--first-color);
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
 
-        h2 {
-            font-size: 2rem;
+        .movie-list-heading {
+            width: 75%;
+           
+            color: var(--first-color);
+            display: flex;
+            justify-content: space-between;
+    
+            h2 {
+                font-size: 2rem;
+            }
         }
+
+        div {
+            width: 25%;
+            text-align: right;
+        }
+        
     }
 
     .movie-list {
         margin: 0 auto;
         display: flex;
         flex-direction: column;
+
+        .click-on-poster {
+            color: var(--first-color);
+            margin-bottom: 30px;
+            font-style: italic;
+        }
 
         .individual-movie-section {
             display: flex;
@@ -35,7 +54,10 @@
                 overflow: hidden;
 
                 &:first-of-type {
-                    width: 120px;
+                    width: fit-content;
+                    height: fit-content;
+                    margin-right: 20px;
+                    overflow: visible;
 
                     .poster {
                         height: 100%;
@@ -45,6 +67,13 @@
                             object-fit: cover;
                             border: 2px solid white;
                         }
+                    }
+
+                    &:hover {
+                        cursor: pointer;
+                        box-shadow: 0 0 15px var(--first-color);
+                        transform: scale(1.07, 1.07); 
+                        transition: all 0.4s ease-in-out;                              
                     }
                 }
 
@@ -133,6 +162,12 @@
                     }
                 }
             }
+        }
+
+        .on-picker {
+            border: 2px solid var(--first-color);
+            padding: 20px;
+            transform: scale(1.08, 1.08);
         }
 
         .go-top {

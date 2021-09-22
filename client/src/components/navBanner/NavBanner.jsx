@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 // logo
-import myLogo from '../../icons/CINE.png';
+import myLogo from '../../icons/CINEFILO.png';
 
 // styling
 import './NavBanner.scss';

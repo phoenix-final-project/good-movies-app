@@ -15,7 +15,9 @@ export default function UserProfile() {
     });
     const [showUpdateForm, setShowUpdateForm] = useState(false);
     const [showConfirmDeleteBtn, setShowConfirmDeleteBtn] = useState(false);
+    const [showAlertMessage, setShowAlertMessage] = useState("hidden");
     const [alertMessage, setAlertMessage] = useState("hidden");
+    const [alertSuccessUpdate, setAlertSuccessUpdate] = useState(false);
 
     // Find one user by username
     const getUser = async () => {
@@ -39,11 +41,11 @@ export default function UserProfile() {
     }, []);
 
     // DELETE A USER
-    // Confirm if the user want to delete his account
+    // First confirm if the user want to delete his account
     const askConfirmationDeleteUser = () => {
         setShowConfirmDeleteBtn(true);
     };
-
+    //Then delete the user
     const handleDeleteUser = async (e) => {
         e.preventDefault();
         try {
@@ -51,8 +53,15 @@ export default function UserProfile() {
                 userId: localStorage.getItem("user_id"),
             });
             console.log(res.data);
-            setAlertMessage("alert-delete-success");
+            setShowAlertMessage("alert-delete-success");
+            setAlertMessage(res.data.message);
             setShowConfirmDeleteBtn(false);
+
+            // Logout and redirection after delete user
+            setTimeout(() => {
+                window.localStorage.clear();
+                window.location.href = "/";
+            }, 3000);
         } catch (error) {
             console.log("Something went wrong", error.response.statusText);
         }
@@ -75,17 +84,21 @@ export default function UserProfile() {
             </header>
 
             <main>
-                <DisplayUser
-                    user={user}
-                    /* firstname={firstname}
-                lastname={lastname}
-                email={email} */
-                />
+                {/* DISPLAY USER */}
+                <DisplayUser user={user} />
 
-                <div className={alertMessage}>
+                {/* ALERT MESSAGES */}
+                <div className={showAlertMessage}>
                     The user was successfully deleted
                 </div>
 
+                {alertSuccessUpdate ? (
+                    <div className="alert-delete-success">
+                        The user was successfully updated
+                    </div>
+                ) : null}
+
+                {/* MAIN BUTTONS USER PROFILE */}
                 <div className="btn-profile">
                     <button onClick={showForm}>Edit profile</button>
                     <button onClick={askConfirmationDeleteUser}>
@@ -94,10 +107,18 @@ export default function UserProfile() {
                 </div>
             </main>
 
+            {/* UPDATE USER FORM */}
             {showUpdateForm ? (
-                <UpdateForm setShowUpdateForm={setShowUpdateForm} user={user} />
+                <UpdateForm
+                    setShowUpdateForm={setShowUpdateForm}
+                    user={user}
+                    setAlertSuccessUpdate={setAlertSuccessUpdate}
+                    getUser={getUser}
+                    setAlertMessage={setAlertMessage}
+                />
             ) : null}
 
+            {/* ASK FOR CONFIRMATION BEFORE DELETE USER */}
             {showConfirmDeleteBtn ? (
                 <div className="confirm-delete-div">
                     <p>Are you sure that you want delete your account?</p>
