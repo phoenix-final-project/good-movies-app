@@ -25,14 +25,13 @@ function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove
     return (
         <div className='movie-list'>
 
-            <div className="click-on-poster" >Click on poster for detailed plot, trailer and comments</div>
+            <div className="click-on-poster">Click on poster for detailed plot, trailer and comments</div>
 
             {movieList.map((movie) => {
-                const ifPicked = (!pickAMovie) ? false : pickAMovie.imdb_id !== movie.imdb_id;
 
                 return (
-                    // <div key={movie.imdb_id} className={ifWatchedList ? 'individual-movie-section' : movieSectionStyle} >
-                    <div key={movie.imdb_id} className={!ifPicked ? 'individual-movie-section' : movieSectionStyle} >
+                    <div key={movie.imdb_id} className={pickAMovie && pickAMovie.imdb_id === movie.imdb_id ? movieSectionStyle : 'individual-movie-section'} >
+
                         <section>
                             <div className='poster' onClick={() => {
                                 setShowMovie(true);
@@ -71,12 +70,14 @@ function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove
                     </div>
                 )
             })}
-            
+
             <div className="go-top" onClick={scrollToTop}>
                 <i className="fas fa-arrow-up"></i>
             </div>
 
             {showMovie ? <MovieById movieId={movieId} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} isList={true} /> : null}
+
+            {/* {pickAMovie ? <MovieById movieId={pickAMovie.imdb_id} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} isList={true} /> : null} */}
         </div>
     )
 }
