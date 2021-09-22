@@ -20,6 +20,7 @@ body {
     margin: 0 0 var(--header-height) 0;
     background-color: #333;
     color: azure;
+    height: 100vh;
 }
 
 body::-webkit-scrollbar {
@@ -43,7 +44,7 @@ ul {
 
 // globally btn
 .btn {
-    width: 50%;
+    width: 75%;
     padding: .6em;
     color: var(--font-color);
     background-color: var(--first-color);
