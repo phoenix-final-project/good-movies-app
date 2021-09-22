@@ -22,27 +22,14 @@ export default function Friend({ searchOrFriends }) {
                 username: localStorage.getItem("username"),
                 friendUsername: username,
             });
-            console.log(res.data);
+            //console.log(res.data);
             getFriends();
         } catch (error) {
-            console.log("Something went wrong", error.message);
+            //console.log("Something went wrong", error.message);
         }
     };
 
     // Delete a friend
-    /* const deleteFriend = useCallback(async (username) => {
-        try {
-            const res = await axiosApiInstance.put(`/api/user/friends/delete`, {
-                username: localStorage.getItem("username"),
-                friendUsername: username,
-            });
-            console.log(res.data);
-            getFriends();
-        } catch (error) {
-            console.log("Something went wrong", error.response.data.message);
-        }
-    }, []); */
-
     const deleteFriend = async (username) => {
         try {
             const res = await axiosApiInstance.put(`/api/user/friends/delete`, {
@@ -52,7 +39,7 @@ export default function Friend({ searchOrFriends }) {
             console.log(res.data);
             getFriends();
         } catch (error) {
-            console.log("Something went wrong", error.response.data.message);
+            //console.log("Something went wrong", error.response.data.message);
         }
     };
 
@@ -60,11 +47,11 @@ export default function Friend({ searchOrFriends }) {
     const compareWishlist = async (friendId) => {
         try {
             const res = await axiosApiInstance.get(
-                `http://localhost:5000/api/wishlist/compare/${localStorage.getItem(
+                `/api/wishlist/compare/${localStorage.getItem(
                     "user_id"
                 )}/${friendId}`
             );
-            console.log(res.data);
+            //console.log(res.data);
 
             const friendTarget = listFriends.find(
                 (friend) => friend.id === res.data.friendUserId
@@ -76,17 +63,13 @@ export default function Friend({ searchOrFriends }) {
             setFriendFirstname(friendTarget.firstname);
             setFriendLastname(friendTarget.lastname);
         } catch (error) {
-            console.log("Something went wrong", error.response.data.error);
-            if (
-                error.response.data.error ===
-                "Your friend has no movies on the  wishlist"
-            ) {
-                setNoMoviesInCommon(true);
-                setErrorMessage(error.response.data.error);
-                setTimeout(() => {
-                    setNoMoviesInCommon(false);
-                }, 3000);
-            }
+            //console.log("Something went wrong", error.response.data.error);
+
+            setNoMoviesInCommon(true);
+            setErrorMessage(error.response.data.error);
+            setTimeout(() => {
+                setNoMoviesInCommon(false);
+            }, 3000);
         }
     };
 
@@ -96,10 +79,10 @@ export default function Friend({ searchOrFriends }) {
             const res = await axiosApiInstance.get(
                 `/api/user/friends/${localStorage.getItem("username")}`
             );
-            console.log(res.data);
+            //console.log(res.data);
             setListFriends(res.data);
         } catch (error) {
-            console.log("Something went wrong", error.response.data.error);
+            //console.log("Something went wrong", error.response.data.error);
         }
     };
 
@@ -181,6 +164,7 @@ export default function Friend({ searchOrFriends }) {
                 />
             ) : null}
 
+            {/* ALERT WHEN NO MOVIES IN COMMON */}
             {noMoviesInCommon ? (
                 <div className="error-alert">{errorMessage}</div>
             ) : null}
