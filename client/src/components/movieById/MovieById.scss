@@ -30,8 +30,7 @@
         width: 75vw;
     }
 
-    button {
-        // margin-left: auto;
+    .info-buttons button {
         width: 160px;
         padding: 3px 0;
         font-weight: bold;
@@ -46,8 +45,6 @@
         color: var(--first-color);
 
         &:hover {
-            background: transparent;
-            color: var(--first-color);
             transition: all .5s ease;
             color: var(--font-color);
             background-color: var(--first-color);
@@ -65,8 +62,11 @@
         z-index: 200;
         color: var(--font-color);
         background-color: var(--first-color);
+        border: 3px solid var(--first-color);
+        cursor: pointer;
 
         &:hover {
+            transition: all .5s ease;
             background: transparent;
             color: var(--first-color);
         }
