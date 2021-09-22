@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { scroller } from 'react-scroll';
+
 import axios from '../../util/APIinstance';
 import ListsHeading from './ListsHeading';
 import { getListMovies } from '../../util/MovieListsHelpers';
+import DisplayList from './DisplayList';
 
 // styling
 import './ListsPage.scss';
-import DisplayList from './DisplayList';
+
 
 export default function UserWishlistPage() {
 	const [wishlistMovies, setWishlistMovies] = useState([]);
 	const [numOfMovies, setNumOfMovies] = useState(0);
 	const [movieSectionStyle, setMovieSectionStyle] = useState('individual-movie-section');
 	const [pickAMovie, setPickAMovie] = useState();
-	// const [isPicked, setIsPicked] = useState(false);
 
 	useEffect(() => {
 		getListMovies('wishlist', setWishlistMovies, setNumOfMovies);
@@ -27,7 +29,7 @@ export default function UserWishlistPage() {
 			setWishlistMovies(newWishlist);
 			setNumOfMovies(numOfMovies - 1);
 
-			console.log(res.data);
+			// console.log(res.data);
 		} catch (error) {
 			console.log(error.response);
 		}
@@ -43,25 +45,31 @@ export default function UserWishlistPage() {
 			setWishlistMovies(newWishlist);
 			setNumOfMovies(numOfMovies - 1);
 
-			console.log(response.data);
+			// console.log(response.data);
 		} catch (error) {
 			console.log(error.response);
 		}
 	};
 
 	// random movie picker
-	const randomMoviePicker = () => {
+	const randomMoviePicker = async () => {
 		try {
 			const pickRandomMovie = Math.floor(Math.random() * wishlistMovies.length);
-			// console.log(pickRandomMovie);
-			// console.log(wishlistMovies[pickRandomMovie]);
+			console.log(wishlistMovies[pickRandomMovie]);
 
 			setPickAMovie(wishlistMovies[pickRandomMovie]);
-			setMovieSectionStyle('individual-movie-section on-picker');
+			await setMovieSectionStyle('individual-movie-section on-picker');
+
+			scroller.scrollTo("on-picker", {
+				duration: 200,
+				smooth: "smooth",
+			});
+
 		} catch (error) {
 			console.log(error.response);
 		}
 	};
+
 
 	return (
 		<div className='movie-list-container'>

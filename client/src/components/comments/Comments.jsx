@@ -17,13 +17,13 @@ export default function Comments({ movieId, commentsOn, setCommentsOn }) {
             const res = await axiosApiInstance.get(`/api/comments/${movieId}`)
 
             if (res.status === 200) {
-                console.log(res.data);
+                // console.log(res.data);
                 setComments(res.data);
             }
 
         } catch (error) {
             setComments([]);
-            console.log("Error on getting comments :", error.response.statusText);
+            // console.log("Error on getting comments :", error.response.data.message);
         }
     }
 
@@ -41,7 +41,7 @@ export default function Comments({ movieId, commentsOn, setCommentsOn }) {
             }
 
         } catch (error) {
-            console.log("Error on creating a comment :", error.response.data);
+            console.log("Error on deleting a comment :", error.response.data.message);
         }
     };
 
