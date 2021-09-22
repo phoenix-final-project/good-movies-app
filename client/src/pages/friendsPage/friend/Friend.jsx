@@ -57,6 +57,7 @@ export default function Friend({ searchOrFriends }) {
 			setIsMovieInCommon(true);
 			setFriendFirstname(friendTarget.firstname);
 			setFriendLastname(friendTarget.lastname);
+			setFriendId(friendTarget.id);
 		} catch (error) {
 			//console.log("Something went wrong", error.response.data.error);
 
