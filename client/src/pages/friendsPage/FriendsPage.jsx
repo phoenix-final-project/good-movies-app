@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axiosApiInstance from "../../util/APIinstance";
 import Friend from "./friend/Friend";
-//import Friend from "./friend/Friend"
-/* import Friend from "../../components/friend/Friend"; */
 
 // styling
 import "./FriendsPage.scss";
-///api/user/friends/santa
 
 export default function FriendsPage() {
     // State for get user's friends
@@ -28,13 +25,14 @@ export default function FriendsPage() {
             const res = await axiosApiInstance.get(
                 `/api/user/friends/${localStorage.getItem("username")}`
             );
-            console.log(res.data);
+            //console.log(res.data);
             setFriends(res.data);
             //setIsError(false);
         } catch (error) {
-            //console.log("Something went wrong", error.response.statusText);
-            /* setIsError(true);
-            setErrorMessage(error.response.statusText); */
+            //console.log("Something went wrong", error.response.data.message);
+            setIsError(true);
+            setErrorMessage(error.response.data.message);
+            setTimeout(() => setIsError(false), 3000);
         }
     };
 
@@ -50,7 +48,7 @@ export default function FriendsPage() {
             setIsAlreadyFriend(true);
             setKeyword("");
         } catch (error) {
-            console.log("Something went wrong", error.response.data.message);
+            //console.log("Something went wrong", error.response.data.message);
             setIsError(true);
             setErrorMessage(error.response.data.message);
             setKeyword("");
@@ -72,8 +70,6 @@ export default function FriendsPage() {
 
     return (
         <div className="friends-page">
-            {/* <h1>My friends</h1> */}
-
             {/* SEARCHBAR */}
             <form onSubmit={searchForUser} className="form-search-user">
                 <label htmlFor="header-search">
@@ -88,6 +84,11 @@ export default function FriendsPage() {
                 />
                 <button type="submit">Search</button>
             </form>
+
+            {/* ALERT MESSAGE */}
+            {isError ? (
+                <div className="alert-message">{errorMessage}</div>
+            ) : null}
 
             {/* DISPLAY SEARCH RESULTS */}
             {userFounded ? (

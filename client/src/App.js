@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 
 // importing the components
 import NavBar from './components/navigation/NavBar';
-// import Footer from "./components/footer/Footer";
+import Footer from "./components/footer/Footer";
 
 // importing pages
 import MainPage from './pages/mainPage/MainPage';
@@ -25,25 +25,22 @@ function App() {
 	return (
 		<div className='App'>
 			<NavBar />
+				<div className="wrapper">
+					<Switch>
+						<Route exact path='/' component={MainPage} />
+						<Route exact path='/movies' component={MoviesPage} />
+						<Route exact path='/registration' component={RegistrationPage} />
+						<Route exact path='/login' component={LoginPage} />
+						<Route exact path='/my-list' component={UserWishlistPage} />
+						<Route exact path='/watched' component={UserWatchedPage} />
+						<Route exact path='/friends' component={FriendsPage} />
+						<Route exact path='/invite-friends' component={InviteFriendsPage} />
+						<Route exact path='/my-profile' component={UserProfile} />
 
-			<Switch>
-				<Route exact path='/' component={MainPage} />
-				{/* <Route exact path='/public-movies' component={MoviesPageUnprotected} /> */}
-				{/* <Route exact path='/protected-movies' component={MoviesPage} /> */}
-
-				<Route exact path='/movies' component={MoviesPage} />
-
-				<Route exact path='/registration' component={RegistrationPage} />
-				<Route exact path='/login' component={LoginPage} />
-				<Route exact path='/my-list' component={UserWishlistPage} />
-				<Route exact path='/watched' component={UserWatchedPage} />
-				<Route exact path='/friends' component={FriendsPage} />
-				<Route exact path='/invite-friends' component={InviteFriendsPage} />
-				<Route exact path='/my-profile' component={UserProfile} />
-
-				<Route component={ErrorPage} />
-			</Switch>
-			{/*<Footer />*/}
+						<Route component={ErrorPage} />
+					</Switch>
+				</div>
+			<Footer />
 		</div>
 	);
 }

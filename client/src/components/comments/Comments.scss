@@ -1,6 +1,6 @@
 @import '../../styles/mixin' ;
 
- .comments {
+.comments {
     width: 100%;
     height: 100%;
     background: #333333;
@@ -10,7 +10,7 @@
     transform: translate(-50%, -50%);
     transform: 1s;
 
-    padding: 15px 20px;
+    padding: 20px 20px;
 
     .back {
         width: 160px;
@@ -49,19 +49,80 @@
         color: white;
     }
 
-    button {
-        display: block;
-        
-        &[disabled] {
-            background: transparent;
-            border: 3px solid #494949;
-            cursor: auto;
-            color: #494949;
+    button.comment-button {
+        width: 160px;
+        padding: 3px 0;
+        font-weight: bold;
+        border: 3px solid var(--first-color);
+        border-radius: 5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.5s ease-in-out;
+        background: transparent;
+        color: var(--first-color);
 
+        &:hover {
+            transition: all .5s ease;
+            color: var(--font-color);
+            background-color: var(--first-color);
+        }
+    }
+
+    button.emoji-button {
+        width: 29px;
+        height: 28px;
+        padding: 3px;
+        margin-left: 10px;
+        font-size: 1.1em;
+        vertical-align: middle;
+        
+        border: 3px solid var(--first-color);
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.5s ease-in-out;
+        background: transparent;
+        color: var(--first-color);
+
+        &:hover {
+            transition: all .5s ease;
+            color: var(--font-color);
+            background-color: var(--first-color);
+        }  
+    }
+
+    button[disabled] {
+        background: transparent;
+        border: 3px solid #494949;
+        cursor: auto;
+        color: #494949;
+
+        &:hover {
+            background: transparent;
+        }
+    }
+
+    aside.emoji-picker-react {
+
+        height: 100%;
+        width: 100%;
+    
+        .emoji-group li button {
+    
             &:hover {
-                background: transparent;
+                background-color: rgba(51, 51, 51, 0.2);
             }
         }
+    }
+    .none {
+        display: none;
+    }
+    
+    .show-emojis {
+        display: block;
+        margin: 5px 0 0 50px;
+        width: 350px;
+        max-width: 80%;
+        height: 250px;
     }
 }
 
@@ -98,6 +159,22 @@
             width: 27px;
             height: 26px;
             margin-left: 6px;
+
+            font-weight: bold;
+            border: 3px solid var(--first-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.5s ease-in-out;
+            background: transparent;
+            color: var(--first-color);
+
+            &:hover {
+                transition: all .5s ease;
+                color: var(--font-color);
+                background-color: var(--first-color);
+            }
+
+
         }
     }
 }

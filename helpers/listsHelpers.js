@@ -1,10 +1,10 @@
-const { redisClient } = require('../redis-server');
-const findMovieById = require('../helpers/findMovieById');
-const User = require('../models/User');
+const { redisClient } = require("../redis-server");
+const findMovieById = require("../helpers/findMovieById");
+const User = require("../models/User");
 
 exports.getListMovieIds = async (schema, userId) => {
-	const docs = await schema.find({ user: userId });
-	return docs.map(item => item.movieId);
+    const docs = await schema.find({ user: userId });
+    return docs.map((item) => item.movieId);
 };
 
 /**
@@ -16,38 +16,32 @@ exports.getListMovieIds = async (schema, userId) => {
  */
 
 exports.getListFromCache = async (schema, userId) => {
-	const idMoviesFromList = await schema.find({ user: userId }).sort({
-		date: -1,
-	});
+    const idMoviesFromList = await schema.find({ user: userId }).sort({
+        date: -1,
+    });
 
-	// go thru all movieIds of this user, return an array of movie objects
-	const moviesFromList = idMoviesFromList.map(async item => {
-		const { movieId } = item;
-		let foundMovie;
+    // go thru all movieIds of this user, return an array of movie objects
+    const moviesFromList = idMoviesFromList.map(async (item) => {
+        const { movieId } = item;
+        let foundMovie;
 
-		// find movie in Redis
-		const movie = await redisClient.get(movieId);
+        // find movie in Redis
+        const movie = await redisClient.get(movieId);
 
-		if (movie) {
-			foundMovie = JSON.parse(movie);
-		} else {
-			//If movie is not in Redis, go to the external API
-			const movieFromApi = await findMovieById(movieId);
-			foundMovie = Object.values(movieFromApi)[0];
-		}
-		return foundMovie;
-	});
+        if (movie) {
+            foundMovie = JSON.parse(movie);
+        } else {
+            //If movie is not in Redis, go to the external API
+            const movieFromApi = await findMovieById(movieId);
+            foundMovie = Object.values(movieFromApi)[0];
+        }
+        return foundMovie;
+    });
 
-	return Promise.all(moviesFromList).then(data => {
-		// console.log(data);
-
-		// // sort movies data alphabetically by title
-		// data.sort((a, b) => (a.title.toUpperCase() > b.title.toUpperCase()) ? 1
-        //     : (a.title.toUpperCase() < b.title.toUpperCase()) ? -1
-        //         : 0)
-
-		return { numOfMovies: data.length, data };
-	});
+    return Promise.all(moviesFromList).then((data) => {
+        console.log(data);
+        return { numOfMovies: data.length, data };
+    });
 };
 
 /**
@@ -61,39 +55,91 @@ exports.getListFromCache = async (schema, userId) => {
  * @param {*} nameOfList - String
  *
  */
-exports.addMovieToList = async (firstList, secondList, userId, imdb_id, movie, nameOfList) => {
-	// STEP 1. If movie already in firstList, throw error
-	const ifMovieInList = await firstList.find({ user: userId, movieId: imdb_id });
-	if (ifMovieInList.length !== 0) throw { message: `This movie is already in the ${nameOfList}` };
+exports.addMovieToList = async (
+    firstList,
+    secondList,
+    userId,
+    imdb_id,
+    movie,
+    nameOfList
+) => {
+    // STEP 1. If movie already in firstList, throw error
+    const ifMovieInList = await firstList.find({
+        user: userId,
+        movieId: imdb_id,
+    });
+    if (ifMovieInList.length !== 0)
+        throw { message: `This movie is already in the ${nameOfList}` };
 
-	// STEP 2. If movie in secondList list, delete from there.
-	const movieToDelete = await secondList.findOne({ user: userId, movieId: imdb_id });
+    // STEP 2. If movie in secondList list, delete from there.
+    const movieToDelete = await secondList.findOne({
+        user: userId,
+        movieId: imdb_id,
+    });
 
-	if (movieToDelete) {
-		const deletedMovie = await movieToDelete.deleteOne();
-		// console.log(deletedMovie);
-	} else {
-		await redisClient.set(imdb_id, JSON.stringify(movie));
-	}
+    if (movieToDelete) {
+        const deletedMovie = await movieToDelete.deleteOne();
+        // console.log(deletedMovie);
+    } else {
+        await redisClient.set(imdb_id, JSON.stringify(movie));
+    }
 
-	// STEP 3. Add to firstList in DB
-	const movieToAdd = new firstList({
-		user: userId,
-		movieId: imdb_id,
-	});
+    // STEP 3. Add to firstList in DB
+    const movieToAdd = new firstList({
+        user: userId,
+        movieId: imdb_id,
+    });
 
-	await movieToAdd.save();
+    await movieToAdd.save();
 
-	return { message: `Movie added to the ${nameOfList}`, movie };
+    return { message: `Movie added to the ${nameOfList}`, movie };
 };
 
 exports.addGenreToUser = async (movie, userId) => {
-	try {
-		const genres = movie.gen.map(item => item.genre);
-		genres.forEach(async genre => await User.findByIdAndUpdate(userId, { $addToSet: { favoriteGenres: genre } }, { new: true }));
+    try {
+        const genres = movie.gen.map((item) => item.genre);
 
-		Promise.resolve();
-	} catch (error) {
-		Promise.reject(error.message);
-	}
+        genres.forEach(async (genre) => {
+            const user = await User.findOneAndUpdate(
+                // First check if the genre is already in user's favoriteGenres. If it is increase the frequency
+                {
+                    _id: userId,
+                    favoriteGenres: { $elemMatch: { genre: genre } },
+                },
+                {
+                    $inc: { "favoriteGenres.$.frequency": 1 },
+                },
+
+                { new: true }
+            );
+
+            // If it is not, add the new genre
+            if (user === null) {
+                await User.findByIdAndUpdate(
+                    userId,
+                    {
+                        $addToSet: {
+                            favoriteGenres: { genre: genre, frequency: 1 },
+                        },
+                    },
+                    { new: true }
+                );
+            }
+            console.log(user);
+        });
+
+        // Viktoria's original snippet
+        /* genres.forEach(
+            async (genre) =>
+                await User.findByIdAndUpdate(
+                    userId,
+                    { $addToSet: { favoriteGenres: genre } },
+                    { new: true }
+                )
+        ); */
+
+        Promise.resolve();
+    } catch (error) {
+        Promise.reject(error.message);
+    }
 };

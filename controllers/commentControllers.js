@@ -12,7 +12,7 @@ exports.createComment = async (req, res) => {
 
 		res.status(200).send(resultComment);
 	} catch (error) {
-		res.status(400).json({ error: error.message });
+		res.status(400).json({ message: error.message });
 	}
 };
 
@@ -22,11 +22,15 @@ exports.getCommentsToMovie = async (req, res) => {
 	try {
 		const comments = await Comment.find({ movieId, deleted: false }).sort({ date: -1 }).populate("user", "username");
 
-		if (comments.length === 0) throw { message: 'There are not comments to this movie yet' };
+		if (comments.length === 0) {
+			return res.status(200).json({
+				message: 'There are no comments to this movie yet',
+			});
+		}
 
 		res.status(200).json(comments);
 	} catch (error) {
-		res.status(400).json({ error: error.message });
+		res.status(400).json({ message: error.message });
 	}
 };
 
@@ -43,7 +47,7 @@ exports.editComment = async (req, res) => {
 
 		res.status(200).json(resp);
 	} catch (error) {
-		res.status(400).json({ error: error.message });
+		res.status(400).json({ message: error.message });
 	}
 };
 
@@ -60,6 +64,6 @@ exports.deleteComment = async (req, res) => {
 
 		res.status(200).json("This comment was successfully deleted");
 	} catch (error) {
-		res.status(400).json({ error: error.message });
+		res.status(400).json({ message: error.message });
 	}
 };

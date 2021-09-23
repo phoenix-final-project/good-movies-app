@@ -284,12 +284,15 @@ exports.getFriendsOfUser = async (req, res) => {
         });
 
         // sort by firstname
-        friendsArray.sort((a, b) => (a.firstname.toUpperCase() > b.firstname.toUpperCase()) ? 1
-            : (a.firstname.toUpperCase() < b.firstname.toUpperCase()) ? -1
-                : 0)
+        friendsArray.sort((a, b) =>
+            a.firstname.toUpperCase() > b.firstname.toUpperCase()
+                ? 1
+                : a.firstname.toUpperCase() < b.firstname.toUpperCase()
+                ? -1
+                : 0
+        );
 
         res.status(200).json(friendsArray);
-
     } catch (error) {
         res.status(400).send({
             message: "Error occurred",
@@ -421,6 +424,32 @@ exports.deleteFriend = async (req, res) => {
         res.status(200).json({
             message: `${friend.username} deleted from your friends' list`,
         });
+    } catch (error) {
+        res.status(400).send({
+            message: "Error occurred",
+            error: error.message,
+        });
+    }
+};
+
+// FIND USER'S FAVORITE GENRE
+exports.getFavoriteGenre = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userId);
+
+        const frequency = user.favoriteGenres.map((item) => item["frequency"]);
+
+        const maxFrequency = Math.max(...frequency);
+
+        const favoriteGenreObjects = user.favoriteGenres.filter(
+            (item) => item.frequency === maxFrequency
+        );
+
+        // Get an array with the most frequent genres
+        const favoriteGenre = favoriteGenreObjects.map((item) => item["genre"]);
+
+        console.log(favoriteGenre);
+        res.status(200).send(favoriteGenre);
     } catch (error) {
         res.status(400).send({
             message: "Error occurred",

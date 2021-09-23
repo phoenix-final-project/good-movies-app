@@ -20,10 +20,11 @@ body {
     margin: 0 0 var(--header-height) 0;
     background-color: #333;
     color: azure;
+    height: 100vh;
 }
 
 body::-webkit-scrollbar {
-    width: 7px;
+    width: 12px;
 }
   
 body::-webkit-scrollbar-track {
@@ -43,16 +44,14 @@ ul {
 
 // globally btn
 .btn {
-    width: 50%;
-    padding: .6em;
+    width: 57%;
+    padding: .4em;
     color: var(--font-color);
     background-color: var(--first-color);
     border: 3px solid var(--first-color);
     border-radius: 10px;
     text-transform: uppercase;
     cursor: pointer;
-
-    letter-spacing: var(--letter-spacing-btn);
     transition: 0.3;
 
     &:hover {
