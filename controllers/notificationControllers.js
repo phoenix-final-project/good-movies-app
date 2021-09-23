@@ -26,11 +26,8 @@ exports.getUserNotifications = async (req, res) => {
 	const { userId } = req.params;
 
 	try {
-		const numOfNewNotifications = await Notification.count({ user2: userId, readStatus: false });
-
-		const userNotificationsAll = await Notification.find({ user2: userId });
-
-		res.status(200).json({ numOfNew: numOfNewNotifications, data: userNotificationsAll });
+		const userNotification = await Notification.find({ user2: userId, readStatus: false });
+		res.status(200).json({ numOfNew: userNotification.length, data: userNotification });
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}
