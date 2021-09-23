@@ -12,13 +12,13 @@ export default function MoviesPage() {
     // Local state
     const [upcomingMovies, setUpcomingMovies] = useState([]);
     const [topRatedMovies, setTopRatedMovies] = useState([]);
-    const [favoriteGenresMovies, setFavoriteGenresMovies] = useState([]);
+    //const [favoriteGenresMovies, setFavoriteGenresMovies] = useState([]);
 
     const [showMovie, setShowMovie] = useState(false);
     const [movieId, setMovieId] = useState("");
     const [page1, setPage1] = useState(1);
     const [page2, setPage2] = useState(1);
-    const [page3, setPage3] = useState(1);
+    //const [page3, setPage3] = useState(1);
     const [lastPage1, setLastPage1] = useState();
     const [lastPage2, setLastPage2] = useState();
 
@@ -60,7 +60,7 @@ export default function MoviesPage() {
     }, [page2]);
 
     // getting movies by favorite genre
-    const getMoviesByGenre = useCallback(async () => {
+    /* const getMoviesByGenre = useCallback(async () => {
         try {
             let res = await axiosApiInstance.get(
                 `/api/movie/byGenre/${localStorage.getItem("user_id")}/${page3}`
@@ -75,22 +75,22 @@ export default function MoviesPage() {
             // setIsError(true);
             // setErrorMessage(error.message);
         }
-    }, [page3]);
+    }, [page3]); */
 
     // getting the data from backend (movies)
     useEffect(() => {
         getUpcomingMovies();
         getTopRatedMovies();
-        getMoviesByGenre();
+        //getMoviesByGenre();
     }, [
         page1,
         page2,
-        page3,
+        //page3,
         lastPage1,
         lastPage2,
         getUpcomingMovies,
         getTopRatedMovies,
-        getMoviesByGenre,
+        //getMoviesByGenre,
     ]);
 
     // Pagination
@@ -101,9 +101,9 @@ export default function MoviesPage() {
     const handleForwardButton2 = () => {
         setPage2(page2 + 1);
     };
-    const handleForwardButton3 = () => {
+    /* const handleForwardButton3 = () => {
         setPage3(page3 + 1);
-    };
+    }; */
 
     // BACKWARD
     const handleBackwardButton1 = () => {
@@ -112,9 +112,9 @@ export default function MoviesPage() {
     const handleBackwardButton2 = () => {
         setPage2(page2 - 1);
     };
-    const handleBackwardButton3 = () => {
+    /*  const handleBackwardButton3 = () => {
         setPage3(page3 - 1);
-    };
+    }; */
 
     return (
         <React.Fragment>
@@ -212,7 +212,7 @@ export default function MoviesPage() {
             </div>
 
             {/* FAVORITE GENRE MOVIES box */}
-            <h3 className="movies-title">Movies according your Wihslist</h3>
+            {/* <h3 className="movies-title">Movies according your Wihslist</h3>
             <div className="moviesContainer">
                 <div className="buttonContainer">
                     {page3 === 1 ? null : (
@@ -247,7 +247,7 @@ export default function MoviesPage() {
                         </button>
                     )}
                 </div>
-            </div>
+            </div> */}
 
             {showMovie ? (
                 <MovieById

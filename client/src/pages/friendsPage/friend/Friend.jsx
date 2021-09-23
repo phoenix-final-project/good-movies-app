@@ -37,7 +37,7 @@ export default function Friend({ searchOrFriends }) {
                 username: localStorage.getItem("username"),
                 friendUsername: username,
             });
-            console.log(res.data);
+            //console.log(res.data);
             getFriends();
         } catch (error) {
             //console.log("Something went wrong", error.response.data.message);

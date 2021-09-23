@@ -134,19 +134,20 @@ const moviesByUserGenre = async (req, res) => {
         // Looking for the favorite genres at User document
         const user = await User.findById(req.params.userId);
 
-        const frequency = user.favoriteGenres.map((item) => item["frequency"]);
+        //const frequency = user.favoriteGenres.map((item) => item["frequency"]);
 
-        const maxFrequency = Math.max(...frequency);
+        // Finding the highest frequency
+        //const maxFrequency = Math.max(...frequency);
 
-        const favoriteGenreObjects = user.favoriteGenres.filter(
+        /* const favoriteGenreObjects = user.favoriteGenres.filter(
             (item) => item.frequency === maxFrequency
         );
 
         // Get an array with the most frequent genres
         const favoriteGenre = favoriteGenreObjects.map((item) => item["genre"]);
 
-        console.log(favoriteGenre[0]);
-
+        console.log(favoriteGenre[0]); */
+        /* 
         // Getting movies by favorite genres
         let options = {
             method: "GET",
@@ -180,9 +181,11 @@ const moviesByUserGenre = async (req, res) => {
             return res.status(500).json({ message: "No such page found" });
         }
 
-        const byGenreByUser = byGenreWithExtendedInfo.slice(start, end);
+        const byGenreByUser = byGenreWithExtendedInfo.slice(start, end); */
 
-        res.status(200).send(byGenreWithExtendedInfo);
+        res.status(200).send(user);
+
+        //res.status(200).send(byGenreWithExtendedInfo);
     } catch (error) {
         res.status(400).send({
             message: "Error occurred",
