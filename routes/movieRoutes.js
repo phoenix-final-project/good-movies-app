@@ -23,7 +23,8 @@ router.get("/toprated/:page", topRatedMovies);
 // check: http://localhost:5000/api/movie/toprated/1
 
 // GET movies by genre and by user id  - in process
-// router.get("/byGenre/:id", moviesByUserGenre)
+//router.get("/byGenre/:userId/:page", moviesByUserGenre);
+router.get("/byGenre/:userId", moviesByUserGenre);
 
 // FOR SEARCH:
 // **************************************
