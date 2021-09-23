@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axiosApiInstance from "../../util/APIinstance";
 
 export default function UpdateForm({
