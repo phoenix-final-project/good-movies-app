@@ -11,11 +11,10 @@ export default function MoviesInCommon({ friendFirstname, friendLastname, friend
 			user2: friendId,
 			movieId,
 		};
-		console.log(info);
 
 		try {
 			const response = await axios.post('/api/notification/create', info);
-			console.log(movieId);
+			console.log(response.data);
 		} catch (error) {
 			console.log(error.message);
 		}

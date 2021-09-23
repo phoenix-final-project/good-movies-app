@@ -15,6 +15,7 @@ export default function UserWishlistPage() {
 	const [numOfMovies, setNumOfMovies] = useState(0);
 	const [movieSectionStyle, setMovieSectionStyle] = useState('individual-movie-section');
 	const [pickAMovie, setPickAMovie] = useState();
+	const [alreadyPickedMovie, setAlreadyPickedMovie] = useState([]);
 
 	useEffect(() => {
 		getListMovies('wishlist', setWishlistMovies, setNumOfMovies);
@@ -55,15 +56,27 @@ export default function UserWishlistPage() {
 	const randomMoviePicker = async () => {
 		try {
 			const pickRandomMovie = Math.floor(Math.random() * wishlistMovies.length);
-			console.log(wishlistMovies[pickRandomMovie]);
+			// console.log(wishlistMovies[pickRandomMovie]);
 
-			setPickAMovie(wishlistMovies[pickRandomMovie]);
-			await setMovieSectionStyle('individual-movie-section on-picker');
+			if (alreadyPickedMovie.length === wishlistMovies.length ) {
+				setAlreadyPickedMovie([]);
+			}
 
-			scroller.scrollTo("on-picker", {
-				duration: 200,
-				smooth: "smooth",
-			});
+			if (!alreadyPickedMovie.includes(pickRandomMovie)) {
+				setPickAMovie(wishlistMovies[pickRandomMovie]);
+				await setMovieSectionStyle('individual-movie-section on-picker');
+
+				scroller.scrollTo("on-picker", {
+					duration: 300,
+					smooth: "easeInOutQuad",
+					offset: -100
+				});
+				
+				setAlreadyPickedMovie(alreadyPickedMovie => [pickRandomMovie, ...alreadyPickedMovie]);
+			}
+			else {
+				randomMoviePicker();
+			}
 
 		} catch (error) {
 			console.log(error.response);
@@ -76,7 +89,7 @@ export default function UserWishlistPage() {
 			<div className='div-container'>
 				<ListsHeading title='Want to Watch' numOfMovies={numOfMovies}/>
 				<div>
-					<button className="btn" onClick={randomMoviePicker}>picker</button>
+					<button className="btn" onClick={randomMoviePicker}>choose for me</button>
 				</div> 
 			</div>
 			
