@@ -98,36 +98,23 @@ exports.addMovieToList = async (
 exports.addGenreToUser = async (movie, userId) => {
     try {
         const genres = movie.gen.map((item) => item.genre);
-        /* genres.forEach(
-            async (genre) =>
-                await User.findAndModify(
-                    { _id: userId },
-                    {
-                        query: { favoriteGenres: { genre: genre } },
-                        update: { $inc: { favoriteGenres: { frequency: 1 } } },
-                        upsert: true,
-                    },
-                    { new: true }
-                )
-        ); */
 
-        /* genres.forEach(
-            async (genre) =>
-                await User.findByIdAndUpdate(
-                    userId,
-                    {
-                        $addToSet: {
-                            favoriteGenres: { genre: genre },
-                        },
-                        $inc: { quantity: 1 },
-                    },
-                    { new: true }
-                )
-        ); */
+        genres.forEach(async (genre) => {
+            const user = await User.findOneAndUpdate(
+                // First check if the genre is already in user's favoriteGenres. If it is increase the frequency
+                {
+                    _id: userId,
+                    favoriteGenres: { $elemMatch: { genre: genre } },
+                },
+                {
+                    $inc: { "favoriteGenres.$.frequency": 1 },
+                },
 
-        // This works with two problems 1) fixed frequency, 2) repeat the genres
-        /* genres.forEach(
-            async (genre) =>
+                { new: true }
+            );
+
+            // If it is not, add the new genre
+            if (user === null) {
                 await User.findByIdAndUpdate(
                     userId,
                     {
@@ -136,18 +123,20 @@ exports.addGenreToUser = async (movie, userId) => {
                         },
                     },
                     { new: true }
-                )
-        ); */
+                );
+            }
+            console.log(user);
+        });
 
         // Viktoria's original snippet
-        genres.forEach(
+        /* genres.forEach(
             async (genre) =>
                 await User.findByIdAndUpdate(
                     userId,
                     { $addToSet: { favoriteGenres: genre } },
                     { new: true }
                 )
-        );
+        ); */
 
         Promise.resolve();
     } catch (error) {

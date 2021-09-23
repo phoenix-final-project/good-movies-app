@@ -28,11 +28,7 @@ function App() {
 				<div className="wrapper">
 					<Switch>
 						<Route exact path='/' component={MainPage} />
-						{/* <Route exact path='/public-movies' component={MoviesPageUnprotected} /> */}
-						{/* <Route exact path='/protected-movies' component={MoviesPage} /> */}
-
 						<Route exact path='/movies' component={MoviesPage} />
-
 						<Route exact path='/registration' component={RegistrationPage} />
 						<Route exact path='/login' component={LoginPage} />
 						<Route exact path='/my-list' component={UserWishlistPage} />
