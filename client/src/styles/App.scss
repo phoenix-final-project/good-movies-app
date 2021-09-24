@@ -73,5 +73,6 @@
 
 
 .wrapper {
-    min-height: 80.5vh;
+    min-height: calc(100vh - 120px);
+    // border: 1px solid red;
 }

@@ -17,13 +17,12 @@ export default function Comments({ movieId, commentsOn, setCommentsOn }) {
             const res = await axiosApiInstance.get(`/api/comments/${movieId}`)
 
             if (res.status === 200) {
-                // console.log(res.data);
                 setComments(res.data);
             }
 
         } catch (error) {
             setComments([]);
-            // console.log("Error on getting comments :", error.response.data.message);
+            console.log("Error on getting comments :", error.response.data.message);
         }
     }
 
@@ -65,20 +64,17 @@ export default function Comments({ movieId, commentsOn, setCommentsOn }) {
                             <div key={item._id} onMouseOver={() => setCommentId(item._id)}>
                                 <div className="comment-head">
                                     <span>{item.user.username}</span>
-
-                                    <span>{item.date.slice(0, 10)}  {item.date.slice(11, 19)}</span>
-
+                                    <span>{new Date(item.date).toLocaleString()} </span>
                                 </div>
 
                                 <div className="comment-body">{item.comment}
-
                                     {/* trash bin icon for deleting a comment */}
                                     {item.user.username === window.localStorage.getItem("username") ? <button className="delete" onClick={handleDelete}><i className="far fa-trash-alt"></i></button> : null}</div>
                                 <br />
                             </div>
                         )
                     })
-                ) : <div>No comments for this movie</div>}
+                ) : <div>No comments to this movie yet</div>}
             </div>
 
             <div onClick={() => setCommentsOn('hidden')} className='back'>

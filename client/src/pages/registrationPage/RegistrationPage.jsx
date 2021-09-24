@@ -116,9 +116,8 @@ function RegistrationPage() {
     };
 
     return (
-        <React.Fragment>
+        <div className="wrapper-registration">
 
-            <section className="registration">
                 <FormBanner title='Please create an account by filling out the information below to get'>
                     {/* NOTIFICATIONS - success / error */}
                    {/* <div className={alertMessage}>{username} has been successfully registered! Please, log in. </div> */}
@@ -150,8 +149,8 @@ function RegistrationPage() {
                         <button className='submit-btn' type="submit" title='Please submit'>{status}</button>
                     </form>
                 </FormBanner>  
-            </section>
-        </React.Fragment>
+            
+        </div>
     )
 }
 

@@ -1,176 +1,196 @@
 @import "../../styles/mixin";
 
 .user-profile-container {
-    margin: 2% auto;
+    // border: 1px lime solid;
+    margin: 1.7% auto;
     width: 70%;
 
     header {
         width: 100%;
 
         border-bottom: 1px dotted var(--first-color);
-        margin-bottom: 4rem;
+        margin-bottom: 1.8rem;
         padding-bottom: 1rem;
         color: var(--first-color);
-        // padding: 0 30px;
-        display: flex;
-        align-items: center;
 
         h2 {
             font-size: 2rem;
         }
     }
 
-    main {
-        //display: flex;
+    .main-wrapper {
+        width: 100%;
+        // border: solid 1px fuchsia;
+        display: flex;
+        justify-content: space-around;
 
-        .display-user-container {
-            width: 70%;
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            //border: solid 1px white;
 
-            .avatar {
-                width: 70px;
-                height: 70px;
-                //border: solid 1px white;
-                border-radius: 50%;
-                background-color: chocolate;
+        main {
+            justify-items: flex-end;
+            // border: solid 1px blue;
+            width: 50%;
+            max-width: 320px;
+
+            .display-user-container {
+                width: 100%;
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                margin-right: 20px;
+                margin-bottom: 20px;
+                // border: solid 1px white;
+
+                .avatar {
+                    width: 70px;
+                    height: 70px;
+                    //border: solid 1px white;
+                    border-radius: 50%;
+                    background-color: chocolate;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin-right: 20px;
+                }
+            }
+
+            .hidden {
+                visibility: hidden;
+            }
+
+            .alert-delete-success {
+                width: 300px;
+                margin: 20px;
+                padding: 10px;
+                color: white;
+                text-align: center;
+                background-color: var(--first-color);
+                border-radius: 5px;
+            }
+
+            .btn-profile {
+                width: 100%;
+                height: 100px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                // border: yellow solid 1px;
             }
         }
 
-        .hidden {
-            visibility: hidden;
-        }
-
-        .alert-delete-success {
-            width: 300px;
-            margin: 20px;
-            padding: 10px;
-            color: white;
-            text-align: center;
-            background-color: var(--first-color);
-            border-radius: 5px;
-        }
-
-        .btn-profile {
-            width: 350px;
+        .confirm-delete-div {
+            width: 400px;
+            margin: 20px 0;
+            padding: 20px;
+            border: solid 1px var(--first-color);;            border-radius: 5px;
             display: flex;
             flex-direction: column;
-            align-items: flex-end;
-            //border: yellow solid 1px;
-        }
-    }
+            align-items: center;
 
-    .confirm-delete-div {
-        width: 400px;
-        margin: 20px 0;
-        padding: 20px;
-        border: solid 1px white;
-        border-radius: 5px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        p {
-            margin-bottom: 20px;
+            p {
+                margin-bottom: 20px;
+            }
+            button {
+                margin-right: 10px;
+            }
         }
+
         button {
-            margin-right: 10px;
-        }
-    }
-
-    button {
-        margin-left: auto;
-        width: 150px;
-        padding: 0.2rem 0;
-        margin: 0.5rem 0;
-        font-weight: bold;
-        color: var(--font-color);
-        background-color: var(--first-color);
-        border: 3px solid var(--first-color);
-        border-radius: 5px;
-        text-transform: uppercase;
-        cursor: pointer;
-        transition: all 0.5s ease-in-out;
-        background: transparent;
-        color: var(--first-color);
-
-        &:hover {
-            background: transparent;
-            color: var(--first-color);
-            transition: all 0.5s ease;
+            width: 160px;
+            padding: .5rem;
+            font-size: 0.7rem;
             color: var(--font-color);
             background-color: var(--first-color);
-        }
-    }
-}
-
-.update-user-form-container {
-    margin: 30px 0;
-    padding: 30px;
-    border: solid 1px white;
-    border-radius: 5px;
-    position: relative;
-
-    h2 {
-        margin-bottom: 30px;
-        text-decoration: underline;
-    }
-
-    form {
-        display: flex;
-        flex-direction: column;
-
-        label {
-            margin-bottom: 5px;
-            font-weight: bold;
-            font-size: 0.8rem;
-            color: var(--first-color);
+            border: 3px solid var(--first-color);
+            border-radius: 10px;
             text-transform: uppercase;
-        }
+            cursor: pointer;
 
-        input {
-            margin-bottom: 15px;
-            border: none;
-            border-bottom: 2px solid var(--first-color);
-            background-color: transparent;
-            border-radius: 3px;
-            padding: 10px;
-            color: white;
-            outline: none;
-        }
+            letter-spacing: var(--letter-spacing-btn);
+            transition: all 0.5s ease-in-out;
 
-        .btn-form {
-            margin-top: 10px;
-            display: flex;
-            justify-content: flex-end;
+
+                @include mobile {
+                    width: 140px;
+                    padding: .2rem;
+                    margin: 0 auto;
+                }
+
+                &:hover {
+                    background: transparent;
+                    color: var(--first-color);
+                    transition: all .5s ease;
+                    border-radius: 10px;
+                }
         }
     }
 
-    button#closeCard {
-        width: 30px;
-        position: absolute;
-        left: 93%;
-        top: 0;
-        /* width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        position: absolute;
-        right: -25px;
-        top: -25px;
-        font-size: 2rem;
-        z-index: 200;
-        color: var(--font-color);
-        background-color: var(--first-color);
+    .update-user-form-container {
+        width: 400px;
 
-        &:hover {
-            background: transparent;
-            color: var(--first-color);
-        } */
+        border: solid 1px var(--first-color);;
+        border-radius: 5px;
+        position: relative;
+        padding: 10px;
+
+        h2 {
+            margin-bottom: 30px;
+            text-decoration: underline;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+
+            label {
+                margin-bottom: 5px;
+                font-weight: bold;
+                font-size: 0.8rem;
+                color: var(--first-color);
+                text-transform: uppercase;
+            }
+
+            input {
+                margin-bottom: 15px;
+                border: none;
+                border-bottom: 2px solid var(--first-color);
+                background-color: transparent;
+                border-radius: 3px;
+                padding: 10px;
+                color: white;
+                outline: none;
+            }
+
+            .btn-form {
+                margin-top: 10px;
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+
+        button#closeCard {
+            
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            position: absolute;
+            right: -20px;
+            top: -20px;
+            font-size: 1.8rem;
+            padding: 0;
+            z-index: 200;
+            color: var(--font-color);
+            background-color: var(--first-color);
+            border: 3px solid var(--first-color);
+            cursor: pointer;
+    
+            &:hover {
+                transition: all .5s ease;
+                background: transparent;
+                color: var(--first-color);
+            }
+    
+            @include tablet {
+                font-size: 1.4rem;
+            }
+        
+        }
     }
 }

@@ -256,7 +256,8 @@ const moviesByTitle = async (req, res) => {
 
 // GET movies by genre
 const moviesByGenre = async (req, res) => {
-    const genre = req.params.genre[0].toUpperCase() + req.params.genre.slice(1);
+
+    const genre = req.params.genre.toLowerCase() === "sci-fi" ? "Sci-Fi" : req.params.genre[0].toUpperCase() + req.params.genre.slice(1);
 
     let options = {
         method: "GET",
