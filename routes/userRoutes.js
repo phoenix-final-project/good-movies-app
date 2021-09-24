@@ -13,7 +13,6 @@ const {
     findUserByAnyName,
     getFriendsOfUser,
     deleteFriend,
-    getFavoriteGenre,
 } = require("../controllers/userControllers");
 
 // REGISTER A NEW USER
@@ -66,8 +65,5 @@ router.put(
     passport.authenticate("jwt", { session: false }),
     deleteFriend
 );
-
-// FIND USER'S FAVORITE GENRE
-router.get("/favoriteGenre/:userId", getFavoriteGenre);
 
 module.exports = router;
