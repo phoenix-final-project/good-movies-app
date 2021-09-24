@@ -96,16 +96,17 @@
                 display: inline-block;
                 cursor: pointer;
 
-                .dropdown-content-click {
-                    display: block;
-                    position: absolute;
-                    background-color: #464339;
-                    min-width: 260px;
-                    margin-top: 5px;
-                    box-shadow: 0px 4px 6px 0px var(--first-color);
-                    padding: 12px 16px;
-                    z-index: 1;
-                }
+                // .dropdown-content-click {
+                //     display: block;
+                //     position: absolute;
+                //     transform: translateX(-85%);
+                //     background-color: #464339;
+                //     min-width: 300px;
+                //     margin-top: 5px;
+                //     box-shadow: 0px 4px 6px 0px var(--first-color);
+                //     padding: 12px 16px;
+                //     z-index: 1;
+                // }
 
                 .dropdown-content {
                     display: none;
@@ -141,6 +142,81 @@
     
                         @include tablet {
                             right: 5px;
+                        }
+                    }
+                }
+
+                .dropdown-content-click {
+                    display: block;
+                    position: absolute;
+                    transform: translateX(-85%);
+                    background-color: lighten(#464339, 5%);
+                    min-width: 300px;
+                    height: 500px;
+                    margin-top: 5px;
+                    // box-shadow: 0px 4px 6px 0px var(--first-color);
+                    border: 1px solid var(--first-color);
+                    padding: 12px 16px;
+                    z-index: 1;
+                    overflow-y: scroll;
+
+                    -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+                    scrollbar-width: none; /* Hide scrollbar for Firefox */
+                        &::-webkit-scrollbar {
+                            display: none;
+                        }
+
+                    .dropdown-menu-text {
+                        .n-section {
+                            border-bottom: 1px dotted var(--first-color);
+                            padding-bottom: 10px;
+                            margin-bottom: 10px;
+
+                            display: flex;
+                            justify-content: space-between;
+                            flex-wrap: wrap;
+                            height: auto;
+
+                            div:nth-of-type(1) {
+                                width: 20%;
+
+                                .avatar {
+                                    border: 1px dotted black;
+                                    width: 35px;
+                                    height: 35px;
+                                    // padding: 5px;
+                                    line-height: 35px;
+                                    text-align: center;
+                                    border-radius: 50%;
+                                    background-color: green;
+                                }
+
+                                .username {
+                                    margin-top: 5px;
+                                    color: var(--first-color);
+                                }
+                            }
+
+                            div:nth-of-type(2) {
+                                width: 45%;
+
+                                .message {
+                                    span {
+                                        color: var(--first-color);
+                                        font-style: italic;
+                                    }
+                                }
+                            }
+
+                            div:nth-of-type(3) {
+                                width: 20%;
+
+                                img {
+                                    width: 100%;
+                                    object-fit: cover;
+                                    border: 1px solid white;
+                                }
+                            }
                         }
                     }
                 }
