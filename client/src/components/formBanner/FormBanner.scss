@@ -1,23 +1,30 @@
 // mixin
 @import '../../styles/mixin';
 
-.main-form {
-    width: 50%;
-    margin: 100px auto;
+.wrapper-login, .wrapper-registration {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
 
-    @include tablet {
-        margin: 150px auto;
+.main-form {
+    width: 450px;
+    // border: 1px solid green;
+
+    @include mobile {
+        width: 90%;
     }
 
     .text-form {
         text-align: center;
         text-transform: uppercase;
-        margin-bottom: 30px;
-        padding: 0 3.5rem ;
+        margin-bottom: 20px;
         font-size: 1rem;
 
         &::after {
-            content: ' STARTED.';
+            content: ' STARTED';
             color: var(--first-color);
         }
 
@@ -34,7 +41,7 @@
 
     .form-container {
         width: 100%;
-        padding: 30px;
+        padding: 20px 30px 0;
         display: grid;
         grid-template-columns: 1fr;
 
@@ -44,7 +51,7 @@
         }
 
         @include mobile {
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         label {
@@ -52,7 +59,7 @@
             justify-content: space-between;
             font-weight: bold;
             font-size: 0.7rem;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             color: var(--first-color);
             text-transform: uppercase;
             margin-left: 10px;
@@ -67,15 +74,19 @@
             border-bottom: 2px solid var(--first-color);
             background-color: transparent;
             color: var(--container-color);
-            font-size: .7rem;
             border-radius: 3px;
             padding: 10px;
             width: 100%;
             margin-bottom: 20px;
             outline: none;
 
+            &::placeholder {
+                font-size: .7rem;
+            }
+
             @include mobile {
-                font-size: .5rem;
+                font-size: .6rem;
+                margin-bottom: 10px;
             }
         }
 
@@ -89,9 +100,9 @@
         }
 
         .submit-btn {
-            width: 20%;
+            width: 160px;
             padding: .5rem;
-            font-size: 0.6rem;
+            font-size: 0.7rem;
             color: var(--font-color);
             background-color: var(--first-color);
             border: 3px solid var(--first-color);
@@ -102,13 +113,11 @@
             letter-spacing: var(--letter-spacing-btn);
             transition: all 0.5s ease-in-out;
 
-            @include tablet {
-                width: 30%;
-            }
 
             @include mobile {
-                width: 50%;
-                padding: .4rem;
+                width: 140px;
+                padding: .2rem;
+                margin: 0 auto;
             }
 
             &:hover {

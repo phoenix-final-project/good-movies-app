@@ -83,53 +83,50 @@ export default function UserProfile() {
                 <h2>My profile</h2>
             </header>
 
-            <main>
-                {/* DISPLAY USER */}
-                <DisplayUser user={user} />
-
-                {/* ALERT MESSAGES */}
-                <div className={showAlertMessage}>
-                    The user was successfully deleted
-                </div>
-
-                {alertSuccessUpdate ? (
-                    <div className="alert-delete-success">
-                        The user was successfully updated
+            <div className="main-wrapper">
+                <main>
+                    {/* DISPLAY USER */}
+                    <DisplayUser user={user} />
+                    {/* ALERT MESSAGES */}
+                    <div className={showAlertMessage}>
+                        The user was successfully deleted
                     </div>
-                ) : null}
-
-                {/* MAIN BUTTONS USER PROFILE */}
-                <div className="btn-profile">
-                    <button onClick={showForm}>Edit profile</button>
-                    <button onClick={askConfirmationDeleteUser}>
-                        Delete user
-                    </button>
-                </div>
-            </main>
-
-            {/* UPDATE USER FORM */}
-            {showUpdateForm ? (
-                <UpdateForm
-                    setShowUpdateForm={setShowUpdateForm}
-                    user={user}
-                    setAlertSuccessUpdate={setAlertSuccessUpdate}
-                    getUser={getUser}
-                    setAlertMessage={setAlertMessage}
-                />
-            ) : null}
-
-            {/* ASK FOR CONFIRMATION BEFORE DELETE USER */}
-            {showConfirmDeleteBtn ? (
-                <div className="confirm-delete-div">
-                    <p>Are you sure that you want delete your account?</p>
-                    <div>
-                        <button onClick={handleDeleteUser}>Delete</button>
-                        <button onClick={closeDivConfirmDeleteUser}>
-                            Cancel
+                    {alertSuccessUpdate ? (
+                        <div className="alert-delete-success">
+                            The user was successfully updated
+                        </div>
+                    ) : null}
+                    {/* MAIN BUTTONS USER PROFILE */}
+                    <div className="btn-profile">
+                        <button onClick={showForm}>Edit profile</button>
+                        <button onClick={askConfirmationDeleteUser}>
+                            Delete user
                         </button>
                     </div>
-                </div>
-            ) : null}
+                </main>
+                {/* UPDATE USER FORM */}
+                {showUpdateForm ? (
+                    <UpdateForm
+                        setShowUpdateForm={setShowUpdateForm}
+                        user={user}
+                        setAlertSuccessUpdate={setAlertSuccessUpdate}
+                        getUser={getUser}
+                        setAlertMessage={setAlertMessage}
+                    />
+                ) : null}
+                {/* ASK FOR CONFIRMATION BEFORE DELETE USER */}
+                {showConfirmDeleteBtn ? (
+                    <div className="confirm-delete-div">
+                        <p>Are you sure that you want delete your account?</p>
+                        <div>
+                            <button onClick={handleDeleteUser}>Delete</button>
+                            <button onClick={closeDivConfirmDeleteUser}>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                ) : null}
+            </div>
         </div>
     );
 }
