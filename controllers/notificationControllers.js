@@ -48,7 +48,9 @@ exports.getAllNotifications = async (req, res) => {
 			const userData = {
 				id: notification.user1._id,
 				username: notification.user1.username,
+				firstname: notification.user1.firstname,
 				avatar: notification.user1.avatar,
+				avatarColor: notification.user1.avatarColor,
 			};
 
 			const response = await findMovieById(notification.movieId);
