@@ -41,7 +41,7 @@ exports.getAllNotifications = async (req, res) => {
 
 	try {
 		// get all notifications of a current user
-		const userNotificationsAll = await Notification.find({ user2: userId }).populate('user1');
+		const userNotificationsAll = await Notification.find({ user2: userId }).sort({ date: -1 }).populate('user1');
 
 		// get the needed data of a friend and of a movie of all current user's notifications
 		const notificationDataRaw = userNotificationsAll.map(async notification => {
