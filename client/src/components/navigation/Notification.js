@@ -40,25 +40,29 @@ function Notification() {
 
 			<div className={isDropdownMenuClicked ? 'dropdown-content' : 'dropdown-content-click'}>
 				<div className='dropdown-menu-text'>
-					{allNotifications.map((item, index) => (
-						// <p key={index}>{item.friend.username}</p>
-						<div className='n-section' key={index}>
-							<div>
-								<p className='avatar'>{item.friend.avatar}</p>
-								<p className='username'>{item.friend.username}</p>
-							</div>
+					{allNotifications.length === 0 ? (
+						<p>You do not have notifications yet.</p>
+					) : (
+						allNotifications.map((item, index) => (
+							// <p key={index}>{item.friend.username}</p>
+							<div className='n-section' key={index}>
+								<div>
+									<p className='avatar'>{item.friend.avatar}</p>
+									<p className='username'>{item.friend.username}</p>
+								</div>
 
-							<div>
-								<p className='message'>
-									wants to watch <span>{item.movie.title}</span> with you.
-								</p>
-							</div>
+								<div>
+									<p className='message'>
+										wants to watch <span>{item.movie.title}</span> with you.
+									</p>
+								</div>
 
-							<div>
-								<img src={item.movie.image} alt={item.movie.title} />
+								<div>
+									<img src={item.movie.image} alt={item.movie.title} />
+								</div>
 							</div>
-						</div>
-					))}
+						))
+					)}
 				</div>
 			</div>
 		</div>
