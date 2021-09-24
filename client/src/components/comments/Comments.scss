@@ -102,14 +102,66 @@
     }
 
     aside.emoji-picker-react {
-
         height: 100%;
         width: 100%;
-    
-        .emoji-group li button {
-    
+        background-color: #464339;
+        box-shadow: none;
+        border: 2px solid var(--first-color);
+        border-radius: 5px;
+
+        .emoji-categories button {
+            width: 32px;
+            height: 30px;
+            margin: 5px;
+            opacity: 1;
+            border-radius: 5px;
+            
             &:hover {
-                background-color: rgba(51, 51, 51, 0.2);
+                background-color: var(--first-color);
+                transition: all .5s ease;
+            }
+        }
+
+        input.emoji-search{
+            background-color: transparent;
+            border: 2px solid #555555;
+            color: white;
+
+            // &::after{
+            //     content: "+";
+            //     color: red;
+            // }
+        }
+
+        .emoji-scroll-wrapper {
+            &::-webkit-scrollbar {
+                width: 15px;
+            }
+              
+            &::-webkit-scrollbar-track {
+                background: #222;
+            }
+              
+            &::-webkit-scrollbar-thumb {
+                background-color: var(--first-color) ;
+                border-radius: 3px;
+                border: 2px solid var(--first-color);
+            }
+        }
+        
+        .emoji-group  {
+
+            &:before {
+                line-height: 35px;
+                margin-bottom: 5px;
+                color: var(--first-color);
+                background-color: rgba(70, 67, 57, 0.9);
+                border-bottom: 2px dotted var(--first-color);
+            }
+    
+            li button:hover {
+                background-color: var(--first-color);
+                transition: all .5s ease;
             }
         }
     }

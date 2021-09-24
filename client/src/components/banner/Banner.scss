@@ -2,43 +2,47 @@
 @import '../../styles/mixin' ;
 
 .banner {
-    margin-top: -80px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: column;
+    width: 80%;
+    // border: 1px solid green;
+    margin: 0 auto;
+
+    height: calc(100vh - 120px);
+    min-height: 340px;
+
+
+    @include mobile {
+        width: 90%;
+    }
 
     .img {
         /* Set rules to fill background */
-        height: 100vh;
-        min-width: 1024px;
-        
-        /* Set up proportionate scaling */
+        height: calc(100vh - 50px);
+        min-height: 100%;
         width: 100%;
-        height: auto;
 
         /* Set up positioning */
         position: fixed;
+        z-index: -100;
         top: 0;
         left: 0;
+        object-fit: cover;
+        object-position: center;
     }
 
     .button-container {
-        position: absolute;
-        bottom: 160px;
-        left: 120px;
+        // border: 1px solid red;
+        padding: 10px 0;
 
-        @include tablet {
-            margin: -50px 0 0 12%;
-        }
-
-        @include mobile {
-            margin: -80px 0 0 -55px;
-        }
 
         .discover-button {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
             margin: 0 0 10px 0;
+            // border: 1px solid lime;
 
             .check-h3 {
-                margin: 0 -10px 15px 0;
+                margin-bottom: 15px;
                 font-size: 1em;
                 color: var(--first-color);
 
@@ -48,19 +52,15 @@
             }
 
             .span-discover {
-                margin: 0 0 10px 0;
+                margin-left: 30px;
 
                 .discover {
-                    font-size: .9em;
+                    display: inline-block;
                     text-transform: uppercase;
                     font-weight: 100;
-                    padding-left: 30px;
                     color: var(--container-color);
                     transition: all .5s ease-in-out;
-
-                    @include mobile {
-                        font-size: 0.7em;
-                    }
+                    position: relative;
 
                     &:hover {
                         color: var(--first-color);
@@ -71,7 +71,7 @@
                         content: "";
                         position: absolute;
                         top: 22px;
-                        left: 60%;
+                        left: 0;
                         width: 0;
                         height: 3px;
                     
@@ -82,15 +82,15 @@
                     }
 
                     &:hover:after { 
-                        width: 20%; 
-                        left: 57%;
+                        width: 104%; 
+                        left: -2%;
                     }
                 }
             }
         }
 
         .get-button {
-            width: 33%;
+            width: 160px;
             padding: .3rem;
             font-size: 0.6rem;
             color: var(--font-color);
@@ -107,12 +107,6 @@
                 background: transparent;
                 color: var(--first-color);
                 transition: all .5s ease;
-                border-radius: 10px;
-            }
-
-            @include mobile {
-                font-size: 0.5em;
-                padding: .1rem;
             }
         }
     }

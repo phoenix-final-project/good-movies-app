@@ -14,10 +14,9 @@ export default function CreateComment({ movieId, getComments }) {
     const ref = useRef(null);
 
     const onEmojiClick = (event, emojiObject) => {
-        const cursor = ref.current.selectionStart;
+        const { selectionStart, selectionEnd } = ref.current
 
-        const text =
-            content.slice(0, cursor) + emojiObject.emoji + content.slice(cursor);
+        const text = content.slice(0, selectionStart) + emojiObject.emoji + content.slice(selectionEnd)
         setContent(text);
     };
 
@@ -65,9 +64,10 @@ export default function CreateComment({ movieId, getComments }) {
                     onClick={emojisOn === "none" ? () => setEmojisOn("show-emojis") : () => setEmojisOn("none")}
 
                     disabled={window.localStorage.getItem("token") ? false : true}
-                ><i className="far fa-smile"></i></button>
+                >{emojisOn === "none" ? <i className="far fa-smile"></i> : <i className="fas fa-times"></i>}</button>
 
                 <div className={emojisOn}>
+                    {/* <div className={emojisOn} onBlur={() => setEmojisOn("none")}> */}
                     <Picker onEmojiClick={onEmojiClick} />
                 </div>
             </form>

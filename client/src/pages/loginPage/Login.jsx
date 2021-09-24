@@ -26,7 +26,7 @@ export default function Login() {
     const [alertMessageError, setAlertMessageError] = useState("hidden");
     const [errorMessageDatabase, setErrorMessageDatabase] = useState("");
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [ errors, setErrors ] = useState({});
+    const [errors, setErrors] = useState({});
 
     // handle change
     const handleChange = (e) => {
@@ -48,10 +48,11 @@ export default function Login() {
 
         const checkErrors = ValidationErrorLogin(values);
 
-        if (Object.keys(checkErrors).length !== 0 ) {
+        if (Object.keys(checkErrors).length !== 0) {
             setErrors(checkErrors);
         }
-        else {axiosApiInstance.post('/api/user/login', values)
+        else {
+            axiosApiInstance.post('/api/user/login', values)
             .then(response => {
                 if (response.status === 200) {
                     dispatch(loginUser(response.data.user, response.data.token));
@@ -101,34 +102,32 @@ export default function Login() {
         if (isSubmitted) {
             const checkErrors = ValidationErrorLogin(values);
 
-            if (Object.keys(checkErrors).length !== -1 ) {
+            if (Object.keys(checkErrors).length !== -1) {
                 setErrors(checkErrors);
             }
         }
     };
 
     return (
-        <React.Fragment>
+        <div className="wrapper-login">
 
-            <section className="registration">
-                <FormBanner title='Login with your existing account to get'>
-                    {/* NOTIFICATIONS - success / error */}
-                    <div className={alertMessage}>{values.username} successfully logged in.</div>
-                    <div className={alertMessageError}>{errorMessageDatabase}</div>
+            <FormBanner title='Login with your existing account to get'>
+                {/* NOTIFICATIONS - success / error */}
+                <div className={alertMessage}>{values.username} successfully logged in.</div>
+                <div className={alertMessageError}>{errorMessageDatabase}</div>
 
-                    <form className="form-container" onSubmit={handleSubmit}>
-                        {/* USERNAME */}
-                        <label htmlFor="username">username * {errors.username && <span className='error-para'>{errors.username}</span> } </label>
-                        <input type="text" name="username" onChange={handleChange} onBlur={handleBlur}/>
+                <form className="form-container" onSubmit={handleSubmit}>
+                    {/* USERNAME */}
+                    <label htmlFor="username">username * {errors.username && <span className='error-para'>{errors.username}</span>} </label>
+                    <input type="text" name="username" onChange={handleChange} onBlur={handleBlur} />
 
-                        {/* PASSWORD */}
-                        <label htmlFor="password">password * {errors.password && <span className='error-para'>{errors.password}</span> } </label>
-                        <input type="password" name="password" onChange={handleChange} onBlur={handleBlur}/>
+                    {/* PASSWORD */}
+                    <label htmlFor="password">password * {errors.password && <span className='error-para'>{errors.password}</span>} </label>
+                    <input type="password" name="password" onChange={handleChange} onBlur={handleBlur} />
 
-                        <button className='submit-btn' type="submit" title='Please submit'>{status}</button>
-                    </form>
-                </FormBanner>
-            </section>
-        </React.Fragment>
+                    <button className='submit-btn' type="submit" title='Please submit'>{status}</button>
+                </form>
+            </FormBanner>
+        </div>
     );
 }
