@@ -431,29 +431,3 @@ exports.deleteFriend = async (req, res) => {
         });
     }
 };
-
-// FIND USER'S FAVORITE GENRE
-exports.getFavoriteGenre = async (req, res) => {
-    try {
-        const user = await User.findById(req.params.userId);
-
-        const frequency = user.favoriteGenres.map((item) => item["frequency"]);
-
-        const maxFrequency = Math.max(...frequency);
-
-        const favoriteGenreObjects = user.favoriteGenres.filter(
-            (item) => item.frequency === maxFrequency
-        );
-
-        // Get an array with the most frequent genres
-        const favoriteGenre = favoriteGenreObjects.map((item) => item["genre"]);
-
-        console.log(favoriteGenre);
-        res.status(200).send(favoriteGenre);
-    } catch (error) {
-        res.status(400).send({
-            message: "Error occurred",
-            error: error.message,
-        });
-    }
-};

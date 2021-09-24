@@ -128,27 +128,33 @@ const topRatedMovies = async (req, res) => {
     }
 };
 
-// GET movies by genre and by user id
+// GET movies by first genre and by user id
 const moviesByUserGenre = async (req, res) => {
     try {
         // Looking for the favorite genres at User document
         const user = await User.findById(req.params.userId);
 
-        //const frequency = user.favoriteGenres.map((item) => item["frequency"]);
+        if (user.favoriteGenres.length === 0) {
+            return res.status(404).json({
+                message: "The user doesn't have any movies on the wishlist",
+            });
+        }
+
+        const frequency = user.favoriteGenres.map((item) => item["frequency"]);
 
         // Finding the highest frequency
-        //const maxFrequency = Math.max(...frequency);
+        const maxFrequency = Math.max(...frequency);
+        //console.log(maxFrequency);
 
-        /* const favoriteGenreObjects = user.favoriteGenres.filter(
+        const favoriteGenreObjects = user.favoriteGenres.filter(
             (item) => item.frequency === maxFrequency
         );
+        //console.log(favoriteGenreObjects);
 
         // Get an array with the most frequent genres
         const favoriteGenre = favoriteGenreObjects.map((item) => item["genre"]);
 
-        console.log(favoriteGenre[0]); */
-        /* 
-        // Getting movies by favorite genres
+        // Getting movies by favorite genres (first genre)
         let options = {
             method: "GET",
             url: `https://data-imdb1.p.rapidapi.com/movie/byGen/${favoriteGenre[0]}/`,
@@ -173,6 +179,7 @@ const moviesByUserGenre = async (req, res) => {
         const page = req.params.page - 1;
         const limit = 6;
         const numberOfPages = 5;
+        let start, end;
 
         if (page >= 0 && page < numberOfPages) {
             start = limit * page;
@@ -181,11 +188,87 @@ const moviesByUserGenre = async (req, res) => {
             return res.status(500).json({ message: "No such page found" });
         }
 
-        const byGenreByUser = byGenreWithExtendedInfo.slice(start, end); */
+        const byGenreByUser = byGenreWithExtendedInfo.slice(start, end);
 
-        res.status(200).send(user);
+        res.status(200).json({
+            favoriteGenre: favoriteGenre[0],
+            foundMovies: byGenreByUser,
+        });
 
-        //res.status(200).send(byGenreWithExtendedInfo);
+        //res.status(200).json(frequency);
+    } catch (error) {
+        res.status(400).send({
+            message: "Error occurred",
+            error: error.message,
+        });
+    }
+};
+
+// GET movies by 2nd genre and by user id
+const moviesByUserGenre2 = async (req, res) => {
+    try {
+        // Looking for the favorite genres at User document
+        const user = await User.findById(req.params.userId);
+
+        if (user.favoriteGenres.length === 0) {
+            return res.status(404).json({
+                message: "The user doesn't have any movies on the wishlist",
+            });
+        }
+
+        const frequency = user.favoriteGenres.map((item) => item["frequency"]);
+
+        // Finding the highest frequency
+        const maxFrequency = Math.max(...frequency);
+
+        const favoriteGenreObjects = user.favoriteGenres.filter(
+            (item) => item.frequency === maxFrequency
+        );
+        console.log(favoriteGenreObjects);
+
+        // Get an array with the most frequent genres
+        const favoriteGenre = favoriteGenreObjects.map((item) => item["genre"]);
+
+        // Getting movies by favorite genres (second genre)
+        let options2 = {
+            method: "GET",
+            url: `https://data-imdb1.p.rapidapi.com/movie/byGen/${favoriteGenre[1]}/`,
+            headers: rapidApiHeaders,
+        };
+
+        const foundByGenre2 = await getDataRedisOrApi(
+            `byGenre_${favoriteGenre[1]}`,
+            options2
+        );
+
+        // Get random movies from a certain type genre
+        const randomMoviesByGenre2 = foundByGenre2
+            .sort(() => Math.random() - Math.random())
+            .slice(0, 30);
+
+        const byGenreWithExtendedInfo2 = await findByIdAndMap(
+            randomMoviesByGenre2
+        );
+
+        // limit to 6 movies
+        const page = req.params.page - 1;
+        const limit = 6;
+        const numberOfPages = 5;
+        let start, end;
+
+        if (page >= 0 && page < numberOfPages) {
+            start = limit * page;
+            end = limit + start;
+        } else {
+            return res.status(500).json({ message: "No such page found" });
+        }
+
+        const byGenreByUser2 = byGenreWithExtendedInfo2.slice(start, end);
+
+        res.status(200).json({
+            favoriteGenre: favoriteGenre[1],
+            foundMovies: byGenreByUser2,
+        });
     } catch (error) {
         res.status(400).send({
             message: "Error occurred",
@@ -512,6 +595,7 @@ module.exports = {
     moviesByTitle,
     moviesByDirector,
     moviesByGenre,
+    moviesByUserGenre2,
     moviesByYear,
     movieById,
     moviesByRandomSearch,
