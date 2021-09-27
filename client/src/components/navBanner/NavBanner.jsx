@@ -26,7 +26,7 @@ export default function NavBanner({ children }) {
 					</div>
 
 					<div className='nav-close' id={isOpen ? 'hidden' : ''} onClick={() => setIsOpen(!isOpen)}>
-						x
+						✕
 					</div>
 					<div className='nav-toggle' onClick={() => setIsOpen(!isOpen)}>
 						<i className='fas fa-bars' id={isOpen ? '' : 'hidden'}></i>

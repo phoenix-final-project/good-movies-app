@@ -4,36 +4,54 @@
     .friends-box {
         width: 100%;
         margin-top: 20px;
-
-        /* @include tablet{
-        border: solid 1px white;
-        width:100vw
-    } */
+        
 
         .one-friend-box {
             border-bottom: 1px solid var(--first-color);
-
-            //padding: 30px;
+            // border: solid 1px fuchsia;
 
             padding: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
 
+            @include tablet {
+                padding-left: 0;
+            }
+
+            @include mobile {
+                padding-right: 0;
+            }
+
             .friend-data {
                 width: 100%;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+                // border: solid 1px blue;
+
+                @include mobile {
+                    flex-direction: column;
+                    width: 100%;
+                }
 
                 .friend-data-1st-box {
                     display: flex;
                     padding: 20px;
                     align-items: center;
+                    // border: solid 1px red;
+
+                    @include tablet {
+                        // padding-left: 0;
+                    }
+
+                    @include mobile {
+                        width: 100%;
+                    }
 
                     .avatar {
-                        height: 40px;
-                        width: 40px;
+                        min-height: 40px;
+                        min-width: 40px;
                         margin-right: 10px;
                         border-radius: 50%;
                         background-color: chocolate;
@@ -54,9 +72,33 @@
                 .friend-buttons-div {
                     display: flex;
                     flex-direction: column;
+                    // border: solid 1px green;
+
+                    @include mobile {
+                        width: 100%;
+                        flex-direction: row;
+                        justify-content: space-around;
+                    }
 
                     button {
                         margin-top: 5px;
+
+                        @include mobile {
+                            font-size: 0.8rem;
+                            width: 140px;
+                        }
+                    }
+                    
+                }
+
+                button[disabled] {
+                    background: transparent;
+                    border: 3px solid #494949;
+                    cursor: auto;
+                    color: #494949;
+            
+                    &:hover {
+                        background: transparent;
                     }
                 }
             }

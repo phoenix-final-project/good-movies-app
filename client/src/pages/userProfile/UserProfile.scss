@@ -2,12 +2,20 @@
 
 .user-profile-container {
     // border: 1px lime solid;
-    margin: 1.7% auto;
+    margin: 0 auto;
+    padding: 1.7% 0 20px;
     width: 70%;
+
+    @include tablet {
+        width: 80%;
+    }
+
+    @include mobile {
+        width: 95%;
+    }
 
     header {
         width: 100%;
-
         border-bottom: 1px dotted var(--first-color);
         margin-bottom: 1.8rem;
         padding-bottom: 1rem;
@@ -22,14 +30,27 @@
         width: 100%;
         // border: solid 1px fuchsia;
         display: flex;
-        justify-content: space-around;
+        justify-content: space-evenly;
 
+        @include tablet {
+            justify-content: space-around;
+        }
+    
+        @include mobile {
+            flex-flow: column;
+        }
 
         main {
-            justify-items: flex-end;
+            // justify-items: flex-end;
             // border: solid 1px blue;
-            width: 50%;
-            max-width: 320px;
+            width: 320px;
+            // border: solid 1px orange;
+
+
+            @include mobile {
+                width: 95%;
+                margin: 0 auto;
+            }
 
             .display-user-container {
                 width: 100%;
@@ -39,9 +60,9 @@
                 // border: solid 1px white;
 
                 .avatar {
-                    width: 70px;
-                    height: 70px;
-                    //border: solid 1px white;
+                    min-width: 70px;
+                    min-height: 70px;
+                    // border: solid 1px white;
                     border-radius: 50%;
                     background-color: chocolate;
                     display: flex;
@@ -71,29 +92,61 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: space-around;
-                // border: yellow solid 1px;
+                // border: solid 1px white;
+
+                @include mobile {
+                    flex-direction: row;
+                    height: 60px;
+                }
+
+            }
+        }
+
+        aside {
+            width: 400px;
+
+            @include mobile {
+                width: 95%;
+                margin: 10px auto;
             }
         }
 
         .confirm-delete-div {
-            width: 400px;
+            width: 100%;
             margin: 20px 0;
-            padding: 20px;
-            border: solid 1px var(--first-color);;            border-radius: 5px;
+            border: solid 1px var(--first-color);;            
+            border-radius: 5px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            
 
             p {
-                margin-bottom: 20px;
+                padding: 20px;
             }
+
+            & > div {
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                padding-bottom: 20px;
+            }
+
             button {
-                margin-right: 10px;
+                color: var(--font-color);
+                background-color: var(--first-color);
+
+                &:hover {
+                    background-color: transparent;
+                    color: var(--first-color);
+                }
             }
+            
         }
 
         button {
-            width: 160px;
+            width: 150px;
+            height: fit-content;
             padding: .5rem;
             font-size: 0.7rem;
             color: var(--font-color);
@@ -102,28 +155,32 @@
             border-radius: 10px;
             text-transform: uppercase;
             cursor: pointer;
+            background: transparent;
+                    color: var(--first-color);
 
             letter-spacing: var(--letter-spacing-btn);
             transition: all 0.5s ease-in-out;
 
 
-                @include mobile {
-                    width: 140px;
-                    padding: .2rem;
+                @include tablet {
+                    width: 110px;
                     margin: 0 auto;
+                    letter-spacing: normal;
                 }
 
                 &:hover {
                     background: transparent;
                     color: var(--first-color);
                     transition: all .5s ease;
-                    border-radius: 10px;
+                    // border-radius: 10px;
+                    color: var(--font-color);
+                    background-color: var(--first-color);
                 }
         }
     }
 
     .update-user-form-container {
-        width: 400px;
+        width: 100%;
 
         border: solid 1px var(--first-color);;
         border-radius: 5px;
@@ -162,6 +219,16 @@
                 margin-top: 10px;
                 display: flex;
                 justify-content: flex-end;
+
+                button {
+                    color: var(--font-color);
+                    background-color: var(--first-color);
+
+                    &:hover {
+                        background-color: transparent;
+                        color: var(--first-color);
+                    }
+                }
             }
         }
 
@@ -189,6 +256,13 @@
     
             @include tablet {
                 font-size: 1.4rem;
+            }
+
+            @include mobile {
+                width: 30px;
+                height: 30px;
+                right: -15px;
+                top: -15px;
             }
         
         }

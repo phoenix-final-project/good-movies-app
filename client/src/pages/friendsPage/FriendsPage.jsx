@@ -48,7 +48,7 @@ export default function FriendsPage() {
             setIsAlreadyFriend(true);
             setKeyword("");
         } catch (error) {
-            //console.log("Something went wrong", error.response.data.message);
+            // console.log("Something went wrong", error.response.data.message);
             setIsError(true);
             setErrorMessage(error.response.data.message);
             setKeyword("");
@@ -76,9 +76,10 @@ export default function FriendsPage() {
                     <span className="visually-hidden">Find a new friend</span>
                 </label>
                 <input
+                    required
                     type="text"
                     id="header-search"
-                    placeholder="Find a friend"
+                    placeholder="Find a new friend"
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
                 />

@@ -11,6 +11,7 @@ const {
     movieById,
     topRatedMovies,
     moviesByRandomSearch,
+    moviesByUserGenreTest,
 } = require("../controllers/movieControllers");
 
 // FOR LANDING PAGE - after login:
@@ -25,9 +26,11 @@ router.get("/toprated/:page", topRatedMovies);
 
 // GET movies by genre and by user id  (1st genre)
 router.get("/byGenre/:userId/:page", moviesByUserGenre);
+// router.get("/byGenre/:userId", moviesByUserGenreTest);
 
 // GET movies by genre and by user id  (2nd genre)
 router.get("/byGenre2/:userId/:page", moviesByUserGenre2);
+
 
 // FOR SEARCH:
 // **************************************
@@ -46,12 +49,11 @@ router.get("/year/:year/:page", moviesByYear);
 // GET movies by director - IN PROCESS
 router.get("/director/:director/:page", moviesByDirector);
 
+
 // FOR INDIVIDUAL MOVIE:
 // **************************************
 router.get("/oneMovieById/:imdbId", movieById);
 // check: http://localhost:5000/api/movie/oneMovieById/tt0451279
 
-// General search by title/year/genre/director
-// router.get("/search/:searchParam", moviesByRandomSearch);
 
 module.exports = router;
