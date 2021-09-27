@@ -26,9 +26,8 @@ export default function PrivateNavigation() {
 			<NavLink exact to='/friends'>
 				<div className='tour'>FRIENDS</div>
 			</NavLink>
-			{/* <NavLink exact to='/invite-friends'><div className="tour">INVITE FRIENDS</div></NavLink> */}
 			<NavLink exact to='/my-profile'>
-				<div className='tour'>PROFILE</div>
+				<div className='tour username'>{window.localStorage.getItem("username")}'s profile</div>
 			</NavLink>
 
 			<Notification />

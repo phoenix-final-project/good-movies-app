@@ -3,15 +3,27 @@
 .friends-page {
     margin: 3% auto;
     width: 60%;
+    // border: 1px solid red;
+
+    @include tablet {
+        width: 80%;
+        margin: 0 auto;
+        padding: 30px 0;
+    }
+
+    @include mobile {
+        width: 95%;
+    }
 
     h2 {
         color: var(--first-color);
     }
 
+
     button {
         display: inline-block;
 
-        width: 170px;
+        width: 150px;
         padding: 5px 0;
         font-weight: bold;
         color: var(--font-color);
@@ -47,6 +59,7 @@
             border-radius: 3px;
             padding: 5px;
             outline: none;
+            margin: 0 10px 10px 0;
         }
 
         .visually-hidden {
@@ -90,7 +103,8 @@
         border: solid 2px var(--first-color);
         border-radius: 5px;
         padding: 10px;
-        margin-top: 30px;
+        text-align: center;
+        margin: 30px auto 0;
     }
 
     .back-friends-div {

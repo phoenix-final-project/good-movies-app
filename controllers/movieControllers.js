@@ -168,8 +168,9 @@ const moviesByUserGenre = async (req, res) => {
 
         // Get random movies from a certain type genre
         const randomMoviesByGenre = foundByGenre
-            .sort(() => Math.random() - Math.random())
+            // .sort(() => Math.random() - Math.random())
             .slice(0, 30);
+        
 
         const byGenreWithExtendedInfo = await findByIdAndMap(
             randomMoviesByGenre
@@ -224,7 +225,7 @@ const moviesByUserGenre2 = async (req, res) => {
         const favoriteGenreObjects = user.favoriteGenres.filter(
             (item) => item.frequency === maxFrequency
         );
-        console.log(favoriteGenreObjects);
+        // console.log(favoriteGenreObjects);
 
         // Get an array with the most frequent genres
         const favoriteGenre = favoriteGenreObjects.map((item) => item["genre"]);
@@ -243,7 +244,7 @@ const moviesByUserGenre2 = async (req, res) => {
 
         // Get random movies from a certain type genre
         const randomMoviesByGenre2 = foundByGenre2
-            .sort(() => Math.random() - Math.random())
+            // .sort(() => Math.random() - Math.random())
             .slice(0, 30);
 
         const byGenreWithExtendedInfo2 = await findByIdAndMap(
@@ -584,9 +585,6 @@ const movieById = async (req, res) => {
         });
 };
 
-const moviesByRandomSearch = async (req, res) => {
-    res.status(200).json({ message: "connected to movieByRandomSearch" });
-};
 
 module.exports = {
     upcomingMovies,
@@ -597,6 +595,5 @@ module.exports = {
     moviesByGenre,
     moviesByUserGenre2,
     moviesByYear,
-    movieById,
-    moviesByRandomSearch,
+    movieById
 };
