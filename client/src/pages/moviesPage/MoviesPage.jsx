@@ -51,6 +51,10 @@ export default function MoviesPage() {
         }
     }, [page1]);
 
+    useEffect(() => {
+        getUpcomingMovies();
+    }, [page1, getUpcomingMovies])
+
     const getTopRatedMovies = useCallback(async () => {
         try {
             let res = await axiosApiInstance.get(
@@ -58,6 +62,7 @@ export default function MoviesPage() {
             );
 
             if (res.status === 200) {
+                // console.log(res.data);
                 setTopRatedMovies(res.data.foundMovies);
                 setLastPage2(res.data.numberOfPages);
             }
@@ -68,6 +73,11 @@ export default function MoviesPage() {
         }
     }, [page2]);
 
+    useEffect(() => {
+        getTopRatedMovies();
+    }, [page2, getTopRatedMovies])
+
+
     // getting movies by 1st favorite genre
     const getMoviesByGenre = useCallback(async () => {
         try {
@@ -76,25 +86,31 @@ export default function MoviesPage() {
             );
 
             if (res.status === 200) {
-                //console.log(res.data);
+                // console.log(res.data);
                 setFavoriteGenresMovies(res.data.foundMovies);
                 setLastPage3(5);
                 setIsFavoriteGenre(true);
                 setGenre(res.data.favoriteGenre);
-                //console.log(res.data.favoriteGenre);
+                // console.log(res.data.favoriteGenre);
             }
         } catch (error) {
             console.log("Something went wrong", error.message);
         }
     }, [page3]);
 
+    useEffect(() => {
+        getMoviesByGenre();
+    }, [
+        page3,
+        lastPage3,
+        getMoviesByGenre,
+    ]);
+
     // getting movies by 2nd favorite genre
     const getMoviesByGenre2 = useCallback(async () => {
         try {
             let res = await axiosApiInstance.get(
-                `/api/movie/byGenre2/${localStorage.getItem(
-                    "user_id"
-                )}/${page4}`
+                `/api/movie/byGenre2/${localStorage.getItem("user_id")}/${page4}`
             );
 
             if (res.status === 200) {
@@ -108,29 +124,16 @@ export default function MoviesPage() {
             }
         } catch (error) {
             console.log("Something went wrong", error.message);
+            setNoFavoriteGenre2(true)
         }
     }, [page4]);
 
     // getting the data from backend (movies)
     useEffect(() => {
-        getUpcomingMovies();
-        getTopRatedMovies();
-        getMoviesByGenre();
         getMoviesByGenre2();
     }, [
-        page1,
-        page2,
-        page3,
         page4,
-
-        lastPage1,
-        lastPage2,
-        lastPage3,
         lastPage4,
-
-        getUpcomingMovies,
-        getTopRatedMovies,
-        getMoviesByGenre,
         getMoviesByGenre2,
     ]);
 
@@ -162,11 +165,13 @@ export default function MoviesPage() {
     const handleBackwardButton4 = () => {
         setPage4(page4 - 1);
     };
+    
 
     return (
         <React.Fragment>
             {/* SEARCH MOVIES component */}
             <SearchMovies />
+
             {/* UPCOMING MOVIES box */}
             <h3 className="movies-title">Upcoming Movies </h3>
             <div className="moviesContainer">
@@ -246,7 +251,17 @@ export default function MoviesPage() {
                                     setMovieCardOn("");
                                 }}
                             >
-                                <img src={item.image_url} alt={item.title} />
+                                <img
+                                    src={
+                                        item.image_url !== "aa.com"
+                                            ? item.image_url
+                                            : "../../images/poster_blank.png"
+                                    }
+                                    alt={item.title}
+                                />
+                                {item.image_url !== "aa.com" ? null : (
+                                    <div className="posterTitle">{item.title}</div>
+                                )}
                             </div>
                         ))}
                         <div className="buttonContainer">
@@ -262,10 +277,11 @@ export default function MoviesPage() {
                         </div>
                     </div>
                 </div>
-            ) : null}
+            )
+                : null}
 
             {/* 2nd FAVORITE GENRE MOVIES box */}
-            {noFavoriteGenre2 ? null : (
+            {!noFavoriteGenre2 && window.localStorage.getItem("username") ? (
                 <div>
                     <h3 className="movies-title">{`Because you like ${genre2} movies`}</h3>
                     <div className="moviesContainer">
@@ -291,7 +307,17 @@ export default function MoviesPage() {
                                     setMovieCardOn("");
                                 }}
                             >
-                                <img src={item.image_url} alt={item.title} />
+                                <img
+                                    src={
+                                        item.image_url !== "aa.com"
+                                            ? item.image_url
+                                            : "../../images/poster_blank.png"
+                                    }
+                                    alt={item.title}
+                                />
+                                {item.image_url !== "aa.com" ? null : (
+                                    <div className="posterTitle">{item.title}</div>
+                                )}
                             </div>
                         ))}
                         <div className="buttonContainer">
@@ -307,7 +333,8 @@ export default function MoviesPage() {
                         </div>
                     </div>
                 </div>
-            )}
+            )
+                : null}
 
             {/* TOP RATED MOVIES box */}
             <h3 className="movies-title">Top Rated Movies</h3>

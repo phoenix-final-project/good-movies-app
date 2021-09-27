@@ -44,7 +44,7 @@ ul {
 
 // globally btn
 .btn {
-    width: 57%;
+    width: 160px;
     padding: .4em;
     color: var(--font-color);
     background-color: var(--first-color);
@@ -60,13 +60,13 @@ ul {
     }
 
     @include tablet {
-        width: 60%;
+        // width: 60%;
         padding: 0.4rem;
         font-size: 0.8rem;
     }
 
     @include mobile {
-        width: 50%;
+        width: 140px;
         font-size: 0.6rem;
         padding: 0.4rem;
     }

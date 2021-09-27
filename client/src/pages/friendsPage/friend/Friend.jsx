@@ -145,6 +145,7 @@ export default function Friend({ searchOrFriends }) {
                             ) : (
                                 <button
                                     onClick={() => addFriend(item.username)}
+                                    disabled={item.username === window.localStorage.getItem("username") ? true : false}
                                 >
                                     Add Friend
                                 </button>

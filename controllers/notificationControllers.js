@@ -41,14 +41,16 @@ exports.getAllNotifications = async (req, res) => {
 
 	try {
 		// get all notifications of a current user
-		const userNotificationsAll = await Notification.find({ user2: userId }).populate('user1');
+		const userNotificationsAll = await Notification.find({ user2: userId }).sort({ date: -1 }).populate('user1');
 
 		// get the needed data of a friend and of a movie of all current user's notifications
 		const notificationDataRaw = userNotificationsAll.map(async notification => {
 			const userData = {
 				id: notification.user1._id,
 				username: notification.user1.username,
+				firstname: notification.user1.firstname,
 				avatar: notification.user1.avatar,
+				avatarColor: notification.user1.avatarColor,
 			};
 
 			const response = await findMovieById(notification.movieId);
