@@ -124,6 +124,7 @@ export default function MoviesPage() {
             }
         } catch (error) {
             console.log("Something went wrong", error.message);
+            setNoFavoriteGenre2(true)
         }
     }, [page4]);
 
