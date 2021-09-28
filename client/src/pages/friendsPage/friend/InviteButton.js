@@ -35,7 +35,15 @@ function InviteButton({ friendId, movie, invitations }) {
 		}
 	};
 
-	return <div>{isInvited ? <button className='invited'>Invited</button> : <button onClick={() => inviteToWatch(movie.imdb_id)}>Invite to Watch</button>}</div>;
+	return (
+		<div className='one-movie-box-button'>
+			{isInvited ?
+				<button className='invited'>Invited</button>
+				:
+				<button onClick={() => inviteToWatch(movie.imdb_id)}>Invite to Watch</button>
+			}
+		</div>
+	);
 }
 
 export default InviteButton;
