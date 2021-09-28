@@ -1,8 +1,6 @@
 const axios = require("axios").default;
 const { findByIdAndMap } = require("../helpers/findByIdAndMap");
-const { paginationHelper } = require("../helpers/paginationHelper");
 const getDataRedisOrApi = require("../helpers/getDataRedisOrApi");
-const { redisClient } = require("../redis-server");
 const User = require("../models/User");
 
 const rapidApiHeaders = {
@@ -34,9 +32,6 @@ const upcomingMovies = async (req, res) => {
                     movie.imdb_id !== "tt10838180"
             );
 
-            // (movie.imdb_id !== "tt9115530" && movie.imdb_id !== "tt10838180")
-
-            // will try to make a helper for pagination later - this code is working
             const page = req.params.page - 1;
             const limit = 6;
             const numberOfPages = Math.ceil(numberOfMovies / limit);
@@ -49,9 +44,6 @@ const upcomingMovies = async (req, res) => {
             } else {
                 return res.status(500).json({ message: "No such page found" });
             }
-            // the end of helper will be here
-
-            // await paginationHelper(req, numberOfMovies)
 
             // displaying 6 movies / page
             const upcoming = upcomingAllCleaned.slice(start, end);
@@ -94,7 +86,6 @@ const topRatedMovies = async (req, res) => {
         // limit to 6 movies
         const numberOfMovies = topRatedMoviesAll.length;
 
-        // will try to make a helper for pagination later - this code is working
         const page = req.params.page - 1;
         const limit = 6;
         const numberOfPages = Math.ceil(numberOfMovies / limit);
@@ -107,7 +98,6 @@ const topRatedMovies = async (req, res) => {
         } else {
             return res.status(500).json({ message: "No such page found" });
         }
-        // the end of helper will be here
 
         // displaying 6 movies / page
         const topRatedMovies = topRatedMoviesAll.slice(start, end);
@@ -130,6 +120,7 @@ const topRatedMovies = async (req, res) => {
 
 // GET movies by first genre and by user id
 const moviesByUserGenre = async (req, res) => {
+
     try {
         // Looking for the favorite genres at User document
         const user = await User.findById(req.params.userId);
@@ -144,12 +135,10 @@ const moviesByUserGenre = async (req, res) => {
 
         // Finding the highest frequency
         const maxFrequency = Math.max(...frequency);
-        //console.log(maxFrequency);
 
         const favoriteGenreObjects = user.favoriteGenres.filter(
             (item) => item.frequency === maxFrequency
         );
-        //console.log(favoriteGenreObjects);
 
         // Get an array with the most frequent genres
         const favoriteGenre = favoriteGenreObjects.map((item) => item["genre"]);
@@ -161,42 +150,31 @@ const moviesByUserGenre = async (req, res) => {
             headers: rapidApiHeaders,
         };
 
-        const foundByGenre = await getDataRedisOrApi(
-            `byGenre_${favoriteGenre[0]}`,
-            options
-        );
+        axios
+            .request(options)
+            .then(async (response) => {
+                const foundByGenre = await Object.values(response.data)[0];
 
-        // Get random movies from a certain type genre
-        const randomMoviesByGenre = foundByGenre
-            // .sort(() => Math.random() - Math.random())
-            .slice(0, 30);
-        
+                // Get random movies from a certain type genre
+                const randomMoviesByGenre = foundByGenre
+                    .sort(() => Math.random() - Math.random())
+                    .slice(0, 30);
+                
+                const byGenreWithExtendedInfo = await findByIdAndMap(
+                    randomMoviesByGenre
+                );
 
-        const byGenreWithExtendedInfo = await findByIdAndMap(
-            randomMoviesByGenre
-        );
+                res.status(200).json({
+                    favoriteGenre: favoriteGenre[0],
+                    numberOfMovies: byGenreWithExtendedInfo.length,
+                    foundMovies: byGenreWithExtendedInfo,
+                });
+            })
+            .catch((error) => {
+                console.error(error.message);
+                res.status(400).json({ error: error.message });
+            });
 
-        // limit to 6 movies
-        const page = req.params.page - 1;
-        const limit = 6;
-        const numberOfPages = 5;
-        let start, end;
-
-        if (page >= 0 && page < numberOfPages) {
-            start = limit * page;
-            end = limit + start;
-        } else {
-            return res.status(500).json({ message: "No such page found" });
-        }
-
-        const byGenreByUser = byGenreWithExtendedInfo.slice(start, end);
-
-        res.status(200).json({
-            favoriteGenre: favoriteGenre[0],
-            foundMovies: byGenreByUser,
-        });
-
-        //res.status(200).json(frequency);
     } catch (error) {
         res.status(400).send({
             message: "Error occurred",
@@ -207,6 +185,7 @@ const moviesByUserGenre = async (req, res) => {
 
 // GET movies by 2nd genre and by user id
 const moviesByUserGenre2 = async (req, res) => {
+
     try {
         // Looking for the favorite genres at User document
         const user = await User.findById(req.params.userId);
@@ -225,58 +204,50 @@ const moviesByUserGenre2 = async (req, res) => {
         const favoriteGenreObjects = user.favoriteGenres.filter(
             (item) => item.frequency === maxFrequency
         );
-        // console.log(favoriteGenreObjects);
 
         // Get an array with the most frequent genres
         const favoriteGenre = favoriteGenreObjects.map((item) => item["genre"]);
 
-        // Getting movies by favorite genres (second genre)
-        let options2 = {
+        // Getting movies by favorite genres (first genre)
+        let options = {
             method: "GET",
             url: `https://data-imdb1.p.rapidapi.com/movie/byGen/${favoriteGenre[1]}/`,
             headers: rapidApiHeaders,
         };
 
-        const foundByGenre2 = await getDataRedisOrApi(
-            `byGenre_${favoriteGenre[1]}`,
-            options2
-        );
+        axios
+            .request(options)
+            .then(async (response) => {
+                const foundByGenre2 = await Object.values(response.data)[0];
 
-        // Get random movies from a certain type genre
-        const randomMoviesByGenre2 = foundByGenre2
-            // .sort(() => Math.random() - Math.random())
-            .slice(0, 30);
+                // Get random movies from a certain type genre
+                const randomMoviesByGenre2 = foundByGenre2
+                    .sort(() => Math.random() - Math.random())
+                    .slice(0, 30);
+                
+                const byGenreWithExtendedInfo2 = await findByIdAndMap(
+                    randomMoviesByGenre2
+                );
 
-        const byGenreWithExtendedInfo2 = await findByIdAndMap(
-            randomMoviesByGenre2
-        );
+                res.status(200).json({
+                    favoriteGenre2: favoriteGenre[1],
+                    numberOfMovies: byGenreWithExtendedInfo2.length,
+                    foundMovies: byGenreWithExtendedInfo2,
+                });
+            })
+            .catch((error) => {
+                console.error(error.message);
+                res.status(400).json({ error: error.message });
+            });
 
-        // limit to 6 movies
-        const page = req.params.page - 1;
-        const limit = 6;
-        const numberOfPages = 5;
-        let start, end;
-
-        if (page >= 0 && page < numberOfPages) {
-            start = limit * page;
-            end = limit + start;
-        } else {
-            return res.status(500).json({ message: "No such page found" });
-        }
-
-        const byGenreByUser2 = byGenreWithExtendedInfo2.slice(start, end);
-
-        res.status(200).json({
-            favoriteGenre: favoriteGenre[1],
-            foundMovies: byGenreByUser2,
-        });
     } catch (error) {
-        res.status(400).send({
+        res.status(401).send({
             message: "Error occurred",
             error: error.message,
         });
     }
 };
+
 
 // FOR SEARCH:
 // **************************************
@@ -480,12 +451,12 @@ const moviesByDirector = async (req, res) => {
                 .includes("kubrick")
                 ? [foundPeople[0]]
                 : req.params.director.toLowerCase().includes("pedro almodóvar")
-                ? [{ imdb_id: "nm0000264", name: "Pedro Almodóvar" }]
-                : req.params.director.toLowerCase().includes("pedro almodovar")
-                ? [{ imdb_id: "nm0000264", name: "Pedro Almodóvar" }]
-                : req.params.director.toLowerCase().includes("paul anderson")
-                ? [{ imdb_id: "nm0027271", name: "Paul Anderson" }]
-                : foundPeople;
+                    ? [{ imdb_id: "nm0000264", name: "Pedro Almodóvar" }]
+                    : req.params.director.toLowerCase().includes("pedro almodovar")
+                        ? [{ imdb_id: "nm0000264", name: "Pedro Almodóvar" }]
+                        : req.params.director.toLowerCase().includes("paul anderson")
+                            ? [{ imdb_id: "nm0027271", name: "Paul Anderson" }]
+                            : foundPeople;
 
             const peopleInfo = foundPeopleCondition.map(async (person) => {
                 let options = {
@@ -586,6 +557,7 @@ const movieById = async (req, res) => {
 };
 
 
+
 module.exports = {
     upcomingMovies,
     topRatedMovies,
@@ -595,5 +567,5 @@ module.exports = {
     moviesByGenre,
     moviesByUserGenre2,
     moviesByYear,
-    movieById
+    movieById,
 };
