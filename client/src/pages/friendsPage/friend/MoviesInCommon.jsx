@@ -47,7 +47,14 @@ export default function MoviesInCommon({ friendFirstname, friendLastname, friend
 					{commonWishlist.map(movie => (
 						<div key={movie.imdb_id} className='one-movie-box'>
 							<div className='one-movie-box-data'>
-								<img src={movie.image_url} alt='' />
+								<img
+									src={
+										movie.image_url !== "aa.com"
+											? movie.image_url
+											: "../../images/poster_blank.png"
+									}
+									alt={movie.title}
+								/>
 
 								<div className='movie-data'>
 									<p>
@@ -58,7 +65,7 @@ export default function MoviesInCommon({ friendFirstname, friendLastname, friend
 									</p>
 									{movie.movie_length !== 0 && (
 										<p>
-											Length: <span>{movie.movie_length}</span>
+											Length: <span>{movie.movie_length} min</span>
 										</p>
 									)}
 									<p>
