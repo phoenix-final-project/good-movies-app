@@ -27,8 +27,7 @@ export default function TextBanner() {
                         </li>
 
                         <li>
-                            <i className="fas fa-video"></i> Get help deciding
-                            the movie you will watch tonight
+                            <i className="fas fa-video"></i> Pick a random movie from your wishlist
                         </li>
                         <li>
                             <i className="fas fa-video"></i> And get some

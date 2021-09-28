@@ -60,7 +60,14 @@ function Notification() {
 							</div>
 
 							<div>
-								<img src={item.movie.image} alt={item.movie.title} />
+								<img
+									src={
+										item.movie.image !== "aa.com"
+											? item.movie.image
+											: "../../images/poster_blank.png"
+									}
+									alt={item.movie.title}
+								/>
 							</div>
 						</div>
 					))}

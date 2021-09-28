@@ -157,7 +157,7 @@ function SearchMovies() {
                     <div>
                         <div style={{ textAlign: "center" }}>Page : {page} / {lastPage}</div>
 
-                        <div className="buttonContainerSearch">
+                        <div className="search-container-button">
                             {page === 1 ? null : <button className="prev" onClick={handleBackwardButton}>❮ Previous</button>}
 
                             {page >= lastPage ? null : <button className="next" onClick={handleForwardButton}>Next ❯</button>}
@@ -211,7 +211,7 @@ function SearchMovies() {
                 <div>
                     <div style={{ textAlign: "center" }}>Page : {page} / {lastPage}</div>
 
-                    <div className="buttonContainerSearch">
+                    <div className="search-container-button">
                         {page === 1 ? null : <button className="prev" onClick={handleBackwardButton}>❮ Previous</button>}
 
                         {page >= lastPage ? null : <button className="next" onClick={handleForwardButton}>Next ❯</button>}

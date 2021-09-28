@@ -106,7 +106,8 @@
     }
 
     .error-alert {
-        width: 25%;
+        width: 280px;
+        
         margin: 0 auto;
         padding: 10px;
         border: solid 2px var(--first-color);
@@ -142,10 +143,12 @@
     .common-movies-card {
         border: solid 2px var(--first-color);
         border-radius: 5px;
-        margin-top: 20px;
+        // margin-top: 20px;
         width: 60vw;
+        height: 70vh;
         position: relative;
-        padding-top: 20px;
+        // padding-top: 20px;
+        // border: fuchsia 1px dashed;
 
         position: absolute;
         left: 50%;
@@ -154,15 +157,39 @@
         background-color: #333333;
         box-shadow: 0 0 10px var(--first-color);
 
+        @include tablet {
+            width: 75vw;
+            max-height: 90%;
+        }
+
+        @include mobile {
+            width: 85vw;
+        }
+
         h3 {
             color: var(--first-color);
             text-align: center;
-            padding-bottom: 15px;
+            height: 40px;
+            line-height: 45px;
+
+            @include mobile {
+                font-size: 0.8rem;
+            }
+
+
 
             span {
                 text-decoration: underline;
                 text-underline-position: under;
             }
+
+        }
+
+        button.invited, button.invited:hover {
+            background: #333333;
+            border: 3px solid #494949;
+            cursor: auto;
+            color: var(--font-color);
         }
 
         button#closeCard {
@@ -181,12 +208,20 @@
                 background: transparent;
                 color: var(--first-color);
             }
+
+            @include tablet {
+                width: 34px;
+                height: 34px;
+                right: -17px;
+                top: -17px;
+                font-size: 1.2rem;
+            }
         }
 
         .common-movies-container {
             width: 100%;
-            height: 65vh;
-            min-height: 370px;
+            height: calc(100% - 45px);
+            // min-height: 370px;
             overflow-y: scroll;
 
             -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
@@ -205,13 +240,30 @@
                 justify-content: space-between;
                 align-items: center;
 
+                @include tablet {
+                    padding: 10px;
+                }
+
+                @include mobile {
+                    padding: 5px;
+                    flex-wrap: wrap;
+                }
+
                 .one-movie-box-data {
                     display: flex;
+
+                    @include mobile {
+                        font-size: 0.8rem;
+                    }
 
                     img {
                         height: 150px;
                         margin-right: 15px;
                         border: solid;
+
+                        @include tablet {
+                            height: 120px;
+                        }
                     }
 
                     .movie-data {
@@ -224,6 +276,23 @@
                             }
                         }
                     }
+                }
+
+                .one-movie-box-button {
+                    // border: 1px solid green;
+
+                    @include mobile {
+                        width: 100%;
+                        text-align: center;
+                        margin: 10px 0;
+                    }
+
+                    button {
+                        @include tablet {
+                            width: 140px;
+                        }
+                    }
+
                 }
             }
         }
