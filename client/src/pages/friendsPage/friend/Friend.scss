@@ -165,6 +165,13 @@
             }
         }
 
+        button.invited, button.invited:hover {
+            background: #333333;
+            border: 3px solid #494949;
+            cursor: auto;
+            color: var(--font-color);
+        }
+
         button#closeCard {
             width: 50px;
             height: 50px;
