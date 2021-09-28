@@ -9,13 +9,13 @@ function InviteButton({ friendId, movie, invitations }) {
 	// console.log(a);
 
 	useEffect(() => {
-		invitations.forEach(invitation => {
-			if (invitation.friend === friendId && invitation.movie === movie.imdb_id) setIsInvited(true);
+		// invitations.forEach(invitation => {
+		// if (invitation.friend === friendId && invitation.movie === movie.imdb_id) setIsInvited(true);
 
-			// const a = invitations.some(invitation => invitation.friend === friendId && invitation.movie === movie.imdb_id);
-			// setIsInvited(invitations.some(invitation => invitation.friend === friendId && invitation.movie === movie.imdb_id));
-		});
-	}, []);
+		// const a = invitations.some(invitation => invitation.friend === friendId && invitation.movie === movie.imdb_id);
+		setIsInvited(invitations.some(invitation => invitation.friend === friendId && invitation.movie === movie.imdb_id));
+		// });
+	}, [friendId, invitations]);
 
 	const inviteToWatch = async movieId => {
 		const info = {
