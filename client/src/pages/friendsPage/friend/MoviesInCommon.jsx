@@ -1,24 +1,37 @@
 import { useState, useEffect } from 'react';
 import './Friend.scss';
 import axios from '../../../util/APIinstance';
+import InviteButton from './InviteButton';
 
 export default function MoviesInCommon({ friendFirstname, friendLastname, friendId, commonWishlist, showMovie, setShowMoviesInCommon, setIsMovieInCommon }) {
-	const [isInvited, setIsInvited] = useState(false);
+	const [invitations, setInvitations] = useState([]);
 
-	const inviteToWatch = async movieId => {
-		const info = {
-			user1: window.localStorage.getItem('user_id'),
-			user2: friendId,
-			movieId,
-		};
-
+	const getAllInvitations = async () => {
 		try {
-			const response = await axios.post('/api/notification/create', info);
-			console.log(response.data);
+			// get all
+			const response = await axios.get(`/api/notification/all/${window.localStorage.getItem('user_id')}`);
+
+			const allInvitations = response.data.map(invitation => {
+				const data = { friend: invitation.friend.id, movie: invitation.movie.imdb_id };
+				return data;
+			});
+
+			// for each movie in common list, check, if there is already an invitation
+			const existingInvitations = commonWishlist
+				.map(movie => {
+					return allInvitations.filter(invitation => invitation.movie === movie.imdb_id);
+				})
+				.flat();
+			setInvitations(existingInvitations);
+			// console.log(existingInvitations);
 		} catch (error) {
-			console.log(error.message);
+			console.log(error);
 		}
 	};
+
+	useEffect(() => {
+		getAllInvitations();
+	}, []);
 
 	return (
 		<section className={`cover-outside-card ${showMovie}`}>
@@ -53,11 +66,7 @@ export default function MoviesInCommon({ friendFirstname, friendLastname, friend
 									</p>
 								</div>
 							</div>
-
-							<div>
-								{isInvited ? <button>Invited</button> : <button onClick={() => inviteToWatch(movie.imdb_id)}>Invite to Watch</button>}
-								{/* <button onClick={() => inviteToWatch(movie.imdb_id)}>{isInvited ? 'Invited' : 'Invite to watch'}</button> */}
-							</div>
+							<InviteButton friendId={friendId} movie={movie} invitations={invitations} />
 						</div>
 					))}
 				</div>
