@@ -15,7 +15,7 @@ function InviteButton({ friendId, movie, invitations }) {
 		// const a = invitations.some(invitation => invitation.friend === friendId && invitation.movie === movie.imdb_id);
 		setIsInvited(invitations.some(invitation => invitation.friend === friendId && invitation.movie === movie.imdb_id));
 		// });
-	}, [friendId, invitations]);
+	}, [friendId, invitations, movie.imdb_id]);
 
 	const inviteToWatch = async movieId => {
 		const info = {
