@@ -358,7 +358,7 @@
                         .message {
                             span {
                                 color: var(--first-color);
-                                font-style: italic;
+                                // font-style: italic;
                                 font-weight: bold;
                             }
                         }
@@ -366,10 +366,7 @@
                         .invited {
                             color: var(--first-color);
                             font-size: .7rem;
-
-                            span {
-                                font-style: italic;
-                            }
+                            // font-style: italic;
                         }
                     }
 

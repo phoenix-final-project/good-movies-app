@@ -57,10 +57,7 @@ function Notification() {
 								<p className='message'>
 									wants to watch <span>{item.movie.title}</span> with you.
 								</p>
-								<p className='invited'>
-									{' '}
-									INVITED: <span>{item.created === 0 ? 'today' : item.created + ' days ago'}</span>
-								</p>
+								<p className='invited'>invited {item.created === 0 ? 'today' : item.created === 1 ? item.created + ' day ago' : item.created + ' days ago'}</p>
 							</div>
 
 							<div>
