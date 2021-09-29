@@ -88,7 +88,8 @@ export default function UserWishlistPage() {
 		<div className='movie-list-container'>
 			<div className='div-container'>
 				<ListsHeading title='Want to Watch' numOfMovies={numOfMovies}/>
-				<div>
+
+				<div className="choose-btn">
 					<button className="btn" onClick={randomMoviePicker}>choose for me</button>
 				</div> 
 			</div>

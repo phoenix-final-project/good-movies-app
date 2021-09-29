@@ -16,7 +16,7 @@ export default function Upcoming() {
     const [movieId, setMovieId] = useState("");
     const [page1, setPage1] = useState(1);
     const [lastPage1, setLastPage1] = useState();
-    
+
 
     // pop-up "modal" for a movie
     const [movieCardOn, setMovieCardOn] = useState("");
@@ -42,7 +42,7 @@ export default function Upcoming() {
         getUpcomingMovies();
     }, [page1, getUpcomingMovies])
 
-    
+
     // Pagination
     // FORWARD
     const handleForwardButton1 = () => {
@@ -53,7 +53,7 @@ export default function Upcoming() {
     const handleBackwardButton1 = () => {
         setPage1(page1 - 1);
     };
-    
+
 
     return (
         <React.Fragment>
@@ -61,8 +61,9 @@ export default function Upcoming() {
             {/* UPCOMING MOVIES box */}
             <h3 className="movies-title">Upcoming Movies </h3>
             <div className="moviesContainer">
-                <div className="buttonContainer">
-                    {page1 === 1 ? null : (
+
+                {page1 === 1 ? null : (
+                    <div className="button-container-prev">
                         <button
                             className="prev"
                             onClick={handleBackwardButton1}
@@ -70,8 +71,8 @@ export default function Upcoming() {
                             {" "}
                             <i className="fas fa-chevron-circle-left"></i>
                         </button>
-                    )}
-                </div>
+                    </div>
+                )}
 
                 {upcomingMovies.map((item) => (
                     <div
@@ -98,14 +99,16 @@ export default function Upcoming() {
                         )}
                     </div>
                 ))}
-                <div className="buttonContainer">
-                    {page1 >= lastPage1 ? null : (
+                {page1 >= lastPage1 ? null : (
+                    <div className="button-container-next">
+
                         <button className="next" onClick={handleForwardButton1}>
                             {" "}
                             <i className="fas fa-chevron-circle-right"></i>{" "}
                         </button>
-                    )}
-                </div>
+
+                    </div>
+                )}
             </div>
 
             {showMovie ? (

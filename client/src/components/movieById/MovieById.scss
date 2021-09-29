@@ -5,20 +5,24 @@
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0,0,0,0.6);
+    background-color: rgba(0,0,0,0.7);
     left: 0;
     top: 0;
     z-index: 1000;
 }
 
 .movieCard {
-    width: 50vw;
-    min-height: 420px;
+    width: 60vw;
+    max-height: 70vh;
+    height: fit-content;
+    position: relative;
+
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    
+    // border: 1px solid red;
+
     background-color: #333333;
     display: flex;
     justify-content: space-between;
@@ -27,7 +31,15 @@
     position: relative;
     
     @include tablet {
-        width: 75vw;
+        width: 80vw;
+        min-height: 310px;
+        font-size: 0.9rem;
+    }
+
+    @include mobile {
+        width: 85vw;
+        font-size: 0.8rem;
+        padding-bottom: 0;
     }
 
     .info-buttons button {
@@ -75,12 +87,15 @@
             font-size: 1.4rem;
             width: 40px;
             height: 40px;
+            right: -20px;
+            top: -20px;
         }
     }
 
     .poster {
         width: 20%;
-        min-width: 100px;
+        height: auto;
+        min-width: 80px;
         margin-right: 10px;
 
         img {
@@ -92,10 +107,17 @@
 
     .info {
         width: 75%;
+        // height: fit-content;
         display: flex;
         flex-flow: column;
         justify-content: space-between;
-        padding: 5px 0;
+        padding: 0 5px;
+
+        // border: 1px solid yellow;
+
+        &> div {
+            margin-bottom: 10px;
+        }
 
         .title {
             margin: 0;
@@ -113,16 +135,40 @@
         }
 
         .desc {
-
+           
             @include tablet {
                 font-size: .9em;
             }
         }
 
-        .movie-desc {
+        .desc-container {
+            overflow-y: scroll;
+
+            // -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+            // scrollbar-width: none; /* Hide scrollbar for Firefox */
+
+            // /* Hide scrollbar for Chrome, Safari and Opera */
+            // &::-webkit-scrollbar {
+            //     display: none;
+            // }
+
+            &::-webkit-scrollbar {
+                width: 10px;
+            }
+              
+            &::-webkit-scrollbar-track {
+                // background: #222;
+            }
+              
+            &::-webkit-scrollbar-thumb {
+                background-color: var(--first-color) ;
+                border-radius: 6px;
+                border: 3px solid var(--first-color);
+            }
 
             @include tablet {
                 font-size: .8em;
+                max-height: 95%;
             }
         }
 
@@ -138,13 +184,17 @@
         width: 80px;
         margin: 0 auto;
         margin-top: 20px;
-        
+
+        @include tablet {
+            margin-top: 5px;
+        }
+
         h4 {
             text-align: center;
         }
 
         button {
-            margin: 6px 0;
+            margin: 5px 0;
             width: 100%;
             padding: 3px 0;
             color: var(--font-color);
@@ -185,13 +235,23 @@
         display: flex;
         justify-content: space-around;
         flex-flow: wrap;
+
+        button {
+            @include tablet {
+                width: 135px;
+            }
+
+            @include mobile {
+                margin-bottom: 10px;
+            }
+        }
     }
    
 
     .trailer {
         width: 100%;
         height: 100%;
-        background-color: rgba(0,0,0,0.8);
+        background-color: rgba(0,0,0,0.9);
         position: absolute;
         left: 50%;
         top: 50%;

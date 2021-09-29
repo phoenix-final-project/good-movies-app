@@ -5,10 +5,8 @@
         width: 100%;
         margin-top: 20px;
         
-
         .one-friend-box {
             border-bottom: 1px solid var(--first-color);
-            // border: solid 1px fuchsia;
 
             padding: 20px;
             display: flex;
@@ -28,7 +26,6 @@
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-                // border: solid 1px blue;
 
                 @include mobile {
                     flex-direction: column;
@@ -39,11 +36,6 @@
                     display: flex;
                     padding: 20px;
                     align-items: center;
-                    // border: solid 1px red;
-
-                    @include tablet {
-                        // padding-left: 0;
-                    }
 
                     @include mobile {
                         width: 100%;
@@ -72,7 +64,6 @@
                 .friend-buttons-div {
                     display: flex;
                     flex-direction: column;
-                    // border: solid 1px green;
 
                     @include mobile {
                         width: 100%;
@@ -128,14 +119,7 @@
 }
 
 .cover-outside-card {
-    /* position: fixed;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.6);
-    left: 0;
-    top: 0;
-    z-index: 1000; */
-
+    
     .hidden {
         visibility: hidden;
     }
@@ -143,12 +127,9 @@
     .common-movies-card {
         border: solid 2px var(--first-color);
         border-radius: 5px;
-        // margin-top: 20px;
         width: 60vw;
         height: 70vh;
         position: relative;
-        // padding-top: 20px;
-        // border: fuchsia 1px dashed;
 
         position: absolute;
         left: 50%;
@@ -279,8 +260,6 @@
                 }
 
                 .one-movie-box-button {
-                    // border: 1px solid green;
-
                     @include mobile {
                         width: 100%;
                         text-align: center;
