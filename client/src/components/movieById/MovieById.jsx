@@ -50,7 +50,7 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 
 					<img src={movie.image_url !== "aa.com" ? movie.image_url : "../../images/poster_blank.png"} alt={movie.title} />
 
-					{isList ? null :
+					{/* {isList ? null :
 						<div className='buttons'>
 							<h4>Add to:</h4>
 							<AddToWishlistButton
@@ -73,7 +73,34 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 
 							<button disabled={true}> Favorite </button>
 						</div>
+					} */}
+
+					<div className='buttons'>
+						{isList ? null :
+
+							<>
+								<h4>Add to:</h4>
+								<AddToWishlistButton
+									wishlistMoviesIds={wishlistMoviesIds}
+									movieId={movieId}
+									movie={movie}
+									addedToWishlist={addedToWishlist}
+									setAddedToWishlist={setAddedToWishlist}
+									setAddedToWatchedList={setAddedToWatchedList}
+								/>
+								<AddToWatchedButton
+									watchedListMoviesIds={watchedListMoviesIds}
+									movieId={movieId}
+									movie={movie}
+									addedToWatchedList={addedToWatchedList}
+									setAddedToWatchedList={setAddedToWatchedList}
+									setAddedToWishlist={setAddedToWishlist}
+								/>
+								<button disabled={true}> Favorite </button>
+							</>
 						}
+					</div>
+
 				</div>
 
 				<div className='info'>
@@ -126,7 +153,7 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 					</div>
 
 					{/* COMMENTS */}
-					<Comments movieId={movieId} commentsOn={commentsOn} setCommentsOn={setCommentsOn}/>
+					<Comments movieId={movieId} commentsOn={commentsOn} setCommentsOn={setCommentsOn} />
 
 					{/* TRAILER */}
 					<div className={`trailer ${trailerOn}`}>
