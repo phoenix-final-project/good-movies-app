@@ -57,9 +57,13 @@ export default function UserWishlistPage() {
 		try {
 			const pickRandomMovie = Math.floor(Math.random() * wishlistMovies.length);
 			// console.log(wishlistMovies[pickRandomMovie]);
-
+			// console.log(pickRandomMovie);
+			// console.log(alreadyPickedMovie);
+			// console.log('wish list', wishlistMovies);
 			if (alreadyPickedMovie.length === wishlistMovies.length ) {
+				// console.log('Reinitializing');
 				setAlreadyPickedMovie([]);
+				return;
 			}
 
 			if (!alreadyPickedMovie.includes(pickRandomMovie)) {
@@ -76,6 +80,7 @@ export default function UserWishlistPage() {
 			}
 			else {
 				randomMoviePicker();
+				// console.log('Picking another one');
 			}
 
 		} catch (error) {

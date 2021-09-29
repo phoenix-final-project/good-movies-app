@@ -6,13 +6,15 @@ export default function UpdateForm({
     setShowUpdateForm,
     setAlertSuccessUpdate,
     getUser,
-    setAlertMessage,
 }) {
+    const [username, setUsername] = useState(user.username);
     const [firstname, setFirstname] = useState(user.firstname);
     const [lastname, setLastname] = useState(user.lastname);
     const [email, setEmail] = useState(user.email);
     const [password, setPassword] = useState("");
-    //const [showMessage, setShowMessage] = useState(false);
+
+    const [errorMessageDatabase, setErrorMessageDatabase] = useState("");
+    const [alertMessageError, setAlertMessageError] = useState("hidden");
 
     // Update user
     const updateUser = async (e) => {
@@ -28,15 +30,31 @@ export default function UpdateForm({
             //console.log(res.data);
             setShowUpdateForm(false);
             setAlertSuccessUpdate(true);
-            setAlertMessage("The user was successfully updated");
             getUser();
+
             setTimeout(() => {
                 setAlertSuccessUpdate(false);
             }, 3000);
+
         } catch (error) {
-            console.log("Something went wrong", error.response.statusText);
-            setAlertSuccessUpdate(true);
-            setAlertMessage(error.response.statusText);
+            if (error.response.data.message) {
+                setErrorMessageDatabase(error.response.data.message)
+            };
+
+            if (error.response.data.error) {
+                setErrorMessageDatabase(error.response.data.error.errors[0].msg)
+            };
+
+            setAlertMessageError('error');
+            e.target.reset();
+
+            setTimeout(() => {
+                setAlertMessageError('hidden');
+            }, 3000);
+            
+            // console.log("Something went wrong", error.response.statusText);
+            // setAlertSuccessUpdate(true);
+            // setAlertMessage(error.response.statusText);
         }
     };
 
@@ -51,45 +69,40 @@ export default function UpdateForm({
                 </button>
 
                 <h2>Edit profile</h2>
+                <div className={alertMessageError}>{errorMessageDatabase}</div>
+                <br />
                 <form onSubmit={updateUser} className="form-search-user">
+                    
                     <label /* htmlFor="header-search" */>
-                        <span className="visually-hidden">First Name</span>
+                        <span className="visually-hidden">First Name *</span>
                     </label>
                     <input
                         type="text"
-                        //id="header-search"
-                        //placeholder="Find a friend"
                         value={firstname}
                         onChange={(e) => setFirstname(e.target.value)}
                     />
                     <label /* htmlFor="header-search" */>
-                        <span className="visually-hidden">Last Name</span>
+                        <span className="visually-hidden">Last Name *</span>
                     </label>
                     <input
                         type="text"
-                        //id="header-search"
-                        //placeholder="Lastname"
                         value={lastname}
                         onChange={(e) => setLastname(e.target.value)}
                     />
                     <label /* htmlFor="header-search" */>
-                        <span className="visually-hidden">Email</span>
+                        <span className="visually-hidden">Email *</span>
                     </label>
                     <input
-                        type="email"
-                        //id="header-search"
-                        //placeholder="Find a friend"
+                        type="text"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                     />
                     <label /* htmlFor="header-search" */>
-                        <span className="visually-hidden">Password</span>
+                        <span className="visually-hidden">Password *</span>
                     </label>
                     <input
                         type="password"
-                        //id="header-search"
-                        placeholder="Password"
-                        //value={user.email}
+                        placeholder="******"
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <div className="btn-form">
