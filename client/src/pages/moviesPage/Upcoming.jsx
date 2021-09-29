@@ -33,8 +33,6 @@ export default function Upcoming() {
             }
         } catch (error) {
             console.log("Something went wrong", error.message);
-            // setIsError(true);
-            // setErrorMessage(error.message);
         }
     }, [page1]);
 
@@ -62,8 +60,9 @@ export default function Upcoming() {
             <h3 className="movies-title">Upcoming Movies </h3>
             <div className="moviesContainer">
 
-                {page1 === 1 ? null : (
-                    <div className="button-container-prev">
+                {/* PREVIOUS button */}
+                <div className="button-container-prev">
+                    {page1 === 1 ? null : (
                         <button
                             className="prev"
                             onClick={handleBackwardButton1}
@@ -71,9 +70,10 @@ export default function Upcoming() {
                             {" "}
                             <i className="fas fa-chevron-circle-left"></i>
                         </button>
-                    </div>
-                )}
+                    )}
+                </div>
 
+                {/* MOVIES */}
                 {upcomingMovies.map((item) => (
                     <div
                         title={item.title}
@@ -99,16 +99,16 @@ export default function Upcoming() {
                         )}
                     </div>
                 ))}
-                {page1 >= lastPage1 ? null : (
-                    <div className="button-container-next">
 
+                {/* NEXT button */}
+                <div className="button-container-next">
+                    {page1 >= lastPage1 ? null : (
                         <button className="next" onClick={handleForwardButton1}>
                             {" "}
                             <i className="fas fa-chevron-circle-right"></i>{" "}
                         </button>
-
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
 
             {showMovie ? (

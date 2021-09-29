@@ -32,8 +32,6 @@ export default function TopRated() {
             }
         } catch (error) {
             console.log("Something went wrong", error.message);
-            // setIsError(true);
-            // setErrorMessage(error.message);
         }
     }, [page2]);
 
@@ -59,8 +57,9 @@ export default function TopRated() {
             {/* TOP RATED MOVIES box */}
             <h3 className="movies-title">Top Rated Movies</h3>
             <div className="moviesContainer">
-                <div className="button-container-prev">
 
+                {/* PREViOUS button */}
+                <div className="button-container-prev">
                     {page2 === 1 ? null : (
                         <button
                             className="prev"
@@ -70,6 +69,8 @@ export default function TopRated() {
                         </button>
                     )}
                 </div>
+
+                {/* MOVIES */}
                 {topRatedMovies.map((item) => (
                     <div
                         title={item.title}
@@ -84,8 +85,9 @@ export default function TopRated() {
                         <img src={item.image_url} alt={item.title} />
                     </div>
                 ))}
-                <div className="button-container-next">
 
+                {/* NEXT button */}
+                <div className="button-container-next">
                     {page2 >= lastPage2 ? null : (
                         <button className="next" onClick={handleForwardButton2}>
                             {" "}

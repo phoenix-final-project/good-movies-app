@@ -21,7 +21,6 @@ export default function MoviesPage() {
             {/* UPCOMING MOVIES box */}
             <Upcoming />
 
-
             {/* SHOWN ONLY FOR LOGGED IN USERS */}
             {window.localStorage.getItem("username") ?
                 <>
@@ -34,7 +33,6 @@ export default function MoviesPage() {
                 :
                 null
             }
-
 
             {/* TOP RATED MOVIES box */}
             <TopRated />
