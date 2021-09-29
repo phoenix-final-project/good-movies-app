@@ -98,7 +98,7 @@ export default function MovieById({ movieId, setMovieId, movieCardOn, setMovieCa
 						</div>
 					</div>
 
-					<div>
+					<div className="desc-container">
 						<h4 className='desc'>Description</h4>
 						<div className='movie-desc'>{movie.description}</div>
 					</div>

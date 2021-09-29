@@ -85,9 +85,7 @@
             }
 
             .tour {
-                // border: red solid 1px;
                 margin-top: 8px;
-                // padding: 0 15px;
                 font-size: .9em;
                 font-weight: 100;
                 width: fit-content;
@@ -100,15 +98,11 @@
                 position: relative;
 
                 @include tablet {
-                    // text-align: center;
                     width: 100%;
                     margin: 5px 0;
                 }
 
-                @include mobile {
-                    font-size: .6em;
-                }
-
+    
                 &:hover {
                     color: var(--first-color);
                     transition: all .5s ease-out;
@@ -122,7 +116,6 @@
             }
 
             
-
             .registration-btn, .logout-btn {
                 width: 100%;
                 padding: .4rem;
@@ -137,8 +130,9 @@
                 letter-spacing: var(--letter-spacing-btn);
                 transition: all 0.5s ease-in-out;
 
-                @include mobile {
+                @include tablet {
                     padding: .3rem .8rem;
+                    margin-top: 20px;
                 }
                 
                 &:hover {

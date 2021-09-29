@@ -59,7 +59,8 @@ export default function TopRated() {
             {/* TOP RATED MOVIES box */}
             <h3 className="movies-title">Top Rated Movies</h3>
             <div className="moviesContainer">
-                <div className="buttonContainer">
+                <div className="button-container-prev">
+
                     {page2 === 1 ? null : (
                         <button
                             className="prev"
@@ -83,7 +84,8 @@ export default function TopRated() {
                         <img src={item.image_url} alt={item.title} />
                     </div>
                 ))}
-                <div className="buttonContainer">
+                <div className="button-container-next">
+
                     {page2 >= lastPage2 ? null : (
                         <button className="next" onClick={handleForwardButton2}>
                             {" "}

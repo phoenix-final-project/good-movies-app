@@ -25,7 +25,12 @@ function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove
     return (
         <div className='movie-list'>
 
-            <div className="click-on-poster">Click on poster for detailed plot, trailer and comments</div>
+            {movieList.length > 0 ?
+
+                <div className="click-on-poster">Click on poster for detailed plot, trailer and comments</div>
+                :
+                null
+            }
 
             {movieList.map((movie) => {
 
@@ -42,31 +47,33 @@ function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove
                             </div>
                         </section>
 
-                        <section>
-                            <p>Title: <span>{movie.title}</span></p>
-                            <p>Year: <span>{movie.year}</span></p>
-                            {movie.movie_length !== 0 && <p>Length: <span>{movie.movie_length}</span></p>}
-                            {movie.rating !== 0 && <p>Rating: <span>{movie.rating}</span></p>}
-                            <a href={`https://www.imdb.com/title/${movie.imdb_id}`} target="_blank" rel="noreferrer noopener">IMDb</a>
-                        </section>
+                        <div className="info">
+                            <section>
+                                <p>Title: <span>{movie.title}</span></p>
+                                <p>Year: <span>{movie.year}</span></p>
+                                {movie.movie_length !== 0 && <p>Length: <span>{movie.movie_length} min</span></p>}
+                                {movie.rating !== 0 && <p>Rating: <span>{movie.rating}</span></p>}
+                                <a href={`https://www.imdb.com/title/${movie.imdb_id}`} target="_blank" rel="noreferrer noopener">IMDb</a>
+                            </section>
 
-                        <section>
-                            <div>
-                                <h4>Plot</h4>
-                                <p>{movie.plot}</p>
-                            </div>
-                            <div>
-                                {movie.gen.map(gen => <span key={gen.id}>{gen.genre}</span>)}
-                            </div>
-                        </section>
+                            <section>
+                                <div>
+                                    <h4>Plot</h4>
+                                    <p>{movie.plot}</p>
+                                </div>
 
-                        <section>
-                            <button onClick={() => deleteMovie(movie.imdb_id)}>Delete</button>
+                                <div>
+                                    | {movie.gen.map(gen => <span key={gen.id}>{gen.genre} | </span>)}
+                                </div>
 
-                            <button onClick={() => addMovieToAnotherList(movie)}>{listToMove}</button>
+                            </section>
 
-                            <button>Favorite</button>
-                        </section>
+                            <section>
+                                <button onClick={() => deleteMovie(movie.imdb_id)}>Delete</button>
+                                <button onClick={() => addMovieToAnotherList(movie)}>{listToMove}</button>
+                                <button>Favorite</button>
+                            </section>
+                        </div>
                     </div>
                 )
             })}
@@ -77,7 +84,6 @@ function DisplayList({ movieList, deleteMovie, addMovieToAnotherList, listToMove
 
             {showMovie ? <MovieById movieId={movieId} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} isList={true} /> : null}
 
-            {/* {pickAMovie ? <MovieById movieId={pickAMovie.imdb_id} setMovieCardOn={setMovieCardOn} movieCardOn={movieCardOn} setMovieId={setMovieId} isList={true} /> : null} */}
         </div>
     )
 }
