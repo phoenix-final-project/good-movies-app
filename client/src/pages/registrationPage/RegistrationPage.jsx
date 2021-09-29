@@ -72,19 +72,6 @@ function RegistrationPage() {
                         setStatus("sign up");
                         history.push('/login');
                     }, 2000);
-    
-                    
-                    // setTimeout(() => {
-                    //     setAlertMessage('alert');
-                    // }, 3000);
-
-                    // setTimeout(() => {
-                    //     setAlertMessage('hidden');
-                    // }, 5000);
-
-                    // setTimeout(() => {
-                        
-                    // }, 6000);
                 })
                 .catch(error => {
                     if (error.response.data.message) {
@@ -120,7 +107,6 @@ function RegistrationPage() {
 
                 <FormBanner title='Please create an account by filling out the information below to get'>
                     {/* NOTIFICATIONS - success / error */}
-                   {/* <div className={alertMessage}>{username} has been successfully registered! Please, log in. </div> */}
 
                     <div className={alertMessageError}>{errorMessageDatabase}</div>
 
