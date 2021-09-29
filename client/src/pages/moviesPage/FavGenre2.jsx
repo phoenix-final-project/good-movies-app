@@ -34,7 +34,6 @@ export default function FavGenre2() {
                 `/api/movie/byGenre2/${localStorage.getItem("user_id")}`
             )
             .then(res => {
-                // console.log(res.data)
                 setSecondFavoriteGenresMovies(res.data.foundMovies);
                 setGenre2(res.data.favoriteGenre2);
 
@@ -72,8 +71,9 @@ export default function FavGenre2() {
                 <div>
                     <h3 className="movies-title">{`Because you like ${genre2} movies`}</h3>
                     <div className="moviesContainer">
-                        <div className="button-container-prev">
 
+                        {/* PREVIOUS button */}
+                        <div className="button-container-prev">
                             {start === 0 ? null : (
                                 <button
                                     className="prev"
@@ -84,13 +84,13 @@ export default function FavGenre2() {
                             )}
                         </div>
 
+                        {/* MOVIES */}
                         {secondFavoriteGenresMovies.slice(start, end).map((item) => (
                             <div
                                 title={item.title}
                                 className="movieBox"
                                 key={item.imdb_id}
                                 onClick={() => {
-                                    // console.log(item.imdb_id);
                                     setShowMovie(true);
                                     setMovieId(item.imdb_id);
                                     setMovieCardOn("");
@@ -109,8 +109,9 @@ export default function FavGenre2() {
                                 )}
                             </div>
                         ))}
-                        <div className="button-container-next">
 
+                        {/* NEXT button */}
+                        <div className="button-container-next">
                             {end >= secondFavoriteGenresMovies.length ? null : (
                                 <button
                                     className="next"
