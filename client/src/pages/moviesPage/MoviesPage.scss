@@ -7,10 +7,6 @@ h1 {
 .movies-title {
     margin: 30px 20px 0;
     color: var(--first-color);
-
-    @include mobile {
-        margin: 30px 0 0 210px ;
-    }
 }
 
 .moviesContainer {
@@ -19,30 +15,10 @@ h1 {
     justify-content: space-evenly;
     margin: 10px auto;
     position: relative;
+    // border: 1px solid red;
 
-    .buttonContainer {
-        display: flex;
-        justify-content: space-around;
-        padding: 20px 0;
-    
-        button.prev {
-            padding: 2px 10px;
-            display: inline-block;
-            background-color: transparent;
-            border: none;
-            font-size: 2.3em;
-            color: var(--first-color);
-    
-            button.prev {
-                position: absolute;
-                top: 50%;
-                left: 0;
-            }
-    
-            &:hover {
-                cursor: pointer;
-            }
-        }
+    @include mobile {
+        flex-wrap: wrap;
     }
 
     .movieBox {
@@ -53,6 +29,12 @@ h1 {
         position: relative;
         box-shadow: 0 0 6px var(--container-color);
         transition: all .5s ease-in-out;
+
+        @include tablet {
+            margin: 7px;
+            width: 100px;
+            height: 150px;
+        }
 
         &:hover {
             cursor: pointer;
@@ -67,7 +49,6 @@ h1 {
             border-radius: 10px;
         }
 
-        
         .posterTitle {
             position: absolute;
             top: 50%;
@@ -78,18 +59,34 @@ h1 {
             font-size: 1.6rem;
             text-shadow: 0 0 20px black;
 
+            @include tablet {
+                font-size: 1rem;
+            }
+
             &:hover {
                 box-shadow: none;
             }
         }
-
     }
 
-    .buttonContainer {
+    .button-container-next {
         display: flex;
         justify-content: space-around;
+        align-items: center;
         padding: 20px 0;
-    
+        // border: 1px solid blue;
+
+
+        @include tablet {
+            position: absolute; 
+            height: 50px;
+            width: 50px;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
         button.next {
             padding: 2px 10px;
             display: inline-block;
@@ -98,11 +95,38 @@ h1 {
             font-size: 2.3em;
             color: var(--first-color);
     
-            button.next {
-                position: absolute;
-                top: 50%;
-                right: 0;
+            &:hover {
+                cursor: pointer;
             }
+        }
+    }
+
+    .button-container-prev {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 20px 0;
+        // border: 1px solid blue;
+
+
+        @include tablet {
+            position: absolute; 
+            height: 50px;
+            width: 50px;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1000;
+        }
+
+        button.prev {
+
+            padding: 2px 10px;
+            display: inline-block;
+            background-color: transparent;
+            border: none;
+            font-size: 2.3em;
+            color: var(--first-color);
     
             &:hover {
                 cursor: pointer;

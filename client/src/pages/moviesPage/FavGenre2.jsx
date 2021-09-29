@@ -72,8 +72,9 @@ export default function FavGenre2() {
                 <div>
                     <h3 className="movies-title">{`Because you like ${genre2} movies`}</h3>
                     <div className="moviesContainer">
-                        <div className="buttonContainer">
-                            {start === 0  ? null : (
+                        <div className="button-container-prev">
+
+                            {start === 0 ? null : (
                                 <button
                                     className="prev"
                                     onClick={handleBackwardButton4}
@@ -108,7 +109,8 @@ export default function FavGenre2() {
                                 )}
                             </div>
                         ))}
-                        <div className="buttonContainer">
+                        <div className="button-container-next">
+
                             {end >= secondFavoriteGenresMovies.length ? null : (
                                 <button
                                     className="next"
