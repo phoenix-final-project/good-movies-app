@@ -255,26 +255,26 @@
         background-color: #464339;
     }
 
-    .go-top {
-        font-size: 1.5rem;
-        position: fixed;
-        bottom: 20px;
-        right: 20px;
-        z-index: 100;
+    // .go-top {
+    //     font-size: 1.5rem;
+    //     position: fixed;
+    //     bottom: 20px;
+    //     right: 20px;
+    //     z-index: 100;
 
-        i {
-            color: var(--first-color);
-            border: 1px solid var(--first-color);
-            padding: 10px;
-            border-radius: 50%;
+    //     i {
+    //         color: var(--first-color);
+    //         border: 1px solid var(--first-color);
+    //         padding: 10px;
+    //         border-radius: 50%;
 
-            &:hover {
-                color: var(--first-color);
-                background-color: var(--title-color);
-                border: 1px solid transparent;
-                cursor: pointer;
-            }
-        }
-    }
+    //         &:hover {
+    //             color: var(--first-color);
+    //             background-color: var(--title-color);
+    //             border: 1px solid transparent;
+    //             cursor: pointer;
+    //         }
+    //     }
+    // }
 }
 
