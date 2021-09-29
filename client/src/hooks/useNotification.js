@@ -17,8 +17,8 @@ const useNotification = () => {
 				setNumOfNewNotifications(numOfNew);
 				setNewNotifications(data);
 
-				console.log(numOfNew); // 5
-				console.log(numOfNewNotifications); // 4
+				// console.log(numOfNew); // 5
+				// console.log(numOfNewNotifications); // 4
 			}
 		} catch (error) {
 			console.log(error);
