@@ -1,21 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from '../../../util/APIinstance';
 
-function InviteButton({ friendId, movie, invitations }) {
-	console.log('aaa', invitations);
+function InviteButton({ friendId, movie, friendInvited, iInvited }) {
 	const [isInvited, setIsInvited] = useState(false);
 
-	// const a = invitations.some(invitation => invitation.friend === friendId && invitation.movie === movie.imdb_id);
-	// console.log(a);
-
 	useEffect(() => {
-		// invitations.forEach(invitation => {
-		// if (invitation.friend === friendId && invitation.movie === movie.imdb_id) setIsInvited(true);
+		const ifFriendInvited = friendInvited.some(invitation => invitation.userId === friendId && invitation.movieId === movie.imdb_id);
+		const ifIInvited = iInvited.some(invitation => invitation.userId === friendId && invitation.movieId === movie.imdb_id);
 
-		// const a = invitations.some(invitation => invitation.friend === friendId && invitation.movie === movie.imdb_id);
-		setIsInvited(invitations.some(invitation => invitation.friend === friendId && invitation.movie === movie.imdb_id));
-		// });
-	}, [friendId, invitations, movie.imdb_id]);
+		setIsInvited(ifFriendInvited || ifIInvited);
+	}, [friendInvited, iInvited, friendId, movie.imdb_id]);
 
 	const inviteToWatch = async movieId => {
 		const info = {
@@ -29,7 +23,6 @@ function InviteButton({ friendId, movie, invitations }) {
 			if (movieId === response.data.movieId && friendId === response.data.user2) {
 				setIsInvited(true);
 			}
-			console.log(response.data);
 		} catch (error) {
 			console.log(error.message);
 		}
@@ -37,11 +30,7 @@ function InviteButton({ friendId, movie, invitations }) {
 
 	return (
 		<div className='one-movie-box-button'>
-			{isInvited ?
-				<button className='invited'>Invited</button>
-				:
-				<button onClick={() => inviteToWatch(movie.imdb_id)}>Invite to Watch</button>
-			}
+			{isInvited ? <button className='invited'>Invited</button> : <button onClick={() => inviteToWatch(movie.imdb_id)}>Invite to Watch</button>}
 		</div>
 	);
 }
