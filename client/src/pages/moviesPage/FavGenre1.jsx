@@ -66,8 +66,9 @@ export default function FavGenre1() {
                 <div>
                     <h3 className="movies-title">{`Because you like ${genre} movies`}</h3>
                     <div className="moviesContainer">
-                        <div className="button-container-prev">
 
+                        {/* PREVIOUS button */}
+                        <div className="button-container-prev">
                             {start === 0 ? null : (
                                 <button
                                     className="prev"
@@ -78,6 +79,7 @@ export default function FavGenre1() {
                             )}
                         </div>
 
+                        {/* MOVIES */}
                         {favoriteGenresMovies.slice(start, end).map((item) => (
                             <div
                                 title={item.title}
@@ -102,8 +104,9 @@ export default function FavGenre1() {
                                 )}
                             </div>
                         ))}
-                        <div className="button-container-next">
 
+                        {/* NEXT button */}
+                        <div className="button-container-next">
                             {end >= favoriteGenresMovies.length ? null : (
                                 <button
                                     className="next"

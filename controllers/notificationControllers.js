@@ -62,13 +62,40 @@ exports.getAllNotifications = async (req, res) => {
 				image: getMovieData.image_url,
 			};
 
-			return { friend: userData, movie: movieData };
+			const date1 = new Date(notification.date);
+			const date2 = new Date();
+
+			const dateDifference = date2.getTime() - date1.getTime();
+			const days = Math.round(dateDifference / (1000 * 3600 * 24));
+
+			return { friend: userData, movie: movieData, created: days };
 		});
 
 		// wait until receive all data
 		const notificationData = await Promise.all(notificationDataRaw);
 
 		res.status(200).json(notificationData);
+	} catch (error) {
+		res.status(400).json({ error: error.message });
+	}
+};
+
+exports.getAllInvitations = async (req, res) => {
+	const { userId } = req.params;
+
+	try {
+		const friendInvitedFullData = await Notification.find({ user2: userId });
+		const iInvitedFullData = await Notification.find({ user1: userId });
+
+		const friendInvited = friendInvitedFullData.map(invitation => {
+			return { userId: invitation.user1, movieId: invitation.movieId };
+		});
+
+		const iInvited = iInvitedFullData.map(invitation => {
+			return { userId: invitation.user2, movieId: invitation.movieId };
+		});
+
+		res.status(200).json({ friendInvited, iInvited });
 	} catch (error) {
 		res.status(400).json({ error: error.message });
 	}

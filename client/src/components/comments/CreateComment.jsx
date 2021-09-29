@@ -67,7 +67,6 @@ export default function CreateComment({ movieId, getComments }) {
                 >{emojisOn === "none" ? <i className="far fa-smile"></i> : <i className="fas fa-times"></i>}</button>
 
                 <div className={emojisOn}>
-                    {/* <div className={emojisOn} onBlur={() => setEmojisOn("none")}> */}
                     <Picker onEmojiClick={onEmojiClick} />
                 </div>
             </form>

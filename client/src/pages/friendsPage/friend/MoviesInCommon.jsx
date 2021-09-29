@@ -4,26 +4,29 @@ import axios from '../../../util/APIinstance';
 import InviteButton from './InviteButton';
 
 export default function MoviesInCommon({ friendFirstname, friendLastname, friendId, commonWishlist, showMovie, setShowMoviesInCommon, setIsMovieInCommon }) {
-	const [invitations, setInvitations] = useState([]);
+	const [friendInvitedState, setFriendInvitedState] = useState([]);
+	const [iInvitedState, setIInvitedState] = useState([]);
 
 	const getAllInvitations = async () => {
 		try {
 			// get all
-			const response = await axios.get(`/api/notification/all/${window.localStorage.getItem('user_id')}`);
+			const response = await axios.get(`/api/notification/invited/${window.localStorage.getItem('user_id')}`);
 
-			const allInvitations = response.data.map(invitation => {
-				const data = { friend: invitation.friend.id, movie: invitation.movie.imdb_id };
-				return data;
-			});
+			const { friendInvited, iInvited } = response.data;
+			// console.log('zzz', friendInvited, iInvited);
+			setFriendInvitedState(friendInvited);
+			setIInvitedState(iInvited);
 
 			// for each movie in common list, check, if there is already an invitation
-			const existingInvitations = commonWishlist
-				.map(movie => {
-					return allInvitations.filter(invitation => invitation.movie === movie.imdb_id);
-				})
-				.flat();
-			setInvitations(existingInvitations);
-			// console.log(existingInvitations);
+			// const existingInvitations = commonWishlist
+			// 	.map(movie => {
+			// 		return friendInvited.filter(invitation => invitation.movieId === movie.imdb_id);
+			// 	})
+			// 	.flat();
+
+			// console.log('eeeeeee', existingInvitations);
+			// console.log('ggggggg', existingInvitations);
+			// setInvitations(existingInvitations);
 		} catch (error) {
 			console.log(error);
 		}
@@ -47,14 +50,7 @@ export default function MoviesInCommon({ friendFirstname, friendLastname, friend
 					{commonWishlist.map(movie => (
 						<div key={movie.imdb_id} className='one-movie-box'>
 							<div className='one-movie-box-data'>
-								<img
-									src={
-										movie.image_url !== "aa.com"
-											? movie.image_url
-											: "../../images/poster_blank.png"
-									}
-									alt={movie.title}
-								/>
+								<img src={movie.image_url !== 'aa.com' ? movie.image_url : '../../images/poster_blank.png'} alt={movie.title} />
 
 								<div className='movie-data'>
 									<p>
@@ -73,7 +69,7 @@ export default function MoviesInCommon({ friendFirstname, friendLastname, friend
 									</p>
 								</div>
 							</div>
-							<InviteButton friendId={friendId} movie={movie} invitations={invitations} />
+							<InviteButton friendId={friendId} movie={movie} friendInvited={friendInvitedState} iInvited={iInvitedState} />
 						</div>
 					))}
 				</div>
