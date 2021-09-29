@@ -57,17 +57,11 @@ function Notification() {
 								<p className='message'>
 									wants to watch <span>{item.movie.title}</span> with you.
 								</p>
+								<p className='invited'>invited {item.created === 0 ? 'today' : item.created === 1 ? item.created + ' day ago' : item.created + ' days ago'}</p>
 							</div>
 
 							<div>
-								<img
-									src={
-										item.movie.image !== "aa.com"
-											? item.movie.image
-											: "../../images/poster_blank.png"
-									}
-									alt={item.movie.title}
-								/>
+								<img src={item.movie.image !== 'aa.com' ? item.movie.image : '../../images/poster_blank.png'} alt={item.movie.title} />
 							</div>
 						</div>
 					))}

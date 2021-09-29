@@ -62,7 +62,13 @@ exports.getAllNotifications = async (req, res) => {
 				image: getMovieData.image_url,
 			};
 
-			return { friend: userData, movie: movieData };
+			const date1 = new Date(notification.date);
+			const date2 = new Date();
+
+			const dateDifference = date2.getTime() - date1.getTime();
+			const days = Math.round(dateDifference / (1000 * 3600 * 24));
+
+			return { friend: userData, movie: movieData, created: days };
 		});
 
 		// wait until receive all data
