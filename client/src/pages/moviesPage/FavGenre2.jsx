@@ -27,8 +27,7 @@ export default function FavGenre2() {
 
 
     // getting movies by 2nd favorite genre
-    useEffect(() => {
-
+    const favGenre2 = () => {
         axiosApiInstance
             .get(
                 `/api/movie/byGenre2/${localStorage.getItem("user_id")}`
@@ -46,6 +45,10 @@ export default function FavGenre2() {
                 setNoFavoriteGenre2(true)
                 setGenre2("")
             })
+    }
+
+    useEffect(() => {
+        favGenre2()
     }, []);
 
 

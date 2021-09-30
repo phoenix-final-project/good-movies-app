@@ -5,7 +5,7 @@ export const getListMoviesIds = async (listName, callback) => {
 		const listIds = await axios.get(`/api/${listName}/movies-id/${window.localStorage.getItem('user_id')}`);
 		callback(listIds.data);
 		// console.log(listName, listIds.data);
-		if (listName === 'wishlist') console.log('OK');
+		// if (listName === 'wishlist') console.log('OK');
 	} catch (error) {
 		console.log(error);
 	}
@@ -13,9 +13,9 @@ export const getListMoviesIds = async (listName, callback) => {
 
 export const addMovieToList = async (listName, movie) => {
 	try {
-		const res = await axios.post(`/api/${listName}/add-movie/${window.localStorage.getItem('user_id')}`, { movie });
+		await axios.post(`/api/${listName}/add-movie/${window.localStorage.getItem('user_id')}`, { movie });
 
-		console.log(res.data);
+		// console.log(res.data);
 		return Promise.resolve();
 	} catch (error) {
 		console.log(error.response);
