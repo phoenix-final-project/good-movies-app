@@ -7,7 +7,7 @@ export default function UpdateForm({
     setAlertSuccessUpdate,
     getUser,
 }) {
-    const [username, setUsername] = useState(user.username);
+    // const [username, setUsername] = useState(user.username);
     const [firstname, setFirstname] = useState(user.firstname);
     const [lastname, setLastname] = useState(user.lastname);
     const [email, setEmail] = useState(user.email);
@@ -20,7 +20,7 @@ export default function UpdateForm({
     const updateUser = async (e) => {
         e.preventDefault();
         try {
-            const res = await axiosApiInstance.put(`/api/user/update`, {
+            await axiosApiInstance.put(`/api/user/update`, {
                 username: localStorage.getItem("username"),
                 firstname: firstname,
                 lastname: lastname,

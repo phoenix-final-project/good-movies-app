@@ -26,7 +26,7 @@ export default function UserProfile() {
                 `/api/user/username/${localStorage.getItem("username")}`
             );
             //console.log(res.data.foundUser);
-            console.log(localStorage.getItem("username"));
+            // console.log(localStorage.getItem("username"));
             setUser(res.data.foundUser);
             //setIsError(false);
         } catch (error) {
@@ -52,7 +52,7 @@ export default function UserProfile() {
             const res = await axiosApiInstance.put("/api/user/delete", {
                 userId: localStorage.getItem("user_id"),
             });
-            console.log(res.data);
+            // console.log(res.data);
             setShowAlertMessage("alert-delete-success");
             setAlertMessage(res.data.message);
             setShowConfirmDeleteBtn(false);
