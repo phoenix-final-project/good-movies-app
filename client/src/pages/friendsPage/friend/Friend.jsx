@@ -18,29 +18,27 @@ export default function Friend({ searchOrFriends }) {
 	// Add a friend
 	const addFriend = async username => {
 		try {
-			const res = await axiosApiInstance.put('/api/user/friends/add', {
+			await axiosApiInstance.put('/api/user/friends/add', {
 				//username: "santa",
 				username: localStorage.getItem('username'),
 				friendUsername: username,
 			});
-			//console.log(res.data);
 			getFriends();
 		} catch (error) {
-			//console.log("Something went wrong", error.message);
+			console.log("Something went wrong", error.message);
 		}
 	};
 
 	// Delete a friend
 	const deleteFriend = async username => {
 		try {
-			const res = await axiosApiInstance.put(`/api/user/friends/delete`, {
+			await axiosApiInstance.put(`/api/user/friends/delete`, {
 				username: localStorage.getItem('username'),
 				friendUsername: username,
 			});
-			//console.log(res.data);
 			getFriends();
 		} catch (error) {
-			//console.log("Something went wrong", error.response.data.message);
+			console.log("Something went wrong", error.response.data.message);
 		}
 	};
 
@@ -48,10 +46,8 @@ export default function Friend({ searchOrFriends }) {
 	const compareWishlist = async friendId => {
 		try {
 			const res = await axiosApiInstance.get(`/api/wishlist/compare/${localStorage.getItem('user_id')}/${friendId}`);
-			//console.log(res.data);
 
 			const friendTarget = listFriends.find(friend => friend.id === res.data.friendUserId);
-			//console.log(friendTarget);
 
 			setCommonWishlist(res.data.moviesInCommon);
 			setIsMovieInCommon(true);
@@ -63,6 +59,7 @@ export default function Friend({ searchOrFriends }) {
 
 			setNoMoviesInCommon(true);
 			setErrorMessage(error.response.data.error);
+
 			setTimeout(() => {
 				setNoMoviesInCommon(false);
 			}, 3000);
@@ -76,7 +73,7 @@ export default function Friend({ searchOrFriends }) {
 			//console.log(res.data);
 			setListFriends(res.data);
 		} catch (error) {
-			//console.log("Something went wrong", error.response.data.error);
+			console.log("Something went wrong", error.response.data.error);
 		}
 	};
 
@@ -88,7 +85,7 @@ export default function Friend({ searchOrFriends }) {
 		<div className='friend-component'>
 			{/* STRUCTURE FOR LIST OF FRIENDS OR SEARCH RESULTS (FriendsPage)*/}
 			<section className='friends-box'>
-				{/* {console.log(searchOrFriends)} */}
+
 				{searchOrFriends.map(item => (
 					<div key={item.username} className='one-friend-box'>
 						<div className='friend-data'>
@@ -115,7 +112,6 @@ export default function Friend({ searchOrFriends }) {
 								<div className='friend-buttons-div'>
 									<button
 										onClick={() => {
-											// console.log(item.id);
 											compareWishlist(item.id);
 											setShowMoviesInCommon('showMovie');
 										}}

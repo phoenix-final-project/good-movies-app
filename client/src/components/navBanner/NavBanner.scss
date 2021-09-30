@@ -1,36 +1,16 @@
 
 @import '../../styles/mixin';
 
-// @include tablet {
-//     // #radius {
-//     //     // border-radius: 0 0 30px 30px;
-//     //     // background-color: #333;
-//     // }
-// }
-
 .nav {
     z-index: 10;
     background-color: #333;
     background-color: transparent;
     width: 100%;
     height: 70px;
-    // border: red solid 1px;
-
-
-    @include tablet {
-        // background-color: #333;
-
-        // #radius {
-        //     // border-radius: 0 0 30px 30px;
-        //     // background-color: #333;
-        // }
-    }
 
     .header-container {
         display: flex;
         justify-content: space-around;
-        // align-items: center;
-        // border: lime solid 1px;
 
         @include tablet {
 
@@ -41,24 +21,15 @@
             display: flex;
             flex-direction: column;
             text-align: center;
-            // background-color: #333333;
             position: relative;
             z-index: 100;
             width: 80%;
             margin: 0 auto;
-
-
         }
 
-        @include mobile {
-            // display: flex;
-            // flex-direction: column;
-        }
-        
         .link-logo {
             margin-top: 2px;
             z-index: 100;
-            // border: 1px solid orange;
 
             @include tablet {
                 margin-top: 5px;
@@ -69,7 +40,6 @@
             z-index: 2000;
             display: flex;
             align-items: center;
-            // border: blue solid 1px;
 
             a.active, a:hover {
                 text-decoration: 2.5px underline solid var(--first-color);
@@ -115,7 +85,6 @@
                 font-weight: bold;
             }
 
-            
             .registration-btn, .logout-btn {
                 width: 100%;
                 padding: .4rem;
@@ -142,7 +111,6 @@
                     border-radius: 10px;
                 }
             }
-
         }
 
         .nav-close {
@@ -191,7 +159,6 @@
         position: relative;
         display: inline-block;
         cursor: pointer;
-        // border: 1px blue solid;
         margin-right: 10px;
 
         @include tablet {
@@ -206,13 +173,7 @@
             margin-top: 5px;
             box-shadow: 0px 4px 6px 0px var(--first-color);
             padding: 12px 16px;
-            z-index: 1;
-            // border: 1px solid fuchsia;
-
-            // @include tablet {
-            //     top: 20px;
-            //     left: 0;
-            // }
+            z-index: 2;
         }
 
         .notification-content {
@@ -266,7 +227,7 @@
             height: 500px;
             margin-top: 10px;
             border: 1px solid var(--first-color);
-            z-index: 1;
+            z-index: 2;
             overflow-y: scroll;
 
             -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
@@ -275,13 +236,10 @@
                     display: none;
                 }
 
-                // border: 1px solid fuchsia;
-
             @include tablet {
                 transform: translateX(-5%);
                 min-width: 400px;
                 margin-top: 20px;
-
             }
 
             @include mobile {
@@ -308,7 +266,6 @@
                 margin: 0 auto;
                 padding: 20px;
 
-                
                 .n-section {
                     border-bottom: 1px dotted var(--first-color);
                     padding-bottom: 10px;
@@ -317,7 +274,6 @@
 
                     display: flex;
                     justify-content: space-between;
-                    // flex-wrap: wrap;
 
                     div:nth-of-type(1) {
                         width: 20%;
@@ -331,7 +287,6 @@
                             border: 1px dotted black;
                             width: 35px;
                             height: 35px;
-                            // padding: 5px;
                             line-height: 35px;
                             text-align: center;
                             border-radius: 50%;
@@ -358,7 +313,6 @@
                         .message {
                             span {
                                 color: var(--first-color);
-                                // font-style: italic;
                                 font-weight: bold;
                             }
                         }
@@ -366,7 +320,6 @@
                         .invited {
                             color: var(--first-color);
                             font-size: .7rem;
-                            // font-style: italic;
                         }
                     }
 
@@ -376,7 +329,6 @@
                         text-align: right;
 
                         img {
-                            // width: 100%;
                             height: 100%;
                             object-fit: contain;
                             border: 1px solid white;
@@ -397,7 +349,6 @@
         z-index: 1000;
         top: 22px;
         left: 0;
-        // color: var(--font-color);
 
         .notification {
             display: block;
@@ -406,5 +357,3 @@
         }
     }
 }
-
-

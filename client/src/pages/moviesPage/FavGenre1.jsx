@@ -25,8 +25,7 @@ export default function FavGenre1() {
     const [end, setEnd] = useState(6);
 
 
-    useEffect(() => {
-
+    const favGenre1 = () => {
         axiosApiInstance
             .get(
                 `/api/movie/byGenre/${localStorage.getItem("user_id")}`
@@ -42,6 +41,10 @@ export default function FavGenre1() {
                 setIsFavoriteGenre(false);
                 setGenre("")
             })
+    }
+
+    useEffect(() => {
+        favGenre1()
     }, []);
 
     // Pagination

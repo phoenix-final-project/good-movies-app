@@ -6,15 +6,17 @@
     justify-content: space-evenly;
     flex-flow: column;
     width: 80%;
-    // border: 1px solid green;
     margin: 0 auto;
 
     height: calc(100vh - 120px);
     min-height: 340px;
 
+    @include tablet {
+        width: 85%;
+    }
 
     @include mobile {
-        width: 90%;
+        width: 95%;
     }
 
     .img {
@@ -30,16 +32,21 @@
         left: 0;
         object-fit: cover;
         object-position: center;
+
+        @include mobile {
+            object-position: left;
+        }
     }
 
     .button-container {
-        // border: 1px solid red;
         padding: 10px 0;
 
+        @include mobile {
+            padding-left: 15px;
+        }
 
         .discover-button {
             margin: 0 0 10px 0;
-            // border: 1px solid lime;
 
             .check-h3 {
                 margin-bottom: 15px;

@@ -18,20 +18,17 @@ export default function TextBanner() {
                             with other people who also love movies
                         </li>
                         <li>
-                            <i className="fas fa-video"></i> Invite a friend to
-                            watch a movie that he or she will certainly enjoy
+                            <i className="fas fa-video"></i> Invite a friend to watch a movie that you both will certainly enjoy
                         </li>
                         <li>
-                            <i className="fas fa-video"></i> Discover new movies
-                            and classics based on your preferences
+                            <i className="fas fa-video"></i> Discover new movies and classics based on your preferences
                         </li>
 
                         <li>
                             <i className="fas fa-video"></i> Pick a random movie from your wishlist
                         </li>
                         <li>
-                            <i className="fas fa-video"></i> And get some
-                            inspirations now
+                            <i className="fas fa-video"></i> And get some inspirations now!
                         </li>
                     </ul>
                 </div>
