@@ -107,7 +107,7 @@ function SearchMovies() {
                             <option value="title">Title</option>
                             <option value="year">Year</option>
                             <option value="genre">Genre</option>
-                            <option value="director">Director</option>
+                            <option value="director" disabled>Director</option>
                         </select>
 
                         <input
