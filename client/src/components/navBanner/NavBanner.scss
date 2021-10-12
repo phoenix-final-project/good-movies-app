@@ -128,8 +128,9 @@
             @include tablet {
                 display: block;
                 position: absolute;
-                top: 20px;
+                top: 8px;
                 right: 0;
+                padding: 12px;
             }
         }
 
@@ -138,7 +139,7 @@
             color: var(--font-color);
             z-index: 1000;
             
-            display: none;
+            display: none;         
 
             &:hover {
                 color: var(--first-color);
@@ -148,8 +149,9 @@
             @include tablet {
                 display: block;
                 position: absolute;
-                top: 22px;
+                top: 12px;
                 right: 0;
+                padding: 12px;
             }
         }
     }
@@ -177,6 +179,8 @@
         }
 
         .notification-content {
+
+
             .far {
                 font-size: 1.4em;
                 margin: 0 10px;
@@ -347,8 +351,12 @@
         display: block;
         position: absolute;
         z-index: 1000;
-        top: 22px;
+        top: 10px;
         left: 0;
+
+        // border: 1px solid green;
+        padding: 12px;
+
 
         .notification {
             display: block;
