@@ -15,6 +15,7 @@ const upcomingMovies = async (req, res) => {
     let options = {
         method: "GET",
         url: "https://data-imdb1.p.rapidapi.com/movie/order/upcoming/",
+        params: { page_size: '100' },
         headers: rapidApiHeaders,
     };
 
@@ -23,7 +24,10 @@ const upcomingMovies = async (req, res) => {
     axios
         .request(options)
         .then(async (response) => {
-            const upcomingAll = await Object.values(response.data)[0];
+            // console.log(response.data.results);
+
+            // const upcomingAll = await Object.values(response.data)[0];
+            const upcomingAll = await response.data.results;
             const numberOfMovies = upcomingAll.length;
 
             const upcomingAllCleaned = upcomingAll.filter(
@@ -70,6 +74,7 @@ const topRatedMovies = async (req, res) => {
     let options = {
         method: "GET",
         url: "https://data-imdb1.p.rapidapi.com/movie/order/byRating/",
+        params: { page_size: '100' },
         headers: rapidApiHeaders,
     };
 
@@ -147,19 +152,21 @@ const moviesByUserGenre = async (req, res) => {
         let options = {
             method: "GET",
             url: `https://data-imdb1.p.rapidapi.com/movie/byGen/${favoriteGenre[0]}/`,
+            params: { page_size: '100' },
             headers: rapidApiHeaders,
         };
 
         axios
             .request(options)
             .then(async (response) => {
-                const foundByGenre = await Object.values(response.data)[0];
+                // const foundByGenre = await Object.values(response.data)[0];
+                const foundByGenre = await response.data.results;
 
                 // Get random movies from a certain type genre
                 const randomMoviesByGenre = foundByGenre
                     .sort(() => Math.random() - Math.random())
                     .slice(0, 30);
-                
+
                 const byGenreWithExtendedInfo = await findByIdAndMap(
                     randomMoviesByGenre
                 );
@@ -212,19 +219,21 @@ const moviesByUserGenre2 = async (req, res) => {
         let options = {
             method: "GET",
             url: `https://data-imdb1.p.rapidapi.com/movie/byGen/${favoriteGenre[1]}/`,
+            params: { page_size: '100' },
             headers: rapidApiHeaders,
         };
 
         axios
             .request(options)
             .then(async (response) => {
-                const foundByGenre2 = await Object.values(response.data)[0];
+                // const foundByGenre2 = await Object.values(response.data)[0];
+                const foundByGenre2 = await response.data.results;
 
                 // Get random movies from a certain type genre
                 const randomMoviesByGenre2 = foundByGenre2
                     .sort(() => Math.random() - Math.random())
                     .slice(0, 30);
-                
+
                 const byGenreWithExtendedInfo2 = await findByIdAndMap(
                     randomMoviesByGenre2
                 );
@@ -317,6 +326,7 @@ const moviesByGenre = async (req, res) => {
     let options = {
         method: "GET",
         url: `https://data-imdb1.p.rapidapi.com/movie/byGen/${genre}/`,
+        params: { page_size: '100' },
         headers: rapidApiHeaders,
     };
 
@@ -371,6 +381,7 @@ const moviesByYear = async (req, res) => {
     let options = {
         method: "GET",
         url: `https://data-imdb1.p.rapidapi.com/movie/byYear/${year}/`,
+        params: { page_size: '100' },
         headers: rapidApiHeaders,
     };
 
@@ -476,8 +487,11 @@ const moviesByDirector = async (req, res) => {
                     });
             });
 
+            // console.log("test", peopleInfo);
+
             return Promise.all(peopleInfo)
                 .then((results) => Object.values(results))
+                // .then((results) => Object.values(results)[1].results)
                 .then(async (data) => {
                     let peopleArray = [];
 
