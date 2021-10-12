@@ -14,7 +14,8 @@ const getDataRedisOrApi = async (key, options) => {
 			console.log('REDIS');
 		} else {
 			result = await axios.request(options);
-			foundData = Object.values(result.data)[0];
+			// foundData = Object.values(result.data)[0];
+			foundData = result.data.results;
 			console.log('API');
 
 			// store in redis
